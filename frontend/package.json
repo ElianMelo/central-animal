@@ -16,14 +16,11 @@
     "react-native": "0.66.3",
     "react-native-axios": "^0.17.1",
     "react-native-card": "^1.0.0",
-    "react-native-chart-kit": "^6.11.0",
     "react-native-elements": "^3.4.2",
     "react-native-fs": "^2.18.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.9.0",
-    "react-native-svg": "^12.1.1",
     "react-native-table-component": "^1.2.1",
-    "react-native-wifi-reborn": "^4.4.1",
     "typescript": "^4.4.4"
   },
   "devDependencies": {
