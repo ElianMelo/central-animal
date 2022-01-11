@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         width: '100%',
         position: 'absolute',
         bottom: 0,
-        padding: 10,
+        padding: 20,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 24,
     },
     menuImage: {
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
     }
 });
