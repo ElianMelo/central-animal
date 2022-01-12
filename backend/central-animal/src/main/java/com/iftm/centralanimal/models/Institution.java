@@ -26,7 +26,8 @@ public class Institution implements Serializable {
 	private Integer id;
 	private String name;
 	private String description;
-	private String address;
+	@OneToOne
+	private InstitutionAddress address;
 	private String whatsapp;
 	private String pix;
 	private Boolean portion;
