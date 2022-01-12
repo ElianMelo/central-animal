@@ -1,5 +1,6 @@
 package com.iftm.centralanimal.controllers;
 
+import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.models.Institution;
 import com.iftm.centralanimal.services.InstitutionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,11 @@ public class InstitutionController {
     @GetMapping("/{id}")
     public Institution findInstitutionById(@PathVariable Integer id) {
         return service.findInstitutionById(id);
+    }
+
+    @GetMapping("/animals/{id}")
+    public List<Animal> findAnimalsByIdInstitution(@PathVariable Integer id) {
+        return service.findInstitutionById(id).getAnimals();
     }
 
     @DeleteMapping("/{id}")
