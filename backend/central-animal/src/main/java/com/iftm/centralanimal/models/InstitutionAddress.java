@@ -15,7 +15,7 @@ public class InstitutionAddress implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String city;
-    private String publicPlaceType;
     private String publicPlace;
+    private String publicPlaceName;
     private String number;
 }
