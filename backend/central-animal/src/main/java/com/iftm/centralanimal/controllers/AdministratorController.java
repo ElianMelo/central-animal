@@ -24,7 +24,7 @@ public class AdministratorController {
     @PostMapping
     public ResponseEntity<String> newAnimal(@Valid @RequestBody Administrator entity) {
         service.newAdministrator(entity);
-        return ResponseEntity.ok("Animal cadastrado com sucesso.");
+        return ResponseEntity.ok("Administrador cadastrado com sucesso.");
     }
 
     @PutMapping("/{id}")
