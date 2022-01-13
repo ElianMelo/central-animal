@@ -9,6 +9,8 @@ import {
     FlatList
 } from 'react-native';
 
+import RequestService from '../services/RequestService';
+
 import Footer from './Footer';
 
 const image = require('../../assets/predio1.jpg');
@@ -76,7 +78,16 @@ export default class Institutions extends Component {
         super(props);
         this.state = {
             props: props,
+            institutions: "123"
         };
+    }
+
+    componentDidMount() {
+        this.loadInstitutions();
+    }
+
+    loadInstitutions = async() => {
+        this.setState({institutions: await RequestService.getInstitutions()})
     }
 
     renderItem = ({ item }) => (
@@ -95,23 +106,22 @@ export default class Institutions extends Component {
                 />
                 <Text style={styles.titleTxt}>
                     {item.txt}
+                    {this.state.valor}
                 </Text>
             </View>
-            <Text style={styles.adressTxt}>{item.adress}</Text>
+            <Text style={styles.adressTxt}>{item.adress + " " + this.state.institutions}</Text>
         </TouchableOpacity>
     );
 
     render() {
         return (
             <View style={styles.body}>
-                
                 <FlatList
                     data={DATA}
                     style={styles.bottomMargin}
                     renderItem={this.renderItem}
                     keyExtractor={item => item.id}
                 />
-
                 <Footer navigation={this.state.props.navigation}/>
             </View>
         );
