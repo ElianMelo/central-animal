@@ -5,7 +5,8 @@ import {
     Text,
     View,
     Image,
-    FlatList
+    FlatList,
+    TouchableOpacity
 } from 'react-native';
 
 import Footer from './Footer';
@@ -41,7 +42,7 @@ export default class Institution extends Component {
 
     renderItem = ({ item }) => (
         <Text style={styles.cardTxt}>
-            {'\u2022' + " " + item.txt}
+            {'\u2022' + " " + item.txt }
         </Text>
     );
 
@@ -96,13 +97,20 @@ export default class Institution extends Component {
                     </View>
                 </View>
 
-                <View style={styles.animalBox}>
+                <TouchableOpacity 
+                    style={styles.animalBox}
+                    onPress={() =>
+                        this.props.navigation.navigate('Animals', {
+                            institutionId: this.props.route.params.institutionId
+                        })
+                    }
+                >
                     <View style={styles.cardImageLine}>
                         <Text style={styles.cardTxt}>
                             Animais
                         </Text>
                     </View>
-                </View>
+                </TouchableOpacity>
 
                 <View style={styles.needBox}>
                     <View style={styles.needColumn}>
@@ -117,7 +125,7 @@ export default class Institution extends Component {
                         />
                     </View>
                 </View>
-                <Footer />
+                <Footer navigation={this.state.props.navigation}/>
             </View>
         );
     }
