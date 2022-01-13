@@ -28,5 +28,5 @@ public class Animal implements Serializable {
 	private AnimalType type;
 	private int age;
 	private AnimalSex sex;
-	private Blob animalImage;
+	private String animalImage;
 }

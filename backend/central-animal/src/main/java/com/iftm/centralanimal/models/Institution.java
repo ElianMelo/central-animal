@@ -33,7 +33,7 @@ public class Institution implements Serializable {
 	private Boolean portion;
 	private Boolean medicines;
 	private Boolean cleaningMaterial;
-	private Blob institutionImage;
+	private String institutionImage;
 	
 	@OneToOne
 	private Administrator administrator;
