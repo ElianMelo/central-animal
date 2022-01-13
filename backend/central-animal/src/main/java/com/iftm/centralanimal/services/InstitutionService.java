@@ -1,13 +1,16 @@
 package com.iftm.centralanimal.services;
 
-import com.iftm.centralanimal.models.Institution;
-import com.iftm.centralanimal.models.dto.InstitutionDTO;
-import com.iftm.centralanimal.repositories.InstitutionRepository;
-import com.iftm.centralanimal.services.exceptions.InstitutionNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.iftm.centralanimal.models.Institution;
+import com.iftm.centralanimal.models.dto.InstitutionDTO;
+import com.iftm.centralanimal.models.dto.InstitutionListDTO;
+import com.iftm.centralanimal.repositories.InstitutionRepository;
+import com.iftm.centralanimal.services.exceptions.InstitutionNotFoundException;
 
 @Service
 public class InstitutionService {
@@ -15,8 +18,17 @@ public class InstitutionService {
     @Autowired
     private InstitutionRepository repository;
 
-    public List<Institution> allInstitutions() {
-        return repository.findAll();
+    public List<InstitutionListDTO> allInstitutions() {
+        List<Institution> list = repository.findAll();
+        List<InstitutionListDTO> institutions = new ArrayList<>();
+        
+        if(!list.isEmpty()) {
+        	for(Institution i : list) {
+        		institutions.add(new InstitutionListDTO(i));
+        	}
+        }
+        
+        return institutions;
     }
 
     public Institution newInstitution(Institution entity) {
@@ -38,7 +50,7 @@ public class InstitutionService {
                 orElseThrow(() -> new InstitutionNotFoundException(id));
         return new InstitutionDTO(institution);
     }
-
+    
     public void deleteInstitutionById(Integer id) {
         repository.deleteById(id);
     }
