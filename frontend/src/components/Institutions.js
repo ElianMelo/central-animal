@@ -80,7 +80,14 @@ export default class Institutions extends Component {
     }
 
     renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.cardBox}>
+        <TouchableOpacity 
+            style={styles.cardBox}
+            onPress={() =>
+                this.props.navigation.navigate('Institution', {
+                    institutionId: item.id
+                })
+            }
+        >
             <View style={styles.cardImageLine}>
                 <Image
                     style={styles.roundCardImage}
@@ -105,7 +112,7 @@ export default class Institutions extends Component {
                     keyExtractor={item => item.id}
                 />
 
-                <Footer/>
+                <Footer navigation={this.state.props.navigation}/>
             </View>
         );
     }

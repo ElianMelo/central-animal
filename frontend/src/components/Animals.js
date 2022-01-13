@@ -120,7 +120,7 @@ export default class Animals extends Component {
                     keyExtractor={item => item.id}
                     numColumns={2}
                 />
-                <Footer/>
+                <Footer navigation={this.state.props.navigation}/>
             </View>
         );
     }

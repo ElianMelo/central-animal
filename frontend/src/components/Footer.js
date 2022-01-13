@@ -4,6 +4,7 @@ import {
     StyleSheet,
     View,
     Image,
+    TouchableOpacity,
 } from 'react-native';
 
 const map = require('../../assets/map.png');
@@ -24,22 +25,35 @@ export default class Footer extends Component {
         return (
             <View style={styles.menu}>
                 <View style={styles.menuImageLine}>
-                    <Image
-                        style={styles.menuImage}
-                        source={map}
-                    />
-                    <Image
-                        style={styles.menuImage}
-                        source={plus_circle}
-                    />
-                    <Image
-                        style={styles.menuImage}
-                        source={building}
-                    />
-                    <Image
-                        style={styles.menuImage}
-                        source={person_circle}
-                    />
+                    <TouchableOpacity>
+                        <Image
+                            style={styles.menuImage}
+                            source={map}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Image
+                            style={styles.menuImage}
+                            source={plus_circle}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() =>
+                            this.props.navigation.navigate('Institutions')
+                        }
+                    >
+                        <Image
+                            style={styles.menuImage}
+                            source={building}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Image
+                            style={styles.menuImage}
+                            source={person_circle}
+                        />
+                    </TouchableOpacity>
+                    
                 </View>
             </View>
         );
@@ -52,7 +66,7 @@ const styles = StyleSheet.create({
         width: '100%',
         position: 'absolute',
         bottom: 0,
-        padding: 20,
+        padding: 12,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
