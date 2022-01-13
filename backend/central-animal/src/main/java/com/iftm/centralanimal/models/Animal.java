@@ -27,8 +27,8 @@ public class Animal implements Serializable {
 	private String name;
 	@Size(max = 1337)
 	private String description;
-	private AnimalType type;
+	private int type;
 	private int age;
-	private AnimalSex sex;
+	private int sex;
 	private String animalImage;
 }

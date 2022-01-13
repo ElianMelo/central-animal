@@ -40,6 +40,6 @@ public class Institution implements Serializable {
 	@OneToOne
 	private Administrator administrator;
 	
-	@OneToMany
-	private List<Animal> animals = new ArrayList<Animal>();
+//	@OneToMany
+//	private List<Animal> animals = new ArrayList<Animal>();
 }
