@@ -39,10 +39,10 @@ public class InstitutionController {
         return service.findInstitutionById(id);
     }
 
-    @GetMapping("/animals/{id}")
-    public List<Animal> findAnimalsByIdInstitution(@PathVariable Integer id) {
-        return service.findAnimalsFromInstitutionId(id).getAnimals();
-    }
+//    @GetMapping("/animals/{id}")
+//    public List<Animal> findAnimalsByIdInstitution(@PathVariable Integer id) {
+//        return service.findAnimalsFromInstitutionId(id).getAnimals();
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteInstitutionById(@PathVariable Integer id) {
