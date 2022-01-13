@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 
@@ -25,6 +26,7 @@ public class Institution implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	@Size(max = 1337)
 	private String description;
 	@OneToOne
 	private InstitutionAddress address;
@@ -33,11 +35,11 @@ public class Institution implements Serializable {
 	private Boolean portion;
 	private Boolean medicines;
 	private Boolean cleaningMaterial;
-	private Blob institutionImage;
+	private String institutionImage;
 	
 	@OneToOne
 	private Administrator administrator;
 	
-	@OneToMany
-	private List<Animal> animals = new ArrayList<Animal>();
+//	@OneToMany
+//	private List<Animal> animals = new ArrayList<Animal>();
 }

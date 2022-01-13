@@ -19,7 +19,7 @@ public class InstitutionDTO {
     private Boolean portion;
     private Boolean medicines;
     private Boolean cleaningMaterial;
-    private Blob institutionImage;
+    private String institutionImage;
     private Administrator administrator;
 
     public InstitutionDTO(Institution institution) {

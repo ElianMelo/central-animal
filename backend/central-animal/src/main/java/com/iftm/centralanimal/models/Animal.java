@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.iftm.centralanimal.models.enums.AnimalSex;
 import com.iftm.centralanimal.models.enums.AnimalType;
@@ -24,9 +25,10 @@ public class Animal implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	@Size(max = 1337)
 	private String description;
-	private AnimalType type;
+	private int type;
 	private int age;
-	private AnimalSex sex;
-	private Blob animalImage;
+	private int sex;
+	private String animalImage;
 }
