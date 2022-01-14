@@ -25,10 +25,11 @@ public class Animal implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	@Size(max = 1337)
-	private String description;
 	private int type;
 	private int age;
 	private int sex;
 	private String animalImage;
+
+	@Size(max = 1337)
+	private String description;
 }
