@@ -3,6 +3,7 @@ package com.iftm.centralanimal.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.iftm.centralanimal.models.Animal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,9 +41,10 @@ public class InstitutionService {
         return repository.save(entity);
     }
 
-    public Institution findAnimalsFromInstitutionId(Integer id) {
-        return repository.findById(id).
+    public List<Animal> findAnimalsFromInstitutionId(Integer id) {
+        Institution institution = repository.findById(id).
                 orElseThrow(() -> new InstitutionNotFoundException(id));
+        return institution.getAnimals();
     }
 
     public InstitutionDTO findInstitutionById(Integer id) {

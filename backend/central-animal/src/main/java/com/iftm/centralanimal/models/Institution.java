@@ -5,13 +5,7 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
@@ -26,20 +20,22 @@ public class Institution implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	@Size(max = 1337)
-	private String description;
-	@OneToOne
-	private InstitutionAddress address;
 	private String whatsapp;
 	private String pix;
 	private Boolean portion;
 	private Boolean medicines;
 	private Boolean cleaningMaterial;
 	private String institutionImage;
-	
-	@OneToOne
+
+	@Size(max = 1337)
+	private String description;
+
+	@OneToOne(cascade = CascadeType.REMOVE)
+	private InstitutionAddress address;
+
+	@OneToOne(cascade = CascadeType.REMOVE)
 	private Administrator administrator;
-	
-//	@OneToMany
-//	private List<Animal> animals = new ArrayList<Animal>();
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	private List<Animal> animals = new ArrayList<Animal>();
 }
