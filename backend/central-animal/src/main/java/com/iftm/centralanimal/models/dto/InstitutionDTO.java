@@ -25,7 +25,7 @@ public class InstitutionDTO {
     public InstitutionDTO(Institution institution) {
         this.id = institution.getId();
         this.name = institution.getName();
-        this.description = institution.getName();
+        this.description = institution.getDescription();
         this.address = institution.getAddress();
         this.whatsapp = institution.getWhatsapp();
         this.pix = institution.getPix();
