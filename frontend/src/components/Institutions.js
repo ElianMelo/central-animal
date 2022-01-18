@@ -17,59 +17,15 @@ const image = require('../../assets/predio1.jpg');
 
 const DATA = [
     {
-        id: '1',
-        txt: 'S.O.S Vida e Resgate',
-        img: image,
-        adress: 'Uberlândia, Santa Mônica'
-    },
-    {
-        id: '2',
-        txt: 'S.O.S Vida e Resgate',
-        img: image,
-        adress: 'Uberlândia, Santa Mônica'
-    },
-    {
-        id: '3',
-        txt: 'S.O.S Vida e Resgate',
-        img: image,
-        adress: 'Uberlândia, Santa Mônica'
-    },
-    {
-        id: '4',
-        txt: 'S.O.S Vida e Resgate',
-        img: image,
-        adress: 'Uberlândia, Santa Mônica'
-    },
-    {
-        id: '5',
-        txt: 'S.O.S Vida e Resgate',
-        img: image,
-        adress: 'Uberlândia, Santa Mônica'
-    },
-    {
-        id: '6',
-        txt: 'S.O.S Vida e Resgate',
-        img: image,
-        adress: 'Uberlândia, Santa Mônica'
-    },
-    {
-        id: '7',
-        txt: 'S.O.S Vida e Resgate',
-        img: image,
-        adress: 'Uberlândia, Santa Mônica'
-    },
-    {
-        id: '8',
-        txt: 'S.O.S Vida e Resgate',
-        img: image,
-        adress: 'Uberlândia, Santa Mônica'
-    },
-    {
-        id: '9',
-        txt: 'S.O.S Vida e Resgate',
-        img: image,
-        adress: 'Uberlândia, Santa Mônica'
-    },
+        "id": 1,
+        "name": "SOS Vida e Resgate",
+        "city": "Uberlândia",
+        "district": "Santa Mônica",
+        "publicPlace": "Rua",
+        "publicPlaceName": "Alvira",
+        "institutionNumber": "225",
+        "institutionImage": "imagem.png"
+    }
 ];
 
 export default class Institutions extends Component {
@@ -78,7 +34,7 @@ export default class Institutions extends Component {
         super(props);
         this.state = {
             props: props,
-            institutions: "123"
+            institutions: []
         };
     }
 
@@ -90,6 +46,7 @@ export default class Institutions extends Component {
         this.setState({institutions: await RequestService.getInstitutions()})
     }
 
+    // institutionImage
     renderItem = ({ item }) => (
         <TouchableOpacity 
             style={styles.cardBox}
@@ -102,14 +59,14 @@ export default class Institutions extends Component {
             <View style={styles.cardImageLine}>
                 <Image
                     style={styles.roundCardImage}
-                    source={item.img}
+                    source={image}
                 />
                 <Text style={styles.titleTxt}>
-                    {item.txt}
+                    {item.name}
                     {this.state.valor}
                 </Text>
             </View>
-            <Text style={styles.adressTxt}>{item.adress + " " + this.state.institutions}</Text>
+            <Text style={styles.adressTxt}>{`${item.city}, ${item.district} ${item.publicPlace} ${item.publicPlaceName} ${item.institutionNumber}`}</Text>
         </TouchableOpacity>
     );
 
@@ -117,7 +74,7 @@ export default class Institutions extends Component {
         return (
             <View style={styles.body}>
                 <FlatList
-                    data={DATA}
+                    data={this.state.institutions}
                     style={styles.bottomMargin}
                     renderItem={this.renderItem}
                     keyExtractor={item => item.id}
