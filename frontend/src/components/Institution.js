@@ -16,20 +16,7 @@ const map = require('../../assets/map.png');
 const whats = require('../../assets/whats.png');
 const pix = require('../../assets/pix.png');
 
-const DATA = [
-    {
-        id: '1',
-        txt: 'Ração',
-    },
-    {
-        id: '2',
-        txt: 'Medicamentos',
-    },
-    {
-        id: '3',
-        txt: 'Material Limpeza',
-    },
-];
+import RequestService from '../services/RequestService';
 export default class Institution extends Component {
 
     constructor(props) {
@@ -37,7 +24,33 @@ export default class Institution extends Component {
         this.state = {
             props: props,
             titleText: "Instituição",
+            institution: {},
+            needs: []
         };
+    }
+
+    componentDidMount() {
+        this.loadInstitution();
+    }
+
+    loadInstitution = async() => {
+        let institution = await RequestService.getInstitution(this.props.route.params.institutionId)
+        this.setState({institution})
+        this.defineNeeds();
+    }
+
+    defineNeeds = () => {
+        let needs = [];
+        if(this.state.institution?.portion) {
+            needs.push({ id: '1', txt: 'Ração' });
+        }
+        if(this.state.institution?.medicines) {
+            needs.push({ id: '2', txt: 'Medicamentos' });
+        }
+        if(this.state.institution?.cleaningMaterial) {
+            needs.push({ id: '3', txt: 'Material Limpeza' });
+        }
+        this.setState({needs});
     }
 
     renderItem = ({ item }) => (
@@ -56,10 +69,10 @@ export default class Institution extends Component {
                     />
                     <View style={styles.headerColumn}>
                         <Text style={styles.titleTxt}>
-                            S.O.S Vida e Resgaste
+                            {this.state.institution?.name}
                         </Text>
                         <Text style={styles.descriptionTxt}>
-                            Somos uma instituição de resgate de cachorros e gatos em situação de rua, realizamos o tratamento e também realizamos adoção destes animais, nosso objetivo é salvar o maior número possível de animais
+                            {this.state.institution?.description}
                         </Text>
                     </View>
                 </View>
@@ -69,8 +82,8 @@ export default class Institution extends Component {
                             style={styles.cardImage}
                             source={map}
                         />
-                        <Text style={styles.cardTxt}>
-                            Uberlândia, Santa Mônica
+                        <Text style={styles.cardSupTxt}>
+                            {`${this.state.institution?.address?.city}, ${this.state.institution?.address?.district} ${this.state.institution?.address?.publicPlace} ${this.state.institution?.address?.publicPlaceName} ${this.state.institution?.address?.number}`}
                         </Text>
                     </View>
                 </View>
@@ -80,8 +93,8 @@ export default class Institution extends Component {
                             style={styles.cardImage}
                             source={whats}
                         />
-                        <Text style={styles.cardTxt}>
-                            (34) 9 1234-5678
+                        <Text style={styles.cardSupTxt}>
+                            {this.state.institution?.whatsapp}
                         </Text>
                     </View>
                 </View>
@@ -91,8 +104,8 @@ export default class Institution extends Component {
                             style={styles.cardImage}
                             source={pix}
                         />
-                        <Text style={styles.cardTxt}>
-                            sosvidaresgate@gmail.com
+                        <Text style={styles.cardSupTxt}>
+                            {this.state.institution?.pix}
                         </Text>
                     </View>
                 </View>
@@ -118,7 +131,7 @@ export default class Institution extends Component {
                             Precisamos
                         </Text>
                         <FlatList
-                            data={DATA}
+                            data={this.state.needs}
                             style={styles.topMargin}
                             renderItem={this.renderItem}
                             keyExtractor={item => item.id}
@@ -234,6 +247,13 @@ const styles = StyleSheet.create({
     descriptionTxt: {
         marginRight: 'auto',
         fontSize: 14,
+        textAlign: "center",
+        color: "black"
+    },
+    cardSupTxt: {
+        width: "80%",
+        marginRight: 'auto',
+        fontSize: 16,
         textAlign: "center",
         color: "black"
     },

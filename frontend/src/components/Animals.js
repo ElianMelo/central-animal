@@ -22,78 +22,33 @@ const DATA = [
         sex: "macho",
         age: "2",
     },
-    {
-        id: "2",
-        name: "Thor",
-        img: image,
-        description: "Lorem ipsum dolor, sit amet incidunt ut labore",
-        sex: "macho",
-        age: "2",
-    },
-    {
-        id: "3",
-        name: "Thor",
-        img: image,
-        description: "Lorem ipsum dolor, sit amet incidunt ut labore",
-        sex: "macho",
-        age: "2",
-    },
-    {
-        id: "4",
-        name: "Thor",
-        img: image,
-        description: "Lorem ipsum dolor, sit amet incidunt ut labore",
-        sex: "macho",
-        age: "2",
-    },
-    {
-        id: "5",
-        name: "Thor",
-        img: image,
-        description: "Lorem ipsum dolor, sit amet incidunt ut labore",
-        sex: "macho",
-        age: "2",
-    },
-    {
-        id: "6",
-        name: "Thor",
-        img: image,
-        description: "Lorem ipsum dolor, sit amet incidunt ut labore",
-        sex: "macho",
-        age: "2",
-    },
-    {
-        id: "7",
-        name: "Thor",
-        img: image,
-        description: "Lorem ipsum dolor, sit amet incidunt ut labore",
-        sex: "macho",
-        age: "2",
-    },
-    {
-        id: "8",
-        name: "Thor",
-        img: image,
-        description: "Lorem ipsum dolor, sit amet incidunt ut labore",
-        sex: "macho",
-        age: "2",
-    },
 ];
 
+import RequestService from '../services/RequestService';
 export default class Animals extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             props: props,
+            animals: {},
         };
+    }
+
+    componentDidMount() {
+        this.loadAnimals();
+    }
+
+    loadAnimals = async() => {
+        let animals = await RequestService.getAnimalsByInstitution(this.props.route.params.institutionId)
+        this.setState({animals})
     }
 
     renderItem = ({ item }) => (
         <TouchableOpacity style={styles.cardBox}>
             <Image
                 style={styles.roundCardImage}
-                source={item.img}
+                source={image}
             />
             <View style={styles.cardColumn}>
                 <Text style={styles.nameTxt}>
@@ -103,7 +58,7 @@ export default class Animals extends Component {
                     {item.description}
                 </Text>
                 <View style={styles.cardLine}>
-                    <Text><Text style={styles.descriptionBolderTxt}>Sexo:</Text> <Text style={styles.descriptionTxt}>{item.sex} </Text></Text>
+                    <Text><Text style={styles.descriptionBolderTxt}>Sexo:</Text> <Text style={styles.descriptionTxt}>{item.sex == 1 ? "Macho" : "Fêmea"} </Text></Text>
                     <Text><Text style={styles.descriptionBolderTxt}>Idade:</Text> <Text style={styles.descriptionTxt}>{item.age}</Text></Text>
                 </View>
             </View>
@@ -114,7 +69,7 @@ export default class Animals extends Component {
         return (
             <View style={styles.body}>
                 <FlatList
-                    data={DATA}
+                    data={this.state.animals}
                     style={styles.bottomMargin}
                     renderItem={this.renderItem}
                     keyExtractor={item => item.id}
