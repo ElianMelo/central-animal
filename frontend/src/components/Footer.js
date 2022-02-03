@@ -47,7 +47,11 @@ export default class Footer extends Component {
                             source={building}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() =>
+                            this.props.navigation.navigate('InstitutionManagement')
+                        }
+                    >
                         <Image
                             style={styles.menuImage}
                             source={person_circle}
