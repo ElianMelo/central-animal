@@ -11,7 +11,6 @@ import {
 
 import Footer from './Footer';
 
-const image = require('../../assets/predio1.jpg');
 const map = require('../../assets/map.png');
 const whats = require('../../assets/whats.png');
 const pix = require('../../assets/pix.png');
@@ -65,7 +64,7 @@ export default class Institution extends Component {
                 <View style={styles.headerLine}>
                     <Image
                         style={styles.roundImage}
-                        source={image}
+                        source={{uri: this.state.institution?.institutionImage}}
                     />
                     <View style={styles.headerColumn}>
                         <Text style={styles.titleTxt}>

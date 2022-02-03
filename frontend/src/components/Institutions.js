@@ -13,8 +13,6 @@ import RequestService from '../services/RequestService';
 
 import Footer from './Footer';
 
-const image = require('../../assets/predio1.jpg');
-
 const DATA = [
     {
         "id": 1,
@@ -59,7 +57,7 @@ export default class Institutions extends Component {
             <View style={styles.cardImageLine}>
                 <Image
                     style={styles.roundCardImage}
-                    source={image}
+                    source={{uri: item.institutionImage}}
                 />
                 <Text style={styles.titleTxt}>
                     {item.name}
