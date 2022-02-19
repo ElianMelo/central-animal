@@ -5,6 +5,7 @@ import {
     TextInput,
     Text,
     View,
+    ScrollView,
     CheckBox,
     Image,
     FlatList,
@@ -13,11 +14,14 @@ import {
 } from 'react-native';
 
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import {Picker} from '@react-native-picker/picker';
 
+import RequestService from '../services/RequestService';
+
 const radio_props = [
-    {label: 'Cachorro     ', value: 0 },
+    {label: 'Cachorro', value: 0 },
     {label: 'Gato', value: 1 }
 ];
 export default class CreateAnimal extends Component {
@@ -28,16 +32,45 @@ export default class CreateAnimal extends Component {
         super(props);
         this.state = {
             props: props,
+            age: '',
             name: '',
             description: '',
-            type: '',
-            sex: ''
+            type: 0,
+            sex: '',
+            base64Image: ''
         };
+    }
+
+    launchLibrary = async() => {
+        let options = {
+            mediaType: 'photo',
+            quality: 1,
+            maxWidth: 800,
+            maxHeight: 800,
+            includeBase64: true,
+        };
+        const result = await launchImageLibrary(options);
+        if(result?.assets[0]?.base64) {
+            this.setState({base64Image: 'data:image/jpeg;base64,' + result?.assets[0]?.base64})
+        }
+    }
+
+    createAnimal = async() => {
+        let animal = {
+            age: Number(this.state.age),
+            animalImage: this.state.base64Image,
+            description: this.state.description,
+            name: this.state.name,
+            sex: this.state.sex == "M" ? 1 : 2,
+            type: Number(this.state.type + 1)
+        }
+
+        RequestService.postAnimal(animal);
     }
 
     render() {
         return (
-            <View style={styles.body}>
+            <ScrollView style={styles.body}>
                 <View style={styles.inputBox}>
                     <Text style={styles.descriptionTxt}>
                         Nome
@@ -69,11 +102,35 @@ export default class CreateAnimal extends Component {
                         Tipo
                     </Text>
                     <RadioForm
-                        radio_props={radio_props}
                         formHorizontal={true}
+                        animation={true}
                         initial={0}
-                        onPress={(type) => {this.setState({type})}}
-                    />
+                        >
+                        {/* To create radio buttons, loop through your array of options */}
+                        {
+                            radio_props.map((obj, i) => (
+                            <RadioButton labelHorizontal={true} key={i} >
+                                {/*  You can set RadioButtonLabel before RadioButtonInput */}
+                                <RadioButtonInput
+                                    obj={obj}
+                                    index={i}
+                                    isSelected={this.state.type == i}
+                                    onPress={(type) => {this.setState({type})}}
+                                    buttonInnerColor={'#000'}
+                                    buttonOuterColor={'#000'}
+                                    buttonWrapStyle={{marginLeft: 10}}
+                                />
+                                <RadioButtonLabel
+                                    obj={obj}
+                                    index={i}
+                                    labelHorizontal={true}
+                                    labelStyle={{fontSize: 20, color: '#000'}}
+                                    labelWrapStyle={{}}
+                                />
+                            </RadioButton>
+                            ))
+                        }  
+                        </RadioForm>
                 </View>
                 <View style={styles.inputBoxInline}>
                     <Text style={styles.descriptionTxtInline}>
@@ -83,8 +140,8 @@ export default class CreateAnimal extends Component {
                         style={styles.inputWide}
                         placeholder="Ex: 0"
                         placeholderTextColor="#808080" 
-                        onChangeText={(name) => this.setState({name})}
-                        value={this.state.name}
+                        onChangeText={(age) => this.setState({age})}
+                        value={this.state.age}
                     />
                     <Text style={styles.descriptionTxtInline}>
                         Sexo
@@ -98,12 +155,40 @@ export default class CreateAnimal extends Component {
                             dropdownIconColor="#000"
                             dropdownIconRippleColor="#000"
                         >
-                            <Picker.Item label="Macho" value="java" />
-                            <Picker.Item label="Fêmea" value="js" />
+                            <Picker.Item label="Macho" value="M" />
+                            <Picker.Item label="Fêmea" value="F" />
                         </Picker>
                     </View>
                 </View>
-            </View>
+                <View style={styles.cardBox}>
+                    <TouchableOpacity
+                        onPress={() => this.launchLibrary()}
+                    >  
+                        <View style={styles.cardImageLine}>
+                            <Text style={styles.cardSupTxt}>
+                                Carregar Imagem
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.cardBox}>
+                    <TouchableOpacity
+                        onPress={() => this.createAnimal()}
+                    >  
+                        <View style={styles.cardImageLine}>
+                            <Text style={styles.cardSupTxt}>
+                                Cadastrar
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                    {
+                        this.state.base64Image != '' ? (<Image
+                            style={styles.roundImage}
+                            source={{uri: this.state?.base64Image}}
+                        />) : null
+                    }
+            </ScrollView>
         );
     }
 }
@@ -112,11 +197,46 @@ const styles = StyleSheet.create({
     body: {
         height: "100%"
     },
+    cardBox: {
+        textAlign: "center",
+        marginHorizontal: 14,
+        marginVertical: 6,
+        padding: 12,
+        borderRadius: 14,
+        backgroundColor: "white",        
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 7,
+    },
+    cardImageLine: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    cardSupTxt: {
+        width: "100%",
+        marginRight: 'auto',
+        fontSize: 24,
+        textAlign: "center",
+        color: "black"
+    },
     inputBox: {
         padding: 5,
         marginRight: 16,
         marginLeft: 16,
         marginTop: 6
+    },
+    roundImage: {
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        width: 300,
+        height: 300,
     },
     inputBoxInline: {
         display: 'flex',

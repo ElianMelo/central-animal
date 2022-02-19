@@ -15,4 +15,9 @@ export default class RequestService {
         let res = await axios.get(`http://192.168.0.4:8080/institution/animals/${id}`)
         return res.data;
     }
+
+    static postAnimal = async(animal) => {
+        let [res, err] = await axios.post(`http://192.168.0.4:8080/animal/`, animal)
+        return "true";
+    }
 }
