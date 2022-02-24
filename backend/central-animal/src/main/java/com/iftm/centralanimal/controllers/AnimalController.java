@@ -23,8 +23,7 @@ public class AnimalController {
 
     @PostMapping
     public ResponseEntity<String> newAnimal(@Valid @RequestBody Animal entity) {
-        service.newAnimal(entity);
-        return ResponseEntity.ok("Animal cadastrado com sucesso.");
+        return service.newAnimal(entity);
     }
 
     @PutMapping("/{id}")
