@@ -22,7 +22,7 @@ public class AdministratorController {
     }
 
     @PostMapping
-    public ResponseEntity<String> newAnimal(@Valid @RequestBody Administrator entity) {
+    public ResponseEntity<String> newAdministrator(@Valid @RequestBody Administrator entity) {
         service.newAdministrator(entity);
         return ResponseEntity.ok("Administrador cadastrado com sucesso.");
     }
@@ -33,7 +33,7 @@ public class AdministratorController {
     }
 
     @GetMapping("/{id}")
-    public Administrator findByIdAnimal(@PathVariable Integer id) {
+    public Administrator findByIdAdministrator(@PathVariable Integer id) {
         return service.findAdministratorById(id);
     }
 
