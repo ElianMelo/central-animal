@@ -25,10 +25,10 @@ public class Configurations implements WebMvcConfigurer {
     }
 
     // permitir a conversa entre dominios diferentes
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("*");
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOrigins("*")
+//                .allowedMethods("*");
+//    }
 }
