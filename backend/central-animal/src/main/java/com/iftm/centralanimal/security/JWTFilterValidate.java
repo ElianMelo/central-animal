@@ -30,7 +30,12 @@ public class JWTFilterValidate extends BasicAuthenticationFilter {
 
         String attribute = request.getHeader(ATTRIBUTE_HEADER);
 
-        if(attribute == null || !attribute.startsWith(ATTRIBUTE_PREFIX)) {
+        if (attribute == null) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        if (!attribute.startsWith(ATTRIBUTE_PREFIX)) {
             chain.doFilter(request, response);
             return;
         }
@@ -42,16 +47,17 @@ public class JWTFilterValidate extends BasicAuthenticationFilter {
         chain.doFilter(request, response);
     }
 
-    UsernamePasswordAuthenticationToken getAuthenticationToken(String token) {
-        String usuario = JWT.require(Algorithm.HMAC512(JWTFilterAutenticate.PASSWORD_TOKEN))
-                .build()
-                .verify(token)
-                .getSubject();
+        private UsernamePasswordAuthenticationToken getAuthenticationToken(String token) {
 
-        if(usuario == null) {
-            return null;
-        }
+            String usuario = JWT.require(Algorithm.HMAC512(JWTFilterAutenticate.PASSWORD_TOKEN))
+                    .build()
+                    .verify(token)
+                    .getSubject();
 
-        return new UsernamePasswordAuthenticationToken(usuario, null, new ArrayList<>());
+            if (usuario == null) {
+                return null;
+            }
+
+            return new UsernamePasswordAuthenticationToken(usuario,null, new ArrayList<>());
     }
 }

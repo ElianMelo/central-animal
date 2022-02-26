@@ -21,20 +21,19 @@ import java.util.Date;
 
 public class JWTFilterAutenticate extends UsernamePasswordAuthenticationFilter {
 
-    public static final int EXPIRATION_TOKEN = 600_000;
-
+    public static final int EXPIRATION_TOKEN = 600_000_0;
 //    a senha está aqui para fins de desenvolvimento, em um momento futuro estará em algum arquivo fora do repositório.
     public static final String PASSWORD_TOKEN = "af305f04-2fb6-4322-a652-bd771436fd35";
 
     private AuthenticationManager authenticationManager;
 
     public JWTFilterAutenticate(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-
         try {
             Administrator administrator = new ObjectMapper()
                     .readValue(request.getInputStream(), Administrator.class);
@@ -45,24 +44,24 @@ public class JWTFilterAutenticate extends UsernamePasswordAuthenticationFilter {
                     new ArrayList<>()
             ));
 
+
         } catch (IOException e) {
-            throw new RuntimeException("Fala ao autenticar o administrador", e);
+            throw new RuntimeException("Falha ao autenticar o administrador", e);
         }
+
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) throws IOException,
-                                                                                ServletException {
-
+                                            Authentication authResult) throws IOException, ServletException {
 
         DetailAdministratorData administratorData = (DetailAdministratorData) authResult.getPrincipal();
 
         String token = JWT.create()
                 .withSubject(administratorData.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TOKEN))
+                .withExpiresAt(new Date(System.currentTimeMillis() + System.currentTimeMillis()))
                 .sign(Algorithm.HMAC512(PASSWORD_TOKEN));
 
         response.getWriter().write(token);

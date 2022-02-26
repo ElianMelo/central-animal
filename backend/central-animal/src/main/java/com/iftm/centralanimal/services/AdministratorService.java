@@ -15,11 +15,13 @@ import java.util.Optional;
 @Service
 public class AdministratorService {
 
-    @Autowired
     private AdministratorRepository repository;
-
-    @Autowired
     private PasswordEncoder encoder;
+
+    public AdministratorService(AdministratorRepository repository, PasswordEncoder encoder) {
+        this.repository = repository;
+        this.encoder = encoder;
+    }
 
     public List<Administrator> allAdministrators() {
         return repository.findAll();
@@ -56,7 +58,6 @@ public class AdministratorService {
         boolean valid = encoder.matches(password, administrator.getPassword());
 
         HttpStatus status = (valid) ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
-
         return ResponseEntity.status(status).body(valid);
     }
 

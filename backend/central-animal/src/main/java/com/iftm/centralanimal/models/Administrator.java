@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Entity
@@ -17,5 +18,7 @@ public class Administrator implements Serializable {
 	private Integer id;
 	@Column(unique = true)
 	private String email;
+
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 }

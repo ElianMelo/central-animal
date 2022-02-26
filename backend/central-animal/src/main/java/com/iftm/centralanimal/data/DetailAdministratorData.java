@@ -13,6 +13,7 @@ public class DetailAdministratorData implements UserDetails {
     private Optional<Administrator> administrator;
 
     public DetailAdministratorData(Optional<Administrator> administrador) {
+        this.administrator = administrador;
     }
 
     @Override
