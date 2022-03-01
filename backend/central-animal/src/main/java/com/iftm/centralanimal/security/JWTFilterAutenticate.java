@@ -16,12 +16,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class JWTFilterAutenticate extends UsernamePasswordAuthenticationFilter {
 
-    public static final int EXPIRATION_TOKEN = 600_000_0;
+    // tempo de expiração do token de 1 mês.
+    public static final long EXPIRATION_TOKEN = 2628100005L;
+
 //    a senha está aqui para fins de desenvolvimento, em um momento futuro estará em algum arquivo fora do repositório.
     public static final String PASSWORD_TOKEN = "af305f04-2fb6-4322-a652-bd771436fd35";
 
