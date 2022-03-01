@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AnimalService {
@@ -22,9 +23,11 @@ public class AnimalService {
     }
 
     public ResponseEntity<String> newAnimal(Animal entity) {
+        String fileName = UUID.randomUUID().toString();
         try {
-            String url = ImageUploader.uploadFile(entity.getAnimalImage(), "teste");
+            String url = ImageUploader.uploadFile(entity.getAnimalImage(), fileName, "animal");
             entity.setAnimalImage(url);
+            repository.save(entity);
             return ResponseEntity.ok("Animal cadastrado com sucesso.");
         } catch (Exception ex) {
             ex.printStackTrace();
