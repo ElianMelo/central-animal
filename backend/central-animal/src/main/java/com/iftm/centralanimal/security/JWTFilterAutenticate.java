@@ -16,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -64,7 +63,7 @@ public class JWTFilterAutenticate extends UsernamePasswordAuthenticationFilter {
 
         String token = JWT.create()
                 .withSubject(administratorData.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + System.currentTimeMillis()))
+                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TOKEN))
                 .sign(Algorithm.HMAC512(PASSWORD_TOKEN));
 
         response.getWriter().write(token);
