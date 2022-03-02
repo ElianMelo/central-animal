@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,17 +21,9 @@ public class AnimalService {
         return repository.findAll();
     }
 
-    public ResponseEntity<String> newAnimal(Animal entity) {
-        String fileName = UUID.randomUUID().toString();
-        try {
-            String url = ImageUploader.uploadFile(entity.getAnimalImage(), fileName, "animal");
-            entity.setAnimalImage(url);
-            repository.save(entity);
-            return ResponseEntity.ok("Animal cadastrado com sucesso.");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public Animal newAnimal(Animal entity) {
+        ImageUploader.setImage(entity);
+        return repository.save(entity);
     }
 
     public Animal updateAnimalById(Integer id, Animal entity) {
