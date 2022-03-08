@@ -4,9 +4,12 @@ import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.repositories.AnimalRepository;
 import com.iftm.centralanimal.services.exceptions.AnimalNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AnimalService {
@@ -19,6 +22,7 @@ public class AnimalService {
     }
 
     public Animal newAnimal(Animal entity) {
+        ImageUploader.setImage(entity);
         return repository.save(entity);
     }
 

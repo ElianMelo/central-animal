@@ -33,6 +33,7 @@ public class InstitutionService {
     }
 
     public Institution newInstitution(Institution entity) {
+        ImageUploader.setImage(entity);
         return repository.save(entity);
     }
 
