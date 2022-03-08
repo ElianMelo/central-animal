@@ -21,12 +21,12 @@ export default class App extends Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Institutions">
           <Stack.Screen name="Home" component={Home} options={{ title: 'Página Inicial' }} />
           <Stack.Screen name="Institution" component={Institution} options={{ title: 'Instituição' }} />
           <Stack.Screen name="Institutions" component={Institutions} options={{ title: 'Instituições' }} />
           <Stack.Screen name="Animals" component={Animals} options={{ title: 'Animais' }} />
-          <Stack.Screen name="InstitutionManagement" component={InstitutionManagement} options={{ title: 'Gerência de Instituição' }} />
+          <Stack.Screen name="InstitutionManagement" component={InstitutionManagement} options={{ title: 'Login/Gerência de Instituição' }} />
           <Stack.Screen name="CreateAnimal" component={CreateAnimal} options={{ title: 'Cadastrar Animal' }} />
           <Stack.Screen name="ChangeAnimal" component={ChangeAnimal} options={{ title: 'Alterar Animal' }} />
           <Stack.Screen name="ChangeInstitution" component={ChangeInstitution} options={{ title: 'Alterar Instituição' }} />

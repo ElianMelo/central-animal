@@ -3,18 +3,12 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
+    TextInput,
     View,
-    Image,
-    FlatList,
     TouchableOpacity,
-    Button
 } from 'react-native';
 
 import Footer from './Footer';
-
-const map = require('../../assets/map.png');
-const whats = require('../../assets/whats.png');
-const pix = require('../../assets/pix.png');
 
 export default class InstitutionManagement extends Component {
 
@@ -22,61 +16,127 @@ export default class InstitutionManagement extends Component {
         super(props);
         this.state = {
             props: props,
+            logged: true,
+            login: '',
+            password: '',
         };
+    }
+
+    componentDidMount() {
+        this.isLogged();
+    }
+
+    isLogged() {
+        // verificar se está logado
+    }
+
+    doLogin() {
+        if(this.state.login != '' && this.state.password != '') {
+            // login
+            // administrator/validatePassword
+        }
+    }
+
+    login() {
+        return (
+            <View style={styles.marginBottomFooter}>
+                <View style={styles.cardBox}>
+                    <TouchableOpacity
+                        onPress={() =>
+                            this.props.navigation.navigate('ChangeInstitution')
+                        }
+                    >
+                        <View style={styles.cardImageLine}>
+                            <Text style={styles.cardSupTxt}>
+                                Atualizar dados de instituição
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.cardBox}>
+                    <TouchableOpacity
+                        onPress={() =>
+                            this.props.navigation.navigate('CreateAnimal')
+                        }
+                    >
+                        <View style={styles.cardImageLine}>
+                            <Text style={styles.cardSupTxt}>
+                                Cadastrar novo animal
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.cardBox}>
+                    <TouchableOpacity
+                        onPress={() =>
+                            this.props.navigation.navigate('ChangeAnimal')
+                        }
+                    >
+                        <View style={styles.cardImageLine}>
+                            <Text style={styles.cardSupTxt}>
+                                Alterar animal
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.cardBox}>
+                    <TouchableOpacity>  
+                        <View style={styles.cardImageLine}>
+                            <Text style={styles.cardSupTxt}>
+                                Deslogar
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    }
+
+    management() {
+        return (
+            <View style={styles.marginBottomFooter}>
+                <View style={styles.inputBox}>
+                    <Text style={styles.descriptionTxt}>
+                        Login
+                    </Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholderTextColor="#808080" 
+                        onChangeText={(login) => this.setState({login})}
+                        value={this.state.login}
+                    />
+                </View>
+                <View style={styles.inputBox}>
+                    <Text style={styles.descriptionTxt}>
+                        Senha
+                    </Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholderTextColor="#808080" 
+                        onChangeText={(password) => this.setState({password})}
+                        value={this.state.password}
+                    />
+                </View>
+                <View style={styles.cardBox}>
+                    <TouchableOpacity
+                        onPress={() => this.doLogin()}
+                    >
+                        <View style={styles.cardImageLine}>
+                            <Text style={styles.cardSupTxt}>
+                                Login
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
     }
 
     render() {
         return (
             <View style={styles.body}>
                 <View style={{marginTop: 'auto', marginBottom: 'auto'}}>
-                    <View style={styles.cardBox}>
-                        <TouchableOpacity
-                            onPress={() =>
-                                this.props.navigation.navigate('ChangeInstitution')
-                            }
-                        >
-                            <View style={styles.cardImageLine}>
-                                <Text style={styles.cardSupTxt}>
-                                    Atualizar dados de instituição
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.cardBox}>
-                        <TouchableOpacity
-                            onPress={() =>
-                                this.props.navigation.navigate('CreateAnimal')
-                            }
-                        >
-                            <View style={styles.cardImageLine}>
-                                <Text style={styles.cardSupTxt}>
-                                    Cadastrar novo animal
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.cardBox}>
-                        <TouchableOpacity
-                            onPress={() =>
-                                this.props.navigation.navigate('ChangeAnimal')
-                            }
-                        >
-                            <View style={styles.cardImageLine}>
-                                <Text style={styles.cardSupTxt}>
-                                    Alterar animal
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.cardBox}>
-                        <TouchableOpacity>  
-                            <View style={styles.cardImageLine}>
-                                <Text style={styles.cardSupTxt}>
-                                    Deslogar
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+                    { this.state.logged ? this.login() : this.management() }
                 </View>
                 <Footer navigation={this.state.props.navigation}/>
             </View>
@@ -87,6 +147,19 @@ export default class InstitutionManagement extends Component {
 const styles = StyleSheet.create({
     body: {
         height: "100%"
+    },
+    inputBox: {
+        padding: 5,
+        marginRight: 16,
+        marginLeft: 16,
+        marginTop: 6
+    },
+    input: {
+        height: 40,
+        borderWidth: 1,
+        padding: 10,
+        color: "black",
+        fontSize: 16
     },
     cardBox: {
         textAlign: "center",
@@ -186,7 +259,8 @@ const styles = StyleSheet.create({
     },
     descriptionTxt: {
         marginRight: 'auto',
-        fontSize: 14,
+        marginBottom: 5,
+        fontSize: 20,
         textAlign: "center",
         color: "black"
     },
@@ -206,6 +280,9 @@ const styles = StyleSheet.create({
     headerBox: {
         textAlign: "center",
         marginBottom: 25,
+    },
+    marginBottomFooter: {
+        marginBottom: 60
     },
     h1Text: {
         fontSize: 32,

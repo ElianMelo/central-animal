@@ -35,7 +35,7 @@ public class InstitutionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> newAnimal(@Valid @RequestBody Institution entity) {
+    public ResponseEntity<String> newInstitution(@Valid @RequestBody Institution entity) {
         service.newInstitution(entity);
         return ResponseEntity.ok("Instituição cadastrada com sucesso.");
     }
@@ -51,7 +51,7 @@ public class InstitutionController {
     }
 
     @GetMapping("/animals/{id}")
-    public List<Animal> findAnimalsByIdInstitution(@PathVariable Integer id) {
+    public List<Animal> findInstitutionsById(@PathVariable Integer id) {
         return service.findAnimalsFromInstitutionId(id);
     }
 
