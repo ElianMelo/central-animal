@@ -1,7 +1,9 @@
 package com.iftm.centralanimal.services;
 
 import com.iftm.centralanimal.models.Animal;
+import com.iftm.centralanimal.models.Institution;
 import com.iftm.centralanimal.repositories.AnimalRepository;
+import com.iftm.centralanimal.repositories.InstitutionRepository;
 import com.iftm.centralanimal.services.exceptions.AnimalNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,11 +19,16 @@ public class AnimalService {
     @Autowired
     private AnimalRepository repository;
 
+    @Autowired
+    private InstitutionRepository institutionRepository;
+
     public List<Animal> allAnimals() {
         return repository.findAll();
     }
 
     public Animal newAnimal(Animal entity) {
+        Institution institution = institutionRepository.getById(entity.getIntitutionId());
+        institution.getAnimals().add(entity);
         ImageUploader.setImage(entity);
         return repository.save(entity);
     }

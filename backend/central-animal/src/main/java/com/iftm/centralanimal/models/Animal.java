@@ -34,4 +34,6 @@ public class Animal implements Serializable {
 
 	@Size(max = 1337)
 	private String description;
+
+	private Integer intitutionId;
 }
