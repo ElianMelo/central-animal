@@ -28,8 +28,7 @@ public class Animal implements Serializable {
 	private int type;
 	private int age;
 	private int sex;
-	
-	@Size(max = 600000)
+
 	private String animalImage;
 
 	@Size(max = 1337)

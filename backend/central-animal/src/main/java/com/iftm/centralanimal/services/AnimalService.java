@@ -27,8 +27,8 @@ public class AnimalService {
     }
 
     public Animal newAnimal(Animal entity) {
-        Institution institution = institutionRepository.getById(entity.getIntitutionId());
-        institution.getAnimals().add(entity);
+        // Institution institution = institutionRepository.getById(entity.getIntitutionId());
+        // institution.getAnimals().add(entity);
         ImageUploader.setImage(entity);
         return repository.save(entity);
     }

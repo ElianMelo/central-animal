@@ -26,7 +26,7 @@ public class Institution implements Serializable {
 	private Boolean medicines;
 	private Boolean cleaningMaterial;
 	
-	@Size(max = 600000)
+	@Size(max = 250)
 	private String institutionImage;
 
 	@Size(max = 1337)

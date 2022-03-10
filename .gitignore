@@ -34,3 +34,5 @@ build/
 
 ### Eclipse ###
 .metadata
+
+backend/central-animal/src/main/resources/central-animal-private-key.json
