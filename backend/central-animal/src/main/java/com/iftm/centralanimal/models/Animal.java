@@ -7,9 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.iftm.centralanimal.models.enums.AnimalSex;
 import com.iftm.centralanimal.models.enums.AnimalType;
 
@@ -34,5 +36,7 @@ public class Animal implements Serializable {
 	@Size(max = 1337)
 	private String description;
 
-	private Integer intitutionId;
+	@ManyToOne
+	@JsonBackReference
+	private Institution institution;
 }

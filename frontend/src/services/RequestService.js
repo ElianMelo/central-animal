@@ -16,8 +16,39 @@ export default class RequestService {
         return res.data;
     }
 
+    static postLogin = async(loginNovo) =>{
+        let login = {
+            "email": "maria@yahoo.com.br",  
+            "password": "PASSWORD"
+        }
+
+        let res = await axios.post(`http://192.168.0.4:8080/institution/animals/login`, login)
+        return res.data;
+    }
+
+    static getTokenFromPhone() {
+
+    }
+
+    static validToken() {
+        // Valida token
+    }
+
     static postAnimal = async(animal) => {
-        let [res, err] = await axios.post(`http://192.168.0.4:8080/animal/`, animal)
+        let config = {
+            headers: {
+                Authorization: "Bearer TOKENVALUE",
+            }
+        }
+        
+        axios.post(`http://192.168.0.4:8080/animal/`, animal, config
+            ).then((res) => {
+                console.log("SUCESS")
+                console.log(res)
+            }).catch((err) => {
+                console.log("ERROR")
+                console.log(err)
+            })        
         return "true";
     }
 }

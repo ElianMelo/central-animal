@@ -62,8 +62,18 @@ export default class CreateAnimal extends Component {
             description: this.state.description,
             name: this.state.name,
             sex: this.state.sex == "M" ? 1 : 2,
-            type: Number(this.state.type + 1)
+            type: Number(this.state.type + 1),
+            institution: {
+                id: 1
+            },
         }
+
+        /*
+            login: maria@yahoo.com.br
+            senha: farofaehbao
+            token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJpYUB5YWhvby5jb20uYnIiLCJleHAiOjE2NDk1Njg3MjF9.
+            rhLOMnm3JuWvIZ9bEpTXvkiUoOe6MBzwiivREtNerx-IbOZknD1bV6AUvcYGZF8uQgYgNxGEIqnKbIOU01Yg6g
+        */
 
         RequestService.postAnimal(animal);
     }

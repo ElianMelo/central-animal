@@ -26,7 +26,6 @@ public class Institution implements Serializable {
 	private Boolean medicines;
 	private Boolean cleaningMaterial;
 	
-	@Size(max = 250)
 	private String institutionImage;
 
 	@Size(max = 1337)
@@ -38,6 +37,6 @@ public class Institution implements Serializable {
 	@OneToOne(cascade = CascadeType.REMOVE)
 	private Administrator administrator;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	private List<Animal> animals = new ArrayList<Animal>();
+	@OneToMany(mappedBy = "institution", fetch=FetchType.EAGER, cascade = CascadeType.REMOVE)
+  	private List<Animal> animals = new ArrayList<Animal>();
 }

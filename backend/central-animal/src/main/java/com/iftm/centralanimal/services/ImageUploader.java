@@ -51,6 +51,13 @@ public class ImageUploader {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+            if(isAnimal) {
+                Animal entity = (Animal) obj;
+                entity.setAnimalImage("null");
+            } else {
+                Institution entity = (Institution) obj;
+                entity.setInstitutionImage("null");
+            }
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
