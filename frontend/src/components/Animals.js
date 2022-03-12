@@ -11,20 +11,15 @@ import {
 
 import Footer from './Footer';
 
-const image = require('../../assets/dog.jpg');
-
-const DATA = [
-    {
-        id: "1",
-        name: "Thor",
-        img: image,
-        description: "Lorem ipsum dolor, sit amet incidunt ut labore",
-        sex: "macho",
-        age: "2",
-    },
-];
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import {Picker} from '@react-native-picker/picker';
 
 import RequestService from '../services/RequestService';
+
+const radio_props = [
+    {label: 'Cachorro', value: 0 },
+    {label: 'Gato', value: 1 }
+];
 export default class Animals extends Component {
 
     constructor(props) {
@@ -32,6 +27,10 @@ export default class Animals extends Component {
         this.state = {
             props: props,
             animals: {},
+            animalsFilter: {},
+            enableFilter: false,
+            sex: 1,
+            type: 0,            
         };
     }
 
@@ -40,8 +39,9 @@ export default class Animals extends Component {
     }
 
     loadAnimals = async() => {
-        let animals = await RequestService.getAnimalsByInstitution(this.props.route.params.institutionId)
+        let animals = await RequestService.getAnimalsByInstitution(this.props.route.params.institutionId);
         this.setState({animals})
+        this.setState({animalsFilter: animals})
     }
 
     renderItem = ({ item }) => (
@@ -65,11 +65,90 @@ export default class Animals extends Component {
         </TouchableOpacity>
     );
 
+    filter = () => {
+        let filtered = this.state.animals.filter((item) => {
+            return item.sex == this.state.sex && item.type == (this.state.type+1)
+        })
+        this.setState({animalsFilter: filtered})
+    }
+
+    showFilter = () => {
+        this.setState({enableFilter: !this.state.enableFilter});
+    }
+
     render() {
         return (
             <View style={styles.body}>
+                <View style={styles.cardColumn}>
+                    <TouchableOpacity
+                        onPress={() => this.showFilter()}
+                    >
+                        <Text style={styles.descriptionBolderTxtFilter}>Mostrar/Ocultar Filtro</Text>
+                    </TouchableOpacity>
+
+                    {
+                        this.state.enableFilter ? (
+                            <View>
+                                <View style={styles.inputPicker}>
+                                    <Picker
+                                        style={{ height: 5, width: 130, color: 'black', borderWidth: 1}}
+                                        onValueChange={(sex) => this.setState({sex})}
+                                        selectedValue={this.state.sex}
+                                        mode="dropdown"
+                                        color="#000"
+                                        dropdownIconColor="#000"
+                                        dropdownIconRippleColor="#000"
+                                    >
+                                        <Picker.Item label="Macho" value="1" />
+                                        <Picker.Item label="Fêmea" value="2" />
+                                    </Picker>
+                                </View>
+
+                                <RadioForm
+                                    formHorizontal={true}
+                                    animation={true}
+                                    initial={0}
+                                    >
+                                    {/* To create radio buttons, loop through your array of options */}
+                                    {
+                                        radio_props.map((obj, i) => (
+                                        <RadioButton labelHorizontal={true} key={i} >
+                                            {/*  You can set RadioButtonLabel before RadioButtonInput */}
+                                            <RadioButtonInput
+                                                obj={obj}
+                                                index={i}
+                                                isSelected={this.state.type == i}
+                                                onPress={(type) => {this.setState({type})}}
+                                                buttonInnerColor={'#000'}
+                                                buttonOuterColor={'#000'}
+                                                buttonSize={15}
+                                                buttonOuterSize={25}
+                                                buttonWrapStyle={{marginLeft: 8}}
+                                            />
+                                            <RadioButtonLabel
+                                                obj={obj}
+                                                index={i}
+                                                onPress={(type) => {this.setState({type})}}
+                                                labelHorizontal={true}
+                                                labelStyle={{fontSize: 16, color: '#000'}}
+                                                labelWrapStyle={{}}
+                                            />
+                                        </RadioButton>
+                                        ))
+                                    }  
+                                </RadioForm>
+                                <TouchableOpacity
+                                    onPress={() => this.filter()}
+                                >
+                                    <Text style={styles.descriptionBolderTxtFilter}>Aplicar Filtro</Text>
+                                </TouchableOpacity>
+                            </View>
+                        ) : null
+                    }                    
+                </View>
+
                 <FlatList
-                    data={this.state.animals}
+                    data={this.state.animalsFilter}
                     style={styles.bottomMargin}
                     renderItem={this.renderItem}
                     keyExtractor={item => item.id}
@@ -142,6 +221,14 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "black"
     },
+    descriptionBolderTxtFilter: {
+        marginRight: 'auto',
+        fontSize: 16,
+        marginTop: 4,
+        textAlign: "left",
+        fontWeight: "bold",
+        color: "black"
+    },
     roundCardImage: {
         marginRight: 'auto',
         borderTopLeftRadius: 16,
@@ -149,4 +236,15 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 100,
     },
+    inputPicker: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        width: 120,
+        margin: 8,
+        borderWidth: 1,
+        color: "black",
+        fontSize: 16
+    }
 });
