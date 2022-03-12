@@ -1,23 +1,26 @@
 package com.iftm.centralanimal.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.iftm.centralanimal.models.Animal;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.iftm.centralanimal.models.Institution;
 import com.iftm.centralanimal.models.dto.InstitutionDTO;
 import com.iftm.centralanimal.models.dto.InstitutionListDTO;
+import com.iftm.centralanimal.repositories.AnimalRepository;
 import com.iftm.centralanimal.repositories.InstitutionRepository;
 import com.iftm.centralanimal.services.exceptions.InstitutionNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class InstitutionService {
 
     @Autowired
     private InstitutionRepository repository;
+
+    @Autowired
+    private AnimalRepository animalRepository;
 
     public List<InstitutionListDTO> allInstitutions() {
         List<Institution> list = repository.findAll();
@@ -45,7 +48,7 @@ public class InstitutionService {
     public List<Animal> findAnimalsFromInstitutionId(Integer id) {
         Institution institution = repository.findById(id).
                 orElseThrow(() -> new InstitutionNotFoundException(id));
-        return institution.getAnimals();
+        return animalRepository.findByInstitutionId(id);
     }
 
     public InstitutionDTO findInstitutionById(Integer id) {

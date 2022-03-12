@@ -1,26 +1,15 @@
 package com.iftm.centralanimal.controllers;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.models.Institution;
 import com.iftm.centralanimal.models.dto.InstitutionDTO;
 import com.iftm.centralanimal.models.dto.InstitutionListDTO;
 import com.iftm.centralanimal.services.InstitutionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/institution")
@@ -35,9 +24,8 @@ public class InstitutionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> newInstitution(@Valid @RequestBody Institution entity) {
-        service.newInstitution(entity);
-        return ResponseEntity.ok("Instituição cadastrada com sucesso.");
+    public Institution newInstitution(@Valid @RequestBody Institution entity) {
+        return service.newInstitution(entity);
     }
 
     @PutMapping("/{id}")

@@ -1,11 +1,10 @@
 package com.iftm.centralanimal.models;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="administrator")

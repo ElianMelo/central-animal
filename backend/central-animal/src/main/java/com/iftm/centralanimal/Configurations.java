@@ -2,7 +2,6 @@ package com.iftm.centralanimal;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -23,12 +22,4 @@ public class Configurations implements WebMvcConfigurer {
                 .paths(PathSelectors.any())
                 .build();
     }
-
-    // permitir a conversa entre dominios diferentes
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowedOrigins("*")
-//                .allowedMethods("*");
-//    }
 }

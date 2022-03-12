@@ -3,13 +3,11 @@ package com.iftm.centralanimal.controllers;
 import com.iftm.centralanimal.models.Administrator;
 import com.iftm.centralanimal.services.AdministratorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/administrator")
@@ -24,9 +22,8 @@ public class AdministratorController {
     }
 
     @PostMapping
-    public ResponseEntity<String> newAdministrator(@Valid @RequestBody Administrator entity) {
-        service.newAdministrator(entity);
-        return ResponseEntity.ok("Administrador cadastrado com sucesso.");
+    public Administrator newAdministrator(@Valid @RequestBody Administrator entity) {
+        return service.newAdministrator(entity);
     }
 
     @PutMapping("/{id}")
@@ -49,5 +46,10 @@ public class AdministratorController {
     public ResponseEntity<Boolean> validadePassword(@RequestParam String login,
                                                     @RequestParam String password) {
         return service.validatePassword(login, password);
+    }
+
+    @PostMapping("/validateToken")
+    public boolean validadeToken() {
+        return true;
     }
 }

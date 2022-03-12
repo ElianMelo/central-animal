@@ -1,14 +1,11 @@
 package com.iftm.centralanimal.models;
 
-import java.io.Serializable;
-import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-
-import lombok.Data;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="institution")
@@ -28,7 +25,6 @@ public class Institution implements Serializable {
 	
 	private String institutionImage;
 
-	@Size(max = 1337)
 	private String description;
 
 	@OneToOne(cascade = CascadeType.REMOVE)
@@ -37,6 +33,6 @@ public class Institution implements Serializable {
 	@OneToOne(cascade = CascadeType.REMOVE)
 	private Administrator administrator;
 
-	@OneToMany(mappedBy = "institution", fetch=FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "institution", cascade = CascadeType.REMOVE)
   	private List<Animal> animals = new ArrayList<Animal>();
 }
