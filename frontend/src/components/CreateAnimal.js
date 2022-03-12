@@ -26,12 +26,11 @@ const radio_props = [
 ];
 export default class CreateAnimal extends Component {
 
-    /*const [text, onChangeText] = React.useState("Useless Text");*/
-
     constructor(props) {
         super(props);
         this.state = {
             props: props,
+            willFocusSubscription: null,
             age: '',
             name: '',
             description: '',
@@ -39,6 +38,22 @@ export default class CreateAnimal extends Component {
             sex: '',
             base64Image: ''
         };
+    }
+
+    componentDidMount() {
+        RequestService.validateToken().then((isValid) => {if (!isValid) this.props.navigation.navigate('InstitutionManagement')});
+        this.setState({
+            willFocusSubscription: this.state.props.navigation.addListener(
+                'focus',
+                () => {
+                    RequestService.validateToken().then((isValid) => {if (!isValid) this.props.navigation.navigate('InstitutionManagement')});
+                }
+            )
+        })
+    }
+
+    componentWillUnmount() {
+        this.state.willFocusSubscription();
     }
 
     launchLibrary = async() => {
