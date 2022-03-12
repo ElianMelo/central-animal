@@ -10,31 +10,58 @@ import {
 
 import Footer from './Footer';
 
+import RequestService from '../services/RequestService';
+import TokenService from '../services/TokenService';
 export default class InstitutionManagement extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             props: props,
-            logged: true,
-            login: '',
-            password: '',
+            willFocusSubscription: null,
+            logged: false,
+            email: 'maria@yahoo.com.br',
+            password: 'farofaehbao',
         };
     }
 
     componentDidMount() {
-        this.isLogged();
+        RequestService.validateToken().then((isValid) => { if (isValid) this.setState({logged: true}) });
+        this.setState({
+            willFocusSubscription: this.state.props.navigation.addListener(
+                'focus',
+                () => {
+                    RequestService.validateToken().then((isValid) => { 
+                        if(isValid) {
+                            this.setState({logged: true});
+                        } else {
+                            this.setState({logged: false});
+                        }
+                    });
+                }
+            )
+        })
     }
 
-    isLogged() {
-        // verificar se está logado
+    componentWillUnmount() {
+        this.state.willFocusSubscription();
     }
 
     doLogin() {
-        if(this.state.login != '' && this.state.password != '') {
-            // login
-            // administrator/validatePassword
+        if(this.state.email != '' && this.state.password != '') {
+            let login = {
+                email: this.state.email,  
+                password: this.state.password
+            }
+            RequestService.postLogin(login).then(() => {
+                RequestService.validateToken().then((isValid) => { if (isValid) this.setState({logged: true}) });
+            });
         }
+    }
+
+    logout() {
+        TokenService.setToken('');
+        RequestService.validateToken().then((isValid) => { if (!isValid) this.setState({logged: false}) });
     }
 
     login() {
@@ -80,7 +107,9 @@ export default class InstitutionManagement extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.cardBox}>
-                    <TouchableOpacity>  
+                    <TouchableOpacity
+                        onPress={() => this.logout()}
+                    >  
                         <View style={styles.cardImageLine}>
                             <Text style={styles.cardSupTxt}>
                                 Deslogar
@@ -97,13 +126,13 @@ export default class InstitutionManagement extends Component {
             <View style={styles.marginBottomFooter}>
                 <View style={styles.inputBox}>
                     <Text style={styles.descriptionTxt}>
-                        Login
+                        E-mail
                     </Text>
                     <TextInput
                         style={styles.input}
                         placeholderTextColor="#808080" 
-                        onChangeText={(login) => this.setState({login})}
-                        value={this.state.login}
+                        onChangeText={(email) => this.setState({email})}
+                        value={this.state.email}
                     />
                 </View>
                 <View style={styles.inputBox}>
