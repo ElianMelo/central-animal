@@ -3,7 +3,6 @@ package com.iftm.centralanimal.services;
 import com.iftm.centralanimal.models.Administrator;
 import com.iftm.centralanimal.repositories.AdministratorRepository;
 import com.iftm.centralanimal.services.exceptions.AdministratorNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,6 +59,5 @@ public class AdministratorService {
         HttpStatus status = (valid) ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
         return ResponseEntity.status(status).body(valid);
     }
-
 
 }

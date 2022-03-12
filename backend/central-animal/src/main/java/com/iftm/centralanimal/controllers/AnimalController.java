@@ -3,7 +3,6 @@ package com.iftm.centralanimal.controllers;
 import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.services.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,9 +21,8 @@ public class AnimalController {
     }
 
     @PostMapping
-    public ResponseEntity<String> newAnimal(@Valid @RequestBody Animal entity) {
-        service.newAnimal(entity);
-        return ResponseEntity.ok("Animal cadastrado com sucesso.");
+    public Animal newAnimal(@Valid @RequestBody Animal entity) {
+        return service.newAnimal(entity);
     }
 
     @PutMapping("/{id}")

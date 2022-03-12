@@ -1,21 +1,10 @@
 package com.iftm.centralanimal.models;
 
-import java.io.Serializable;
-import java.sql.Blob;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.iftm.centralanimal.models.enums.AnimalSex;
-import com.iftm.centralanimal.models.enums.AnimalType;
-
 import lombok.Data;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="animal")
@@ -33,7 +22,6 @@ public class Animal implements Serializable {
 
 	private String animalImage;
 
-	@Size(max = 1337)
 	private String description;
 
 	@ManyToOne
