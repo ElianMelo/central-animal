@@ -60,4 +60,10 @@ public class InstitutionService {
     public void deleteInstitutionById(Integer id) {
         repository.deleteById(id);
     }
+
+    public InstitutionDTO findByAdministratorEmail(String email) {
+        Institution institution = repository.findByAdministratorEmail(email).
+                orElseThrow(() -> new InstitutionNotFoundException(email));
+        return new InstitutionDTO(institution);
+    }
 }

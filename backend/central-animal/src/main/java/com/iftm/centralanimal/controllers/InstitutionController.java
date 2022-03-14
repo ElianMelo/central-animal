@@ -1,5 +1,6 @@
 package com.iftm.centralanimal.controllers;
 
+import com.iftm.centralanimal.models.Administrator;
 import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.models.Institution;
 import com.iftm.centralanimal.models.dto.InstitutionDTO;
@@ -46,5 +47,10 @@ public class InstitutionController {
     @DeleteMapping("/{id}")
     public void deleteInstitutionById(@PathVariable Integer id) {
         service.deleteInstitutionById(id);
+    }
+
+    @GetMapping("/administrator-email/{email}")
+    public InstitutionDTO findByAdministratorEmail(@PathVariable String email) {
+        return service.findByAdministratorEmail(email);
     }
 }
