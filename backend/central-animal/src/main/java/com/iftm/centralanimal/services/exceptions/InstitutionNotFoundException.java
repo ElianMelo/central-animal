@@ -4,4 +4,8 @@ public class InstitutionNotFoundException extends RuntimeException {
     public InstitutionNotFoundException(Integer id) {
         super("Instituição não encontrada. ID = " + id);
     }
+
+    public InstitutionNotFoundException(String id) {
+        super("Instituição não encontrada. ID = " + id);
+    }
 }
