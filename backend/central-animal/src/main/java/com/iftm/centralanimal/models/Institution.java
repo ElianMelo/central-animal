@@ -27,12 +27,12 @@ public class Institution implements Serializable {
 
 	private String description;
 
-	@OneToOne(cascade = CascadeType.REMOVE)
+	@OneToOne(cascade = CascadeType.ALL)
 	private InstitutionAddress address;
 
-	@OneToOne(cascade = CascadeType.REMOVE)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Administrator administrator;
 
-	@OneToMany(mappedBy = "institution", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "institution", cascade = CascadeType.ALL)
   	private List<Animal> animals = new ArrayList<Animal>();
 }
