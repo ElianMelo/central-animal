@@ -23,7 +23,7 @@ public class AnimalService {
     }
 
     public Animal newAnimal(Animal entity) {
-        ImageUploader.setImage(entity);
+        ImageUploader.setImage(entity, false, "");
         return repository.save(entity);
     }
 
@@ -33,6 +33,10 @@ public class AnimalService {
 
     public Animal updateAnimalById(Integer id, Animal entity) {
         entity.setId(id);
+        if(entity.getAnimalImage() != null || entity.getAnimalImage() != "")  {
+            String imageName = ImageUploader.ExtractImageNameFromUrl(findByIdAnimal(id).getAnimalImage());
+            ImageUploader.setImage(entity, true, imageName);
+        }
         return repository.save(entity);
     }
 
