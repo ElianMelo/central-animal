@@ -13,6 +13,12 @@ export default class RequestService {
         return res.data;
     }
 
+    static putInstitution = async(id, institution) => {
+        let config = await this.getConfig();
+        let res = await axios.put(`${BASEURL}/institution/${id}`, institution, config);
+        return res.data;
+    }
+
     static getAnimalsByInstitution = async(id) => {
         let res = await axios.get(`${BASEURL}/institution/animals/${id}`)
         return res.data;
