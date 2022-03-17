@@ -70,7 +70,9 @@ export default class InstitutionManagement extends Component {
                 <View style={styles.cardBox}>
                     <TouchableOpacity
                         onPress={() =>
-                            this.props.navigation.navigate('ChangeInstitution')
+                            this.props.navigation.navigate('ChangeInstitution', {
+                                institutionId: 1
+                            })
                         }
                     >
                         <View style={styles.cardImageLine}>
@@ -83,7 +85,9 @@ export default class InstitutionManagement extends Component {
                 <View style={styles.cardBox}>
                     <TouchableOpacity
                         onPress={() =>
-                            this.props.navigation.navigate('CreateAnimal')
+                            this.props.navigation.navigate('CreateAnimal', {
+                                institutionId: 1
+                            })
                         }
                     >
                         <View style={styles.cardImageLine}>
@@ -96,7 +100,9 @@ export default class InstitutionManagement extends Component {
                 <View style={styles.cardBox}>
                     <TouchableOpacity
                         onPress={() =>
-                            this.props.navigation.navigate('ChangeAnimal')
+                            this.props.navigation.navigate('ChangeAnimal', {
+                                institutionId: 1
+                            })
                         }
                     >
                         <View style={styles.cardImageLine}>
@@ -144,6 +150,7 @@ export default class InstitutionManagement extends Component {
                         placeholderTextColor="#808080" 
                         onChangeText={(password) => this.setState({password})}
                         value={this.state.password}
+                        secureTextEntry={true}
                     />
                 </View>
                 <View style={styles.cardBox}>
