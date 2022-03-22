@@ -27,4 +27,7 @@ public class Animal implements Serializable {
 	@ManyToOne
 	@JsonBackReference
 	private Institution institution;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private Coordinate animalCoordinate = new Coordinate();
 }

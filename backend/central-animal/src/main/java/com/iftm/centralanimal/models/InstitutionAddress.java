@@ -19,4 +19,7 @@ public class InstitutionAddress implements Serializable {
     private String publicPlace;
     private String publicPlaceName;
     private String number;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Coordinate institutionCoordinate = new Coordinate();
 }
