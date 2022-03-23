@@ -73,7 +73,7 @@ public class ImageUploader {
         }
     }
 
-    public static String ExtractImageNameFromUrl(String url) {
+    public static String ExtractImageNameFromUrl(String url, boolean isUpload) {
         String BASE_UUID_REGEX = "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}";
         String fileName = "";
         try {
@@ -84,9 +84,21 @@ public class ImageUploader {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            fileName = UUID.randomUUID().toString();
+            fileName = isUpload ? UUID.randomUUID().toString() : null;
         }
         return fileName;
+    }
+
+    public static void DeleteImage(String fileName, String folderName) throws IOException {
+        if(fileName != null) {
+            String extractedFileName = ExtractImageNameFromUrl(fileName, false);
+            BlobId blobId = BlobId.of("central-animal.appspot.com", folderName + "/" + extractedFileName);
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("central-animal-private-key.json");
+            Credentials credentials = GoogleCredentials.fromStream(is);
+            Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+            storage.delete(blobId);
+        }
     }
 
 }
