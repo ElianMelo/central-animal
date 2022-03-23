@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class ImageUploader {
@@ -23,7 +25,7 @@ public class ImageUploader {
     public static String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/central-animal.appspot.com/o/%s?alt=media";
 
     public static String uploadFile(String photo, String fileName, String folderName) throws IOException {
-        if(photo != null){
+        if(photo != null) {
             BlobId blobId = BlobId.of("central-animal.appspot.com", folderName +"/" + fileName);
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -40,9 +42,14 @@ public class ImageUploader {
         return null;
     }
 
-    public static void setImage(Object obj) {
+    public static void setImage(Object obj, boolean isUpdate, String currentFileName) {
         boolean isAnimal = obj instanceof Animal;
-        String fileName = UUID.randomUUID().toString();
+        String fileName = currentFileName;
+
+        if(!isUpdate) {
+            fileName = UUID.randomUUID().toString();
+        }
+
         try{
             if(isAnimal) {
                 Animal entity = (Animal) obj;
@@ -65,4 +72,33 @@ public class ImageUploader {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    public static String ExtractImageNameFromUrl(String url, boolean isUpload) {
+        String BASE_UUID_REGEX = "\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}";
+        String fileName = "";
+        try {
+            Pattern pairRegex = Pattern.compile(BASE_UUID_REGEX);
+            Matcher matcher = pairRegex.matcher(url);
+            while (matcher.find()) {
+                fileName = matcher.group(0);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fileName = isUpload ? UUID.randomUUID().toString() : null;
+        }
+        return fileName;
+    }
+
+    public static void DeleteImage(String fileName, String folderName) throws IOException {
+        if(fileName != null) {
+            String extractedFileName = ExtractImageNameFromUrl(fileName, false);
+            BlobId blobId = BlobId.of("central-animal.appspot.com", folderName + "/" + extractedFileName);
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream is = classloader.getResourceAsStream("central-animal-private-key.json");
+            Credentials credentials = GoogleCredentials.fromStream(is);
+            Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+            storage.delete(blobId);
+        }
+    }
+
 }

@@ -36,12 +36,16 @@ public class InstitutionService {
     }
 
     public Institution newInstitution(Institution entity) {
-        ImageUploader.setImage(entity);
+        ImageUploader.setImage(entity, false, "");
         return repository.save(entity);
     }
 
     public Institution updateInstitutionById(Integer id, Institution entity) {
         entity.setId(id);
+        if(entity.getInstitutionImage() != null || entity.getInstitutionImage() != "")  {
+            String imageName = ImageUploader.ExtractImageNameFromUrl(findInstitutionById(id).getInstitutionImage(), true);
+            ImageUploader.setImage(entity, true, imageName);
+        }
         return repository.save(entity);
     }
 
@@ -58,6 +62,11 @@ public class InstitutionService {
     }
     
     public void deleteInstitutionById(Integer id) {
+        try {
+            ImageUploader.DeleteImage(findInstitutionById(id).getInstitutionImage(), "institution");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         repository.deleteById(id);
     }
 
