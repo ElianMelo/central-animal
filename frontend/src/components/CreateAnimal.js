@@ -79,8 +79,11 @@ export default class CreateAnimal extends Component {
             sex: this.state.sex == "M" ? 1 : 2,
             type: Number(this.state.type + 1),
             institution: {
-                id: 1
+                id: this.props.route.params.institutionId
             },
+            animalCoordinate: {
+                id: null
+            }
         }
 
         /*
@@ -90,7 +93,8 @@ export default class CreateAnimal extends Component {
             rhLOMnm3JuWvIZ9bEpTXvkiUoOe6MBzwiivREtNerx-IbOZknD1bV6AUvcYGZF8uQgYgNxGEIqnKbIOU01Yg6g
         */
 
-        RequestService.postAnimal(animal);
+        await RequestService.postAnimal(animal);
+        this.props.navigation.navigate("InstitutionManagement");
     }
 
     render() {

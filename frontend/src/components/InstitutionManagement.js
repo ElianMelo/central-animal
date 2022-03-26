@@ -12,6 +12,7 @@ import Footer from './Footer';
 
 import RequestService from '../services/RequestService';
 import TokenService from '../services/TokenService';
+import InstitutionService from '../services/InstitutionService';
 export default class InstitutionManagement extends Component {
 
     constructor(props) {
@@ -20,12 +21,14 @@ export default class InstitutionManagement extends Component {
             props: props,
             willFocusSubscription: null,
             logged: false,
-            email: 'maria@yahoo.com.br',
+            email: 'maria_gatinha@gmail.com',
             password: 'farofaehbao',
+            institutionId: ''
         };
     }
 
     componentDidMount() {
+        this.getInstitution();
         RequestService.validateToken().then((isValid) => { if (isValid) this.setState({logged: true}) });
         this.setState({
             willFocusSubscription: this.state.props.navigation.addListener(
@@ -34,13 +37,20 @@ export default class InstitutionManagement extends Component {
                     RequestService.validateToken().then((isValid) => { 
                         if(isValid) {
                             this.setState({logged: true});
+                            this.getInstitution();
                         } else {
                             this.setState({logged: false});
+                            this.getInstitution();
                         }
                     });
                 }
             )
         })
+    }
+
+    getInstitution = async () => {
+        let institutionId = await InstitutionService.getInstitution();
+        this.setState({institutionId});
     }
 
     componentWillUnmount() {
@@ -55,6 +65,7 @@ export default class InstitutionManagement extends Component {
             }
             RequestService.postLogin(login).then(() => {
                 RequestService.validateToken().then((isValid) => { if (isValid) this.setState({logged: true}) });
+                this.getInstitution();
             });
         }
     }
@@ -71,7 +82,7 @@ export default class InstitutionManagement extends Component {
                     <TouchableOpacity
                         onPress={() =>
                             this.props.navigation.navigate('ChangeInstitution', {
-                                institutionId: 1
+                                institutionId: this.state.institutionId
                             })
                         }
                     >
@@ -86,7 +97,7 @@ export default class InstitutionManagement extends Component {
                     <TouchableOpacity
                         onPress={() =>
                             this.props.navigation.navigate('CreateAnimal', {
-                                institutionId: 1
+                                institutionId: this.state.institutionId
                             })
                         }
                     >
@@ -100,8 +111,8 @@ export default class InstitutionManagement extends Component {
                 <View style={styles.cardBox}>
                     <TouchableOpacity
                         onPress={() =>
-                            this.props.navigation.navigate('ChangeAnimal', {
-                                institutionId: 1
+                            this.props.navigation.navigate('AnimalsEdit', {
+                                institutionId: this.state.institutionId
                             })
                         }
                     >

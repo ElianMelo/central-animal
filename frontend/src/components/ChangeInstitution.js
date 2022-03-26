@@ -44,7 +44,7 @@ export default class ChangeInstitution extends Component {
     }
 
     loadInstitution = async() => {
-        let institution = await RequestService.getInstitution(1);
+        let institution = await RequestService.getInstitution(this.props.route.params.institutionId);
         this.setState({institution});
 
         this.setState({name: institution.name});
@@ -77,9 +77,9 @@ export default class ChangeInstitution extends Component {
         institution.portion = this.state.portion;
         institution.medicines = this.state.medicines;
         institution.cleaningMaterial = this.state.cleaningMaterial;
-        institution.institutionImage = this.state.institutionImage;
+        institution.institutionImage = this.state.base64Image;
 
-        await RequestService.putInstitution(1, institution);
+        await RequestService.putInstitution(this.props.route.params.institutionId, institution);
     }
 
     componentDidMount() {
