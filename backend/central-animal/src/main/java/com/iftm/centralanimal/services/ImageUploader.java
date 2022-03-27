@@ -82,9 +82,12 @@ public class ImageUploader {
             while (matcher.find()) {
                 fileName = matcher.group(0);
             }
+            if(fileName == "" && isUpload) {
+                fileName = UUID.randomUUID().toString();
+            }
         } catch (Exception ex) {
-            ex.printStackTrace();
             fileName = isUpload ? UUID.randomUUID().toString() : null;
+            ex.printStackTrace();
         }
         return fileName;
     }
