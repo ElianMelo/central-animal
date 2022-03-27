@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import RequestService from '../services/RequestService';
+import MessageUtils from '../utils/MessageUtils';
 
 import Footer from './Footer';
 
@@ -32,6 +33,7 @@ export default class Institutions extends Component {
         super(props);
         this.state = {
             props: props,
+            modalVisible: true,
             institutions: []
         };
     }
@@ -42,6 +44,11 @@ export default class Institutions extends Component {
 
     loadInstitutions = async() => {
         this.setState({institutions: await RequestService.getInstitutions()})
+    }
+
+    teste = () => {
+        this.setState({modalVisible: false});
+        console.log("callback");
     }
 
     // institutionImage
@@ -71,6 +78,24 @@ export default class Institutions extends Component {
     render() {
         return (
             <View style={styles.body}>
+                <MessageUtils
+                    topMessage={'404 - Não Encontrado'}
+                    message={'Animal não encontrado'}
+                    callback={this.teste}
+                    modalVisible={this.state.modalVisible}
+                />
+                <TouchableOpacity 
+                    style={styles.cardBox}
+                    onPress={() =>
+                        this.setState({modalVisible: !this.state.modalVisible})
+                    }
+                >
+                    <View style={styles.cardImageLine}>
+                        <Text style={styles.titleTxt}>
+                            Teste
+                        </Text>
+                    </View>
+                </TouchableOpacity>
                 <FlatList
                     data={this.state.institutions}
                     style={styles.bottomMargin}
