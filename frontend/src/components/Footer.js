@@ -25,7 +25,11 @@ export default class Footer extends Component {
         return (
             <View style={styles.menu}>
                 <View style={styles.menuImageLine}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() =>
+                            this.props.navigation.navigate('MapViewerScreen')
+                        }
+                    >
                         <Image
                             style={styles.menuImage}
                             source={map}

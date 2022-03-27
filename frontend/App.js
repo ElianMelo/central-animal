@@ -11,6 +11,7 @@ import InstitutionManagement from './src/components/InstitutionManagement';
 import CreateAnimal from './src/components/CreateAnimal';
 import ChangeAnimal from './src/components/ChangeAnimal';
 import ChangeInstitution from './src/components/ChangeInstitution';
+import MapViewerScreen from './src/components/MapViewerScreen';
 
 const Stack = createNativeStackNavigator();
 export default class App extends Component {
@@ -32,6 +33,7 @@ export default class App extends Component {
           <Stack.Screen name="CreateAnimal" component={CreateAnimal} options={{ title: 'Cadastrar Animal' }} />
           <Stack.Screen name="ChangeAnimal" component={ChangeAnimal} options={{ title: 'Alterar Animal' }} />
           <Stack.Screen name="ChangeInstitution" component={ChangeInstitution} options={{ title: 'Alterar Instituição' }} />
+          <Stack.Screen name="MapViewerScreen" component={MapViewerScreen} options={{ title: 'Mapa Região' }} />
         </Stack.Navigator>
       </NavigationContainer>
     );
