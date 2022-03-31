@@ -33,7 +33,7 @@ export default class Institutions extends Component {
         super(props);
         this.state = {
             props: props,
-            modalVisible: true,
+            modalVisible: false,
             institutions: []
         };
     }
@@ -47,7 +47,7 @@ export default class Institutions extends Component {
     }
 
     modalCallback = () => {
-        this.setState({modalVisible: false});
+        this.setState({modalVisible: !this.state.modalVisible});
         console.log("callback");
     }
 
