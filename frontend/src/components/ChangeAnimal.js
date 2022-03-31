@@ -94,8 +94,8 @@ export default class ChangeAnimal extends Component {
             sex: this.state.sex == "M" ? 1 : 2,
             type: Number(Number(this.state.type) + 1),
             institution: {
-                id: 1
-            },
+                id: this.props.route.params.institutionId
+            }
         }
 
         /*
