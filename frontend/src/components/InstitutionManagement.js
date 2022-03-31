@@ -6,6 +6,7 @@ import {
     TextInput,
     View,
     TouchableOpacity,
+    Image,
 } from 'react-native';
 
 import Footer from './Footer';
@@ -13,6 +14,10 @@ import Footer from './Footer';
 import RequestService from '../services/RequestService';
 import TokenService from '../services/TokenService';
 import InstitutionService from '../services/InstitutionService';
+import style from '../style/style.js';
+
+import central_animal from '../../assets/central-animal.png';
+
 export default class InstitutionManagement extends Component {
 
     constructor(props) {
@@ -21,6 +26,8 @@ export default class InstitutionManagement extends Component {
             props: props,
             willFocusSubscription: null,
             logged: false,
+            borderColorEmail: 'gray',
+            borderColorPass: 'gray',
             email: 'maria_gatinha@gmail.com',
             password: 'farofaehbao',
             institutionId: ''
@@ -73,6 +80,30 @@ export default class InstitutionManagement extends Component {
     logout() {
         TokenService.setToken('');
         RequestService.validateToken().then((isValid) => { if (!isValid) this.setState({logged: false}) });
+    }
+
+    onBlur(input) {
+        if(input == 'email') {
+            this.setState({
+                borderColorEmail: 'gray'
+            })
+        } else {
+            this.setState({
+                borderColorPass: 'gray'
+            })
+        }
+    }
+
+    onFocus(input) {
+        if(input == 'email') {
+            this.setState({
+                borderColorEmail: '#00C2CB'
+            })
+        } else {
+            this.setState({
+                borderColorPass: '#00C2CB'
+            })
+        }
     }
 
     login() {
@@ -141,24 +172,31 @@ export default class InstitutionManagement extends Component {
     management() {
         return (
             <View style={styles.marginBottomFooter}>
+                <View style={style.inputBox}>
+                    <Image
+                        style={styles.logoImage}
+                        source={central_animal}
+                    >
+                    </Image>
+                </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        E-mail
-                    </Text>
                     <TextInput
-                        style={styles.input}
-                        placeholderTextColor="#808080" 
+                        onBlur={ () => this.onBlur('email') }
+                        onFocus={ () => this.onFocus('email') }
+                        style={[styles.input, {borderColor: this.state.borderColorEmail}]}
+                        placeholderTextColor="#808080"
+                        placeholder="E-mail"
                         onChangeText={(email) => this.setState({email})}
                         value={this.state.email}
                     />
                 </View>
-                <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Senha
-                    </Text>
+                <View style={style.inputBox}>
                     <TextInput
-                        style={styles.input}
+                        onBlur={ () => this.onBlur() }
+                        onFocus={ () => this.onFocus() }
+                        style={[style.input, {borderColor: this.state.borderColorPass}]}
                         placeholderTextColor="#808080" 
+                        placeholder="Senha"
                         onChangeText={(password) => this.setState({password})}
                         value={this.state.password}
                         secureTextEntry={true}
@@ -170,7 +208,7 @@ export default class InstitutionManagement extends Component {
                     >
                         <View style={styles.cardImageLine}>
                             <Text style={styles.cardSupTxt}>
-                                Login
+                                Entrar
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -195,34 +233,35 @@ const styles = StyleSheet.create({
     body: {
         height: "100%"
     },
+    logoImage: {
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        width: 180,
+        height: 180,
+    },
     inputBox: {
         padding: 5,
+        borderRadius: 10,
         marginRight: 16,
         marginLeft: 16,
         marginTop: 6
     },
     input: {
         height: 40,
-        borderWidth: 1,
+        borderWidth: 3,
+        borderRadius: 10,
         padding: 10,
         color: "black",
         fontSize: 16
     },
     cardBox: {
         textAlign: "center",
-        marginHorizontal: 14,
-        marginVertical: 6,
-        padding: 12,
+        marginHorizontal: 20,
+        marginVertical: 5,
+        backgroundColor: "white",
         borderRadius: 14,
-        backgroundColor: "white",        
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 7,
+        borderWidth: 3,
+        borderColor: '#00C2CB'
     },
     animalBox: {
         textAlign: "center",
@@ -286,6 +325,7 @@ const styles = StyleSheet.create({
         borderRadius: 60
     },
     cardImageLine: {
+        padding: 12,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -316,7 +356,7 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         fontSize: 24,
         textAlign: "center",
-        color: "black"
+        color: "#00C2CB"
     },
     cardTxt: {
         marginRight: 'auto',
