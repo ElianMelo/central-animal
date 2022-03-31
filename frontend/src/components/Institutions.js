@@ -46,7 +46,7 @@ export default class Institutions extends Component {
         this.setState({institutions: await RequestService.getInstitutions()})
     }
 
-    teste = () => {
+    modalCallback = () => {
         this.setState({modalVisible: false});
         console.log("callback");
     }
@@ -79,9 +79,9 @@ export default class Institutions extends Component {
         return (
             <View style={styles.body}>
                 <MessageUtils
-                    topMessage={'404 - Não Encontrado'}
+                    topMessage={'500'}
                     message={'Animal não encontrado'}
-                    callback={this.teste}
+                    callback={this.modalCallback}
                     modalVisible={this.state.modalVisible}
                 />
                 <TouchableOpacity 
@@ -92,7 +92,7 @@ export default class Institutions extends Component {
                 >
                     <View style={styles.cardImageLine}>
                         <Text style={styles.titleTxt}>
-                            Teste
+                            Modal
                         </Text>
                     </View>
                 </TouchableOpacity>
@@ -110,7 +110,7 @@ export default class Institutions extends Component {
 
 const styles = StyleSheet.create({
     body: {
-        height: "100%"
+        height: "100%",
     },
     bottomMargin: {
         marginBottom: 70
