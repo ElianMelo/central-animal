@@ -31,7 +31,7 @@ export default class InstitutionService {
         await this.getPermissions();
 
         let res = null;
-        res = await RNFS.writeFile(FILEPATH, institution, 'utf8').then();
+        res = await RNFS.unlink(FILEPATH).then(() => { RNFS.writeFile(FILEPATH, institution, 'utf8').then() });
 
         return res ? true : false;
     }

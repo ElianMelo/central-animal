@@ -14,7 +14,6 @@ import Footer from './Footer';
 import RequestService from '../services/RequestService';
 import TokenService from '../services/TokenService';
 import InstitutionService from '../services/InstitutionService';
-import style from '../style/style.js';
 
 import central_animal from '../../assets/central-animal.png';
 
@@ -77,9 +76,10 @@ export default class InstitutionManagement extends Component {
         }
     }
 
-    logout() {
-        TokenService.setToken('');
-        RequestService.validateToken().then((isValid) => { if (!isValid) this.setState({logged: false}) });
+    logout = async() => {
+        await TokenService.setToken('null');
+        let isValid = await RequestService.validateToken();
+        if (!isValid) this.setState({logged: false}) 
     }
 
     onBlur(input) {
@@ -172,7 +172,7 @@ export default class InstitutionManagement extends Component {
     management() {
         return (
             <View style={styles.marginBottomFooter}>
-                <View style={style.inputBox}>
+                <View style={styles.inputBox}>
                     <Image
                         style={styles.logoImage}
                         source={central_animal}
@@ -190,11 +190,11 @@ export default class InstitutionManagement extends Component {
                         value={this.state.email}
                     />
                 </View>
-                <View style={style.inputBox}>
+                <View style={styles.inputBox}>
                     <TextInput
                         onBlur={ () => this.onBlur() }
                         onFocus={ () => this.onFocus() }
-                        style={[style.input, {borderColor: this.state.borderColorPass}]}
+                        style={[styles.input, {borderColor: this.state.borderColorPass}]}
                         placeholderTextColor="#808080" 
                         placeholder="Senha"
                         onChangeText={(password) => this.setState({password})}
