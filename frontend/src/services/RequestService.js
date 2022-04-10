@@ -2,7 +2,7 @@ import axios from "react-native-axios";
 import TokenService from "./TokenService";
 import InstitutionService from "./InstitutionService";
 
-const BASEURL = 'http://192.168.2.67:8080';
+const BASEURL = 'http://192.168.0.5:8080';
 export default class RequestService {
     static getInstitutions = async() => {
         let res = await axios.get(`${BASEURL}/institution`);

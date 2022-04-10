@@ -78,7 +78,7 @@ export default class Institutions extends Component {
     render() {
         return (
             <View style={styles.body}>
-                <MessageUtils
+                {/* <MessageUtils
                     topMessage={'500'}
                     message={'Animal não encontrado'}
                     callback={this.modalCallback}
@@ -95,7 +95,7 @@ export default class Institutions extends Component {
                             Modal
                         </Text>
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <FlatList
                     data={this.state.institutions}
                     style={styles.bottomMargin}

@@ -7,6 +7,7 @@ import {
     View,
     TouchableOpacity,
     Image,
+    ScrollView,
 } from 'react-native';
 
 import Footer from './Footer';
@@ -219,10 +220,10 @@ export default class InstitutionManagement extends Component {
 
     render() {
         return (
-            <View style={styles.body}>
-                <View style={{marginTop: 'auto', marginBottom: 'auto'}}>
+            <View style={styles.body} layout>
+                <ScrollView style={{height: "100%", marginTop: 'auto', marginBottom: 'auto'}}>
                     { this.state.logged ? this.login() : this.management() }
-                </View>
+                </ScrollView>
                 <Footer navigation={this.state.props.navigation}/>
             </View>
         );
@@ -236,8 +237,8 @@ const styles = StyleSheet.create({
     logoImage: {
         marginRight: 'auto',
         marginLeft: 'auto',
-        width: 180,
-        height: 180,
+        width: 300,
+        height: 300,
     },
     inputBox: {
         padding: 5,
@@ -247,10 +248,11 @@ const styles = StyleSheet.create({
         marginTop: 6
     },
     input: {
-        height: 40,
+        height: 50,
         borderWidth: 3,
         borderRadius: 10,
         padding: 10,
+        paddingLeft: 22,
         color: "black",
         fontSize: 16
     },
