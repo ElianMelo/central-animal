@@ -77,7 +77,7 @@ export default class ChangeInstitution extends Component {
         institution.portion = this.state.portion;
         institution.medicines = this.state.medicines;
         institution.cleaningMaterial = this.state.cleaningMaterial;
-        institution.institutionImage = this.state.base64Image;
+        institution.institutionImage = this.state.institutionImage;
 
         await RequestService.putInstitution(this.props.route.params.institutionId, institution);
     }
@@ -114,70 +114,70 @@ export default class ChangeInstitution extends Component {
         };
         const result = await launchImageLibrary(options);
         if(result?.assets[0]?.base64) {
-            this.setState({base64Image: 'data:image/jpeg;base64,' + result?.assets[0]?.base64})
+            this.setState({base64Image: 'data:image/jpeg;base64,' + result?.assets[0]?.base64});
+            this.setState({institutionImage: this.state.base64Image});
         }
     }
 
     render() {
         return (
             <ScrollView style={styles.body}>
-                <View style={styles.inputBox}>
+                <View style={[styles.inputBox, {marginTop: 30}]}>
                     <Text style={styles.sessionDescriptionTxt}>
-                        Dados da Instituição
+                        Atualizar instituição
                     </Text>
-                    <Text style={styles.descriptionTxt}>
-                        Nome
+                    <Text style={styles.sessionDescriptionLowerTxt}>
+                        Insira as especificações da instituição nos campos a baixo.
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Ex: SOS Vida e Resgate"
-                        placeholderTextColor="#808080" 
+                        placeholder="Nome"
+                        placeholderTextColor="#000000" 
                         onChangeText={(name) => this.setState({name})}
                         value={this.state.name}
                     />
                 </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Descrição
-                    </Text>
                     <TextInput
                         style={styles.inputTextBox}
                         multiline={true}
                         numberOfLines={4}
-                        placeholder="Ex: Instituição de caridade para ajudar animais de rua."
-                        placeholderTextColor="#808080" 
+                        placeholder="Descrição"
+                        placeholderTextColor="#000000" 
                         onChangeText={(description) => this.setState({description})}
                         value={this.state.description}
                     />
                 </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Whatsapp
-                    </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Ex: (34) 9 9999-9999"
-                        placeholderTextColor="#808080" 
+                        placeholder="Whatsapp"
+                        placeholderTextColor="#000000" 
                         onChangeText={(whatsapp) => this.setState({whatsapp})}
                         value={this.state.whatsapp}
                     />
                 </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Pix
-                    </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Ex: (34) 9 9999-9999"
-                        placeholderTextColor="#808080" 
+                        placeholder="Chave Pix"
+                        placeholderTextColor="#000000" 
                         onChangeText={(pix) => this.setState({pix})}
                         value={this.state.pix}
                     />
                 </View>
+                <View style={styles.inputBox}>
+                    <Text style={styles.sessionDescriptionTxt}>
+                        Necessidades
+                    </Text>
+                    <Text style={styles.sessionDescriptionLowerTxt}>
+                        Marque as caixas dos recursos que a instituição aceita.
+                    </Text>
+                </View>
                 <View style={styles.inputBoxRow}>
                     <Switch
-                        trackColor={{ false: "#767577", true: "#6aa84f" }}
-                        thumbColor={this.state.portion ? "#8fce00" : "#f4f3f4"}
+                        trackColor={{ false: "#9e9e9e", true: "#00C2CB" }}
+                        thumbColor={this.state.portion ? "#00C2CB" : "#00C2CB"}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={(portion) => this.setState({portion})}
                         value={this.state.portion}
@@ -188,8 +188,8 @@ export default class ChangeInstitution extends Component {
                 </View>
                 <View style={styles.inputBoxRow}>
                     <Switch
-                        trackColor={{ false: "#767577", true: "#6aa84f" }}
-                        thumbColor={this.state.medicines ? "#8fce00" : "#f4f3f4"}
+                        trackColor={{ false: "#9e9e9e", true: "#00C2CB" }}
+                        thumbColor={this.state.portion ? "#00C2CB" : "#00C2CB"}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={(medicines) => this.setState({medicines})}
                         value={this.state.medicines}
@@ -200,8 +200,8 @@ export default class ChangeInstitution extends Component {
                 </View>
                 <View style={styles.inputBoxRow}>
                     <Switch
-                        trackColor={{ false: "#767577", true: "#6aa84f" }}
-                        thumbColor={this.state.cleaningMaterial ? "#8fce00" : "#f4f3f4"}
+                        trackColor={{ false: "#9e9e9e", true: "#00C2CB" }}
+                        thumbColor={this.state.portion ? "#00C2CB" : "#00C2CB"}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={(cleaningMaterial) => this.setState({cleaningMaterial})}
                         value={this.state.cleaningMaterial}
@@ -211,88 +211,88 @@ export default class ChangeInstitution extends Component {
                     </Text>
                 </View>
                 <View style={styles.inputBox}>
+                    <Text style={styles.sessionDescriptionTxt}>
+                        Foto da Instituição
+                    </Text>
+                    <Text style={styles.sessionDescriptionLowerTxt}>
+                        Insira a foto da instituição na região a baixo.
+                    </Text>
+                </View>
+                <View style={styles.inputBox}>
                     <View style={styles.cardBox}>
                         <TouchableOpacity
                             onPress={() => this.launchLibrary()}
                         >  
-                            <View style={styles.cardImageLine}>
-                                <Text style={styles.cardSupTxt}>
-                                    Carregar Imagem
-                                </Text>
-                            </View>
+                            {
+                                this.state?.institutionImage ? 
+                                (
+                                    <View style={styles.inputBoxRow}>
+                                        <Image
+                                            style={styles.roundImage}
+                                            source={{uri: this.state?.institutionImage}}
+                                        />
+                                    </View> 
+                                ) : 
+                                null
+                            }
+                            
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={styles.inputBoxRow}>
-                    <Image
-                        style={styles.roundImage}
-                        source={{uri: this.state.institution?.institutionImage}}
-                    />
-                </View>
                 <View style={styles.inputBox}>
                     <Text style={styles.sessionDescriptionTxt}>
-                        Localização da Instituição
+                        Localização da instituição
                     </Text>
-                    <Text style={styles.descriptionTxt}>
-                        Cidade
+                    <Text style={styles.sessionDescriptionLowerTxt}>
+                        Insira as especificações da localização da instituição nos campos a baixo.
                     </Text>
+                </View>
+                <View style={styles.inputBox}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Ex: Uberlândia"
-                        placeholderTextColor="#808080" 
+                        placeholder="Cidade"
+                        placeholderTextColor="#000000" 
                         onChangeText={(city) => this.setState({city})}
                         value={this.state.city}
                     />
                 </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Bairro
-                    </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Ex: Santa Mônica"
-                        placeholderTextColor="#808080" 
+                        placeholder="Bairro"
+                        placeholderTextColor="#000000" 
                         onChangeText={(district) => this.setState({district})}
                         value={this.state.district}
                     />
                 </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Logradouro
-                    </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Ex: Rua"
-                        placeholderTextColor="#808080" 
+                        placeholder="Rua/Avenina/Praça"
+                        placeholderTextColor="#000000" 
                         onChangeText={(publicPlace) => this.setState({publicPlace})}
                         value={this.state.publicPlace}
                     />
                 </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Nome do Logradouro
-                    </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Ex: Alvira"
-                        placeholderTextColor="#808080" 
+                        placeholder="Nome da Rua"
+                        placeholderTextColor="#000000" 
                         onChangeText={(publicPlaceName) => this.setState({publicPlaceName})}
                         value={this.state.publicPlaceName}
                     />
                 </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Número
-                    </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Ex: 225"
-                        placeholderTextColor="#808080" 
+                        placeholder="Número"
+                        placeholderTextColor="#000000" 
                         onChangeText={(number) => this.setState({number})}
                         value={this.state.number}
                     />
                 </View>
-                <View style={styles.inputBox}>
+                <View style={[styles.inputBox, {marginBottom: 50}]}>
                     <View style={styles.cardBox}>
                         <TouchableOpacity
                             onPress={() => this.saveInstitution()}
@@ -335,8 +335,9 @@ const styles = StyleSheet.create({
         height: "100%"
     },
     roundImage: {
-        width: 200,
+        width: 285,
         height: 200,
+        borderRadius: 10,
         marginLeft: 'auto',
         marginRight: 'auto'
     },
@@ -388,15 +389,7 @@ const styles = StyleSheet.create({
         marginVertical: 6,
         padding: 12,
         borderRadius: 14,
-        backgroundColor: "white",        
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 7,
+        backgroundColor: "#00C2CB",
     },
     cardImageLine: {
         display: 'flex',
@@ -407,9 +400,9 @@ const styles = StyleSheet.create({
     cardSupTxt: {
         width: "100%",
         marginRight: 'auto',
-        fontSize: 24,
+        fontSize: 22,
         textAlign: "center",
-        color: "black"
+        color: "white"
     },
     inputBox: {
         padding: 5,
@@ -425,7 +418,7 @@ const styles = StyleSheet.create({
         padding: 5,
         marginRight: 16,
         marginLeft: 16,
-        marginTop: 6
+        marginTop: 1
     },
     descriptionTxt: {
         marginRight: 'auto',
@@ -444,23 +437,37 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     sessionDescriptionTxt: {
-        marginBottom: 10,
-        textAlign: "center",
+        marginBottom: 6,
+        marginLeft: 6,
+        textAlign: "left",
         color: "black",
-        fontSize: 22
+        fontSize: 26,
+        fontWeight: "bolder"
+    },
+    sessionDescriptionLowerTxt: {
+        marginBottom: 20,
+        marginLeft: 6,
+        textAlign: "left",
+        color: "black",
+        fontSize: 14,
+        fontWeight: "bolder"
     },
     input: {
-        height: 40,
-        borderWidth: 1,
+        height: 50,
+        borderWidth: 3,
+        borderRadius: 10,
         padding: 10,
+        paddingLeft: 22,
         color: "black",
         fontSize: 16
     },
     inputTextBox: {
-        height: 95,
+        height: 160,
         textAlignVertical: 'top',
-        borderWidth: 1,
+        borderWidth: 3,
+        borderRadius: 10,
         padding: 10,
+        paddingLeft: 22,
         color: "black",
         fontSize: 16
     },

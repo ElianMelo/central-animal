@@ -28,7 +28,7 @@ export default class InstitutionManagement extends Component {
             logged: false,
             borderColorEmail: 'gray',
             borderColorPass: 'gray',
-            email: 'maria_gatinha@gmail.com',
+            email: 'casimiro2011@gmail.com',
             password: 'farofaehbao',
             institutionId: ''
         };
@@ -224,7 +224,6 @@ export default class InstitutionManagement extends Component {
                 <ScrollView style={{height: "100%", marginTop: 'auto', marginBottom: 'auto'}}>
                     { this.state.logged ? this.login() : this.management() }
                 </ScrollView>
-                <Footer navigation={this.state.props.navigation}/>
             </View>
         );
     }
@@ -232,7 +231,8 @@ export default class InstitutionManagement extends Component {
 
 const styles = StyleSheet.create({
     body: {
-        height: "100%"
+        height: "100%",
+        backgroundColor: "white"
     },
     logoImage: {
         marginRight: 'auto',
@@ -371,7 +371,8 @@ const styles = StyleSheet.create({
         marginBottom: 25,
     },
     marginBottomFooter: {
-        marginBottom: 60
+        marginBottom: 60,
+        marginTop: 60
     },
     h1Text: {
         fontSize: 32,
