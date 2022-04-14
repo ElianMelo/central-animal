@@ -1,8 +1,8 @@
 package com.iftm.centralanimal.services;
 
+import com.iftm.centralanimal.exceptionhandler.exceptions.AdministratorNotFoundException;
 import com.iftm.centralanimal.models.Administrator;
 import com.iftm.centralanimal.repositories.AdministratorRepository;
-import com.iftm.centralanimal.services.exceptions.AdministratorNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,16 +32,18 @@ public class AdministratorService {
     }
 
     public Administrator updateAdministratorById(Integer id, Administrator entity) {
+        findAdministratorById(id);
         entity.setId(id);
         return repository.save(entity);
     }
 
     public Administrator findAdministratorById(Integer id) {
         return repository.findById(id).
-                orElseThrow(() -> new AdministratorNotFoundException(id));
+                orElseThrow(() -> new AdministratorNotFoundException());
     }
 
     public void deleteAdministratorById(Integer id) {
+        findAdministratorById(id);
         repository.deleteById(id);
     }
 

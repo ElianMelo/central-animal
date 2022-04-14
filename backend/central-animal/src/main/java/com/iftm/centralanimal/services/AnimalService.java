@@ -1,9 +1,9 @@
 package com.iftm.centralanimal.services;
 
+import com.iftm.centralanimal.exceptionhandler.exceptions.AnimalNotFoundException;
 import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.repositories.AnimalRepository;
 import com.iftm.centralanimal.repositories.InstitutionRepository;
-import com.iftm.centralanimal.services.exceptions.AnimalNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +32,7 @@ public class AnimalService {
     }
 
     public Animal updateAnimalById(Integer id, Animal entity) {
+        findByIdAnimal(id);
         entity.setId(id);
         if(entity.getAnimalImage() != null || entity.getAnimalImage() != "")  {
             String imageName = ImageUploader.ExtractImageNameFromUrl(findByIdAnimal(id).getAnimalImage(), true);
@@ -42,10 +43,11 @@ public class AnimalService {
 
     public Animal findByIdAnimal(Integer id) {
         return repository.findById(id).
-                orElseThrow(() -> new AnimalNotFoundException(id));
+                orElseThrow(() -> new AnimalNotFoundException());
     }
 
     public void deleteAnimalById(Integer id) {
+        findByIdAnimal(id);
         try {
             ImageUploader.DeleteImage(findByIdAnimal(id).getAnimalImage(), "animal");
         } catch (Exception e) {

@@ -1,12 +1,12 @@
 package com.iftm.centralanimal.services;
 
+import com.iftm.centralanimal.exceptionhandler.exceptions.InstitutionNotFoundException;
 import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.models.Institution;
 import com.iftm.centralanimal.models.dto.InstitutionDTO;
 import com.iftm.centralanimal.models.dto.InstitutionListDTO;
 import com.iftm.centralanimal.repositories.AnimalRepository;
 import com.iftm.centralanimal.repositories.InstitutionRepository;
-import com.iftm.centralanimal.services.exceptions.InstitutionNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +41,7 @@ public class InstitutionService {
     }
 
     public Institution updateInstitutionById(Integer id, Institution entity) {
+        findInstitutionById(id);
         entity.setId(id);
         if(entity.getInstitutionImage() != null || entity.getInstitutionImage() != "")  {
             String imageName = ImageUploader.ExtractImageNameFromUrl(findInstitutionById(id).getInstitutionImage(), true);
@@ -51,17 +52,18 @@ public class InstitutionService {
 
     public List<Animal> findAnimalsFromInstitutionId(Integer id) {
         Institution institution = repository.findById(id).
-                orElseThrow(() -> new InstitutionNotFoundException(id));
+                orElseThrow(() -> new InstitutionNotFoundException());
         return animalRepository.findByInstitutionId(id);
     }
 
     public InstitutionDTO findInstitutionById(Integer id) {
         Institution institution = repository.findById(id).
-                orElseThrow(() -> new InstitutionNotFoundException(id));
+                orElseThrow(() -> new InstitutionNotFoundException());
         return new InstitutionDTO(institution);
     }
     
     public void deleteInstitutionById(Integer id) {
+        findInstitutionById(id);
         try {
             ImageUploader.DeleteImage(findInstitutionById(id).getInstitutionImage(), "institution");
         } catch (Exception e) {
@@ -72,7 +74,7 @@ public class InstitutionService {
 
     public InstitutionDTO findByAdministratorEmail(String email) {
         Institution institution = repository.findByAdministratorEmail(email).
-                orElseThrow(() -> new InstitutionNotFoundException(email));
+                orElseThrow(() -> new InstitutionNotFoundException());
         return new InstitutionDTO(institution);
     }
 }
