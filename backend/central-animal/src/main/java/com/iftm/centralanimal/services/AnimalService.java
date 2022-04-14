@@ -1,6 +1,7 @@
 package com.iftm.centralanimal.services;
 
 import com.iftm.centralanimal.models.Animal;
+import com.iftm.centralanimal.models.Coordinate;
 import com.iftm.centralanimal.repositories.AnimalRepository;
 import com.iftm.centralanimal.repositories.InstitutionRepository;
 import com.iftm.centralanimal.services.exceptions.AnimalNotFoundException;
@@ -43,6 +44,10 @@ public class AnimalService {
 
     public void deleteAnimalById(Integer id) {
         repository.deleteById(id);
+    }
+
+    public Coordinate coordinateByIdAnimal(Integer id) {
+        return repository.searchCoordnateByIdAnimal(id);
     }
 }
 

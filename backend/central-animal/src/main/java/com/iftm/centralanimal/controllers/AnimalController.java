@@ -1,8 +1,10 @@
 package com.iftm.centralanimal.controllers;
 
 import com.iftm.centralanimal.models.Animal;
+import com.iftm.centralanimal.models.Coordinate;
 import com.iftm.centralanimal.services.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,4 +42,8 @@ public class AnimalController {
         service.deleteAnimalById(id);
     }
 
+    @GetMapping("/coordinate/{id}")
+    public Coordinate coordinateByIdAnimal(@PathVariable Integer id) {
+        return service.coordinateByIdAnimal(id);
+    }
 }
