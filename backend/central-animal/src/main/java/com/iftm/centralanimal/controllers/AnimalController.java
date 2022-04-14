@@ -3,6 +3,8 @@ package com.iftm.centralanimal.controllers;
 import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.services.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,8 +33,8 @@ public class AnimalController {
     }
 
     @GetMapping("/{id}")
-    public Animal findByIdAnimal(@PathVariable Integer id) {
-        return service.findByIdAnimal(id);
+    public ResponseEntity<Animal> findByIdAnimal(@PathVariable Integer id) {
+        return new ResponseEntity<>(service.findByIdAnimal(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
