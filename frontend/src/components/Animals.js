@@ -162,7 +162,8 @@ export default class Animals extends Component {
 
 const styles = StyleSheet.create({
     body: {
-        height: "100%"
+        height: "100%",
+        backgroundColor: "white"
     },
     bottomMargin: {
         marginBottom: 70,

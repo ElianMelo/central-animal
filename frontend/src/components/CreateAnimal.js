@@ -13,16 +13,16 @@ import {
     Button
 } from 'react-native';
 
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 
 import RequestService from '../services/RequestService';
 
 const radio_props = [
-    {label: 'Cachorro', value: 0 },
-    {label: 'Gato', value: 1 }
+    { label: 'Cachorro', value: 0 },
+    { label: 'Gato', value: 1 }
 ];
 export default class CreateAnimal extends Component {
 
@@ -41,12 +41,12 @@ export default class CreateAnimal extends Component {
     }
 
     componentDidMount() {
-        RequestService.validateToken().then((isValid) => {if (!isValid) this.props.navigation.navigate('InstitutionManagement')});
+        RequestService.validateToken().then((isValid) => { if (!isValid) this.props.navigation.navigate('InstitutionManagement') });
         this.setState({
             willFocusSubscription: this.state.props.navigation.addListener(
                 'focus',
                 () => {
-                    RequestService.validateToken().then((isValid) => {if (!isValid) this.props.navigation.navigate('InstitutionManagement')});
+                    RequestService.validateToken().then((isValid) => { if (!isValid) this.props.navigation.navigate('InstitutionManagement') });
                 }
             )
         })
@@ -56,7 +56,7 @@ export default class CreateAnimal extends Component {
         this.state.willFocusSubscription();
     }
 
-    launchLibrary = async() => {
+    launchLibrary = async () => {
         let options = {
             mediaType: 'photo',
             quality: 1,
@@ -65,19 +65,19 @@ export default class CreateAnimal extends Component {
             includeBase64: true,
         };
         const result = await launchImageLibrary(options);
-        if(result?.assets[0]?.base64) {
-            this.setState({base64Image: 'data:image/jpeg;base64,' + result?.assets[0]?.base64})
+        if (result?.assets[0]?.base64) {
+            this.setState({ base64Image: 'data:image/jpeg;base64,' + result?.assets[0]?.base64 })
         }
     }
 
-    createAnimal = async() => {
+    createAnimal = async () => {
         let animal = {
             age: Number(this.state.age),
             animalImage: this.state.base64Image,
             description: this.state.description,
             name: this.state.name,
             sex: this.state.sex == "M" ? 1 : 2,
-            type: Number(this.state.type + 1),
+            type: Number(this.state.type) + 1,
             institution: {
                 id: this.props.route.params.institutionId
             },
@@ -100,110 +100,106 @@ export default class CreateAnimal extends Component {
     render() {
         return (
             <ScrollView style={styles.body}>
-                <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Nome
+                <View style={[styles.inputBox, { marginTop: 30 }]}>
+                    <Text style={styles.sessionDescriptionTxt}>
+                        Criar Animal
+                    </Text>
+                    <Text style={styles.sessionDescriptionLowerTxt}>
+                        Insira os dados do animal nos campos a baixo.
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Ex: Meg"
-                        placeholderTextColor="#808080" 
-                        onChangeText={(name) => this.setState({name})}
+                        placeholder="Nome do animal"
+                        placeholderTextColor="#808080"
+                        onChangeText={(name) => this.setState({ name })}
                         value={this.state.name}
                     />
                 </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Descrição
-                    </Text>
                     <TextInput
                         style={styles.inputTextBox}
                         multiline={true}
                         numberOfLines={4}
-                        placeholder="Ex: O animal está doente"
-                        placeholderTextColor="#808080" 
-                        onChangeText={(description) => this.setState({description})}
+                        placeholder="Descrição"
+                        placeholderTextColor="#808080"
+                        onChangeText={(description) => this.setState({ description })}
                         value={this.state.description}
                     />
                 </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Tipo
-                    </Text>
-                    <RadioForm
-                        formHorizontal={true}
-                        animation={true}
-                        initial={0}
-                        >
-                        {/* To create radio buttons, loop through your array of options */}
-                        {
-                            radio_props.map((obj, i) => (
-                            <RadioButton labelHorizontal={true} key={i} >
-                                {/*  You can set RadioButtonLabel before RadioButtonInput */}
-                                <RadioButtonInput
-                                    obj={obj}
-                                    index={i}
-                                    isSelected={this.state.type == i}
-                                    onPress={(type) => {this.setState({type})}}
-                                    buttonInnerColor={'#000'}
-                                    buttonOuterColor={'#000'}
-                                    buttonWrapStyle={{marginLeft: 10}}
-                                />
-                                <RadioButtonLabel
-                                    obj={obj}
-                                    index={i}
-                                    labelHorizontal={true}
-                                    labelStyle={{fontSize: 20, color: '#000'}}
-                                    labelWrapStyle={{}}
-                                />
-                            </RadioButton>
-                            ))
-                        }  
-                        </RadioForm>
-                </View>
-                <View style={styles.inputBoxInline}>
-                    <Text style={styles.descriptionTxtInline}>
-                        Idade
-                    </Text>
                     <TextInput
-                        style={styles.inputWide}
-                        placeholder="Ex: 0"
-                        placeholderTextColor="#808080" 
-                        onChangeText={(age) => this.setState({age})}
+                        style={styles.input}
+                        placeholder="Idade"
+                        placeholderTextColor="#808080"
+                        onChangeText={(age) => this.setState({ age })}
                         value={this.state.age}
                     />
-                    <Text style={styles.descriptionTxtInline}>
-                        Sexo
-                    </Text>
+                </View>
+                <View style={styles.inputBoxInline}>
                     <View style={styles.inputPicker}>
                         <Picker
-                            style={{ height: 10, width: 150, color: 'black'}}
-                            onValueChange={(sex) => this.setState({sex})}
+                            style={styles.pickerStyle}
+                            onValueChange={(sex) => this.setState({ sex })}
                             selectedValue={this.state.sex}
+                            mode="dropdown"
                             color="#000"
                             dropdownIconColor="#000"
                             dropdownIconRippleColor="#000"
                         >
+                            <Picker.Item label="Sexo" enabled={false} />
                             <Picker.Item label="Macho" value="M" />
                             <Picker.Item label="Fêmea" value="F" />
                         </Picker>
                     </View>
+                    <View style={styles.inputPicker}>
+                        <Picker
+                            style={styles.pickerStyle}
+                            onValueChange={(type) => this.setState({ type })}
+                            selectedValue={this.state.type}
+                            mode="dropdown"
+                            color="#000"
+                            dropdownIconColor="#000"
+                            dropdownIconRippleColor="#000"
+                        >
+                            <Picker.Item label="Tipo" enabled={false} />
+                            <Picker.Item label="Cachorro" value="0" />
+                            <Picker.Item label="Gato" value="1" />
+                        </Picker>
+                    </View>
                 </View>
-                <View style={styles.cardBox}>
-                    <TouchableOpacity
-                        onPress={() => this.launchLibrary()}
-                    >  
-                        <View style={styles.cardImageLine}>
-                            <Text style={styles.cardSupTxt}>
-                                Carregar Imagem
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
+                <View style={styles.inputBox}>
+                    <Text style={styles.sessionDescriptionTxt}>
+                        Foto do Animal
+                    </Text>
+                    <Text style={styles.sessionDescriptionLowerTxt}>
+                        Insira a foto do animal na região a baixo.
+                    </Text>
                 </View>
-                <View style={styles.cardBox}>
+                <View style={styles.inputBox}>
+                    <View style={styles.cardBox}>
+                        <TouchableOpacity
+                            style={{ height: 215}}
+                            onPress={() => this.launchLibrary()}
+                        >  
+                            {
+                                this.state?.base64Image ? 
+                                (
+                                    <View style={styles.inputBoxRow}>
+                                        <Image
+                                            style={styles.roundImage}
+                                            source={{uri: this.state?.base64Image}}
+                                        />
+                                    </View> 
+                                ) : 
+                                null
+                            }
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={[styles.cardBox, {marginBottom: 60, marginTop: 20}]}>
                     <TouchableOpacity
                         onPress={() => this.createAnimal()}
-                    >  
+                    >
                         <View style={styles.cardImageLine}>
                             <Text style={styles.cardSupTxt}>
                                 Cadastrar
@@ -211,12 +207,6 @@ export default class CreateAnimal extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
-                    {
-                        this.state.base64Image != '' ? (<Image
-                            style={styles.roundImage}
-                            source={{uri: this.state?.base64Image}}
-                        />) : null
-                    }
             </ScrollView>
         );
     }
@@ -232,15 +222,33 @@ const styles = StyleSheet.create({
         marginVertical: 6,
         padding: 12,
         borderRadius: 14,
-        backgroundColor: "white",        
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 7,
+        backgroundColor: "#00C2CB",
+    },
+    sessionDescriptionTxt: {
+        marginBottom: 6,
+        marginLeft: 6,
+        textAlign: "left",
+        color: "black",
+        fontSize: 26,
+        fontWeight: "500"
+    },
+    sessionDescriptionLowerTxt: {
+        marginBottom: 20,
+        marginLeft: 6,
+        textAlign: "left",
+        color: "black",
+        fontSize: 14,
+        fontWeight: "300"
+    },
+    inputBoxRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        padding: 5,
+        marginRight: 16,
+        marginLeft: 16,
+        marginTop: 1
     },
     cardImageLine: {
         display: 'flex',
@@ -251,9 +259,9 @@ const styles = StyleSheet.create({
     cardSupTxt: {
         width: "100%",
         marginRight: 'auto',
-        fontSize: 24,
+        fontSize: 22,
         textAlign: "center",
-        color: "black"
+        color: "white"
     },
     inputBox: {
         padding: 5,
@@ -262,25 +270,37 @@ const styles = StyleSheet.create({
         marginTop: 6
     },
     roundImage: {
-        marginRight: 'auto',
+        width: 285,
+        height: 200,
+        borderRadius: 10,
         marginLeft: 'auto',
-        width: 300,
-        height: 300,
+        marginRight: 'auto'
     },
     inputBoxInline: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        padding: 5,
         marginRight: 16,
         marginLeft: 16,
         marginTop: 6
     },
     input: {
-        height: 40,
-        borderWidth: 1,
+        height: 50,
+        borderWidth: 3,
+        borderRadius: 10,
         padding: 10,
+        paddingLeft: 22,
+        color: "black",
+        fontSize: 16
+    },
+    inputTextBox: {
+        height: 120,
+        textAlignVertical: 'top',
+        borderWidth: 3,
+        borderRadius: 10,
+        padding: 10,
+        paddingLeft: 22,
         color: "black",
         fontSize: 16
     },
@@ -294,20 +314,23 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     inputPicker: {
-        height: 60,
-        width: 150,
-        marginRight: 8,
-        borderWidth: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 50,
+        width: 166,
+        margin: 8,
+        borderWidth: 3,
+        borderRadius: 10,
         color: "black",
         fontSize: 16
     },
-    inputTextBox: {
-        height: 95,
-        textAlignVertical: 'top',
-        borderWidth: 1,
-        padding: 10,
-        color: "black",
-        fontSize: 16
+    pickerStyle: {
+        marginLeft: 16,
+        height: 5,
+        width: 166,
+        color: 'black',
+        borderWidth: 1
     },
     descriptionTxt: {
         marginRight: 'auto',

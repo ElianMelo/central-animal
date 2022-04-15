@@ -197,7 +197,6 @@ export default class AnimalsEdit extends Component {
                     keyExtractor={item => item.id}
                     numColumns={2}
                 />
-                <Footer navigation={this.state.props.navigation}/>
             </View>
         );
     }
@@ -205,7 +204,8 @@ export default class AnimalsEdit extends Component {
 
 const styles = StyleSheet.create({
     body: {
-        height: "100%"
+        height: "100%",
+        backgroundColor: "white"
     },
     bottomMargin: {
         marginBottom: 70,
