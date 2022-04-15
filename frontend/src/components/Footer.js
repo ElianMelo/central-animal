@@ -4,13 +4,15 @@ import {
     StyleSheet,
     View,
     Image,
+    Text,
     TouchableOpacity,
 } from 'react-native';
 
+const home = require('../../assets/home.png');
 const map = require('../../assets/map.png');
-const plus_circle = require('../../assets/plus-circle.png');
-const building = require('../../assets/building.png');
-const person_circle = require('../../assets/person-circle.png');
+const animals = require('../../assets/animals.png');
+const institutions = require('../../assets/institutions.png');
+const login = require('../../assets/login.png');
 
 export default class Footer extends Component {
 
@@ -25,39 +27,77 @@ export default class Footer extends Component {
         return (
             <View style={styles.menu}>
                 <View style={styles.menuImageLine}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.itemCol}
+                    >
+                        <Image
+                            style={styles.menuImage}
+                            source={home}
+                        />
+                        <Text
+                            style={styles.textFooter}
+                        >
+                            Home
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.itemCol}
+                    >
                         <Image
                             style={styles.menuImage}
                             source={map}
                         />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image
-                            style={styles.menuImage}
-                            source={plus_circle}
-                        />
+                        <Text
+                            style={styles.textFooter}
+                        >
+                            Mapa
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                        style={styles.itemCol}
+                    >
+                        <Image
+                            style={styles.menuImage}
+                            source={animals}
+                        />
+                        <Text
+                            style={styles.textFooter}
+                        >
+                            Animais
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.itemCol}
                         onPress={() =>
                             this.props.navigation.navigate('Institutions')
                         }
                     >
                         <Image
                             style={styles.menuImage}
-                            source={building}
+                            source={institutions}
                         />
+                        <Text
+                            style={styles.textFooter}
+                        >
+                            Instituicoes
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                        style={styles.itemCol}
                         onPress={() =>
                             this.props.navigation.navigate('InstitutionManagement')
                         }
                     >
                         <Image
                             style={styles.menuImage}
-                            source={person_circle}
+                            source={login}
                         />
+                        <Text
+                            style={styles.textFooter}
+                        >
+                            Login
+                        </Text>
                     </TouchableOpacity>
-                    
                 </View>
             </View>
         );
@@ -65,20 +105,27 @@ export default class Footer extends Component {
 }
 
 const styles = StyleSheet.create({
+    itemCol: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center'
+    },
     menu: {
         backgroundColor: 'white',
         width: '100%',
         position: 'absolute',
         bottom: 0,
-        padding: 12,
-        shadowColor: "#000",
+        padding: 14,
+        shadowRadius: 2,
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: -3,
         },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
+        shadowOpacity: 1,
+        shadowColor: '#000000',
+        elevation: 4,
     },
     menuImageLine: {
         display: 'flex',
@@ -86,9 +133,22 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'space-between',
         marginHorizontal: 24,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 12,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16.00,
+
+        elevation: 24,
     },
     menuImage: {
-        width: 40,
-        height: 40,
+        width: 30,
+        height: 30,
+    },
+    textFooter: {
+        color: 'black',
+        fontSize: 11
     }
 });

@@ -236,7 +236,8 @@ export default class ChangeAnimal extends Component {
 
 const styles = StyleSheet.create({
     body: {
-        height: "100%"
+        height: "100%",
+        backgroundColor: "white"
     },
     cardBox: {
         textAlign: "center",

@@ -83,35 +83,12 @@ export default class InstitutionManagement extends Component {
         if (!isValid) this.setState({logged: false}) 
     }
 
-    onBlur(input) {
-        if(input == 'email') {
-            this.setState({
-                borderColorEmail: 'gray'
-            })
-        } else {
-            this.setState({
-                borderColorPass: 'gray'
-            })
-        }
-    }
-
-    onFocus(input) {
-        if(input == 'email') {
-            this.setState({
-                borderColorEmail: '#00C2CB'
-            })
-        } else {
-            this.setState({
-                borderColorPass: '#00C2CB'
-            })
-        }
-    }
-
     login() {
         return (
-            <View style={styles.marginBottomFooter}>
-                <View style={styles.cardBox}>
+            <View style={[styles.marginBottomFooter, styles.buttonsInline]}>
+                <View>
                     <TouchableOpacity
+                        style={styles.instBox}
                         onPress={() =>
                             this.props.navigation.navigate('ChangeInstitution', {
                                 institutionId: this.state.institutionId
@@ -120,13 +97,14 @@ export default class InstitutionManagement extends Component {
                     >
                         <View style={styles.cardImageLine}>
                             <Text style={styles.cardSupTxt}>
-                                Atualizar dados de instituição
+                                Atualizar Instituição
                             </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.cardBox}>
+                <View>
                     <TouchableOpacity
+                        style={styles.instBox}
                         onPress={() =>
                             this.props.navigation.navigate('CreateAnimal', {
                                 institutionId: this.state.institutionId
@@ -135,13 +113,14 @@ export default class InstitutionManagement extends Component {
                     >
                         <View style={styles.cardImageLine}>
                             <Text style={styles.cardSupTxt}>
-                                Cadastrar novo animal
+                                Criar Animal
                             </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.cardBox}>
+                <View>
                     <TouchableOpacity
+                        style={styles.instBox}
                         onPress={() =>
                             this.props.navigation.navigate('AnimalsEdit', {
                                 institutionId: this.state.institutionId
@@ -155,8 +134,9 @@ export default class InstitutionManagement extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.cardBox}>
+                <View>
                     <TouchableOpacity
+                        style={styles.instBox}
                         onPress={() => this.logout()}
                     >  
                         <View style={styles.cardImageLine}>
@@ -182,8 +162,6 @@ export default class InstitutionManagement extends Component {
                 </View>
                 <View style={styles.inputBox}>
                     <TextInput
-                        onBlur={ () => this.onBlur('email') }
-                        onFocus={ () => this.onFocus('email') }
                         style={[styles.input, {borderColor: this.state.borderColorEmail}]}
                         placeholderTextColor="#808080"
                         placeholder="E-mail"
@@ -193,8 +171,6 @@ export default class InstitutionManagement extends Component {
                 </View>
                 <View style={styles.inputBox}>
                     <TextInput
-                        onBlur={ () => this.onBlur() }
-                        onFocus={ () => this.onFocus() }
                         style={[styles.input, {borderColor: this.state.borderColorPass}]}
                         placeholderTextColor="#808080" 
                         placeholder="Senha"
@@ -262,7 +238,26 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         backgroundColor: "white",
         borderRadius: 14,
-        borderWidth: 3,
+        borderWidth: 4,
+        borderColor: '#00C2CB'
+    },
+    buttonsInline: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        marginHorizontal: 5
+    },
+    instBox: {
+        height: 200,
+        width: 180,
+        display: 'flex',
+        flexDirection: 'column',
+        textAlign: "center",
+        marginVertical: 5,
+        backgroundColor: "white",
+        borderRadius: 14,
+        borderWidth: 4,
         borderColor: '#00C2CB'
     },
     animalBox: {
@@ -355,9 +350,10 @@ const styles = StyleSheet.create({
     },
     cardSupTxt: {
         width: "100%",
-        marginRight: 'auto',
+        height: "100%",
         fontSize: 24,
         textAlign: "center",
+        fontWeight: "500",
         color: "#00C2CB"
     },
     cardTxt: {

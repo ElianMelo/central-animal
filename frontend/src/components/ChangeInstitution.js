@@ -442,7 +442,7 @@ const styles = StyleSheet.create({
         textAlign: "left",
         color: "black",
         fontSize: 26,
-        fontWeight: "bolder"
+        fontWeight: "500"
     },
     sessionDescriptionLowerTxt: {
         marginBottom: 20,
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
         textAlign: "left",
         color: "black",
         fontSize: 14,
-        fontWeight: "bolder"
+        fontWeight: "300"
     },
     input: {
         height: 50,
