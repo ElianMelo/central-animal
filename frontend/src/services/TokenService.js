@@ -31,7 +31,10 @@ export default class TokenService {
         await this.getPermissions();
 
         let res = null;
-        res = await RNFS.unlink(FILEPATH).then(() => { RNFS.writeFile(FILEPATH, token, 'utf8').then() });
+        if(await RNFS.exists(FILEPATH)) {
+            await RNFS.unlink(FILEPATH);
+        }
+        res = await RNFS.writeFile(FILEPATH, token, 'utf8');
 
         return res ? true : false;
     }

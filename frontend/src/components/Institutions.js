@@ -39,6 +39,14 @@ export default class Institutions extends Component {
     }
 
     componentDidMount() {
+        this.setState({
+            willFocusSubscription: this.state.props.navigation.addListener(
+                'focus',
+                () => {
+                    this.loadInstitutions();
+                }
+            )
+        })
         this.loadInstitutions();
     }
 
