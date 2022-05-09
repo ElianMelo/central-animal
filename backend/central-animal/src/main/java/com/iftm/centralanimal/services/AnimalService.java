@@ -34,9 +34,8 @@ public class AnimalService {
     public Animal updateAnimalById(Integer id, Animal entity) {
         findByIdAnimal(id);
         entity.setId(id);
-        if(entity.getAnimalImage() != null || entity.getAnimalImage() != "")  {
-            String imageName = ImageUploader.ExtractImageNameFromUrl(findByIdAnimal(id).getAnimalImage(), true);
-            ImageUploader.setImage(entity, true, imageName);
+        if(entity.getImage() != null || entity.getImage() != "")  {
+            ImageUploader.setImage(entity, true, findByIdAnimal(id).getImage());
         }
         return repository.save(entity);
     }
@@ -49,7 +48,7 @@ public class AnimalService {
     public void deleteAnimalById(Integer id) {
         findByIdAnimal(id);
         try {
-            ImageUploader.DeleteImage(findByIdAnimal(id).getAnimalImage(), "animal");
+            ImageUploader.DeleteImage(findByIdAnimal(id).getImage(), "animal");
         } catch (Exception e) {
             e.printStackTrace();
         }
