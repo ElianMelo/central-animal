@@ -1,5 +1,6 @@
 package com.iftm.centralanimal.models;
 
+import com.iftm.centralanimal.models.interfaces.EntityWithImage;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name="institution")
 @Data
-public class Institution implements Serializable {
+public class Institution implements Serializable, EntityWithImage {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -23,7 +24,7 @@ public class Institution implements Serializable {
 	private Boolean medicines;
 	private Boolean cleaningMaterial;
 	
-	private String institutionImage;
+	private String image;
 
 	private String description;
 
@@ -35,4 +36,14 @@ public class Institution implements Serializable {
 
 	@OneToMany(mappedBy = "institution", cascade = CascadeType.ALL)
   	private List<Animal> animals = new ArrayList<Animal>();
+
+	@Override
+	public void setImage(String institutionImage) {
+		this.image = institutionImage;
+	}
+
+	@Override
+	public String getImage() {
+		return this.image;
+	}
 }

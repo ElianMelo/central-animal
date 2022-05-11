@@ -43,9 +43,8 @@ public class InstitutionService {
     public Institution updateInstitutionById(Integer id, Institution entity) {
         findInstitutionById(id);
         entity.setId(id);
-        if(entity.getInstitutionImage() != null || entity.getInstitutionImage() != "")  {
-            String imageName = ImageUploader.ExtractImageNameFromUrl(findInstitutionById(id).getInstitutionImage(), true);
-            ImageUploader.setImage(entity, true, imageName);
+        if(entity.getImage() != null || entity.getImage() != "")  {
+            ImageUploader.setImage(entity, true, findInstitutionById(id).getImage());
         }
         return repository.save(entity);
     }
@@ -65,7 +64,7 @@ public class InstitutionService {
     public void deleteInstitutionById(Integer id) {
         findInstitutionById(id);
         try {
-            ImageUploader.DeleteImage(findInstitutionById(id).getInstitutionImage(), "institution");
+            ImageUploader.DeleteImage(findInstitutionById(id).getImage(), "institution");
         } catch (Exception e) {
             e.printStackTrace();
         }

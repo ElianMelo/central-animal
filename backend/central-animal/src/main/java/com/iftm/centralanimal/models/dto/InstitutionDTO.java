@@ -19,7 +19,7 @@ public class InstitutionDTO {
     private Boolean portion;
     private Boolean medicines;
     private Boolean cleaningMaterial;
-    private String institutionImage;
+    private String image;
     private Administrator administrator;
 
     public InstitutionDTO(Institution institution) {
@@ -32,7 +32,7 @@ public class InstitutionDTO {
         this.portion = institution.getPortion();
         this.medicines = institution.getMedicines();
         this.cleaningMaterial = institution.getCleaningMaterial();
-        this.institutionImage = institution.getInstitutionImage();
+        this.image = institution.getImage();
         this.administrator = institution.getAdministrator();
     }
 }

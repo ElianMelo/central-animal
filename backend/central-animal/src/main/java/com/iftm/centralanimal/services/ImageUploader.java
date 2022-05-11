@@ -6,8 +6,8 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import com.iftm.centralanimal.models.interfaces.EntityWithImage;
 import com.iftm.centralanimal.models.Animal;
-import com.iftm.centralanimal.models.Institution;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -42,33 +42,21 @@ public class ImageUploader {
         return null;
     }
 
-    public static void setImage(Object obj, boolean isUpdate, String currentFileName) {
-        boolean isAnimal = obj instanceof Animal;
-        String fileName = currentFileName;
+    public static void setImage(EntityWithImage ent, boolean isUpdate, String currentFileName) {
+        boolean isAnimal = ent instanceof Animal;
 
-        if(!isUpdate) {
-            fileName = UUID.randomUUID().toString();
-        }
+        String folderName = isAnimal ? "animal" : "institution";
+        String fileName = UUID.randomUUID().toString();
 
         try{
-            if(isAnimal) {
-                Animal entity = (Animal) obj;
-                String url = uploadFile(entity.getAnimalImage(), fileName, "animal");
-                entity.setAnimalImage(url);
-            } else {
-                Institution entity = (Institution) obj;
-                String url = uploadFile(entity.getInstitutionImage(), fileName, "institution");
-                entity.setInstitutionImage(url);
+            if(isUpdate) {
+                DeleteImage(currentFileName, folderName);
             }
+            String url = uploadFile(ent.getImage(), fileName, folderName);
+            ent.setImage(url);
         } catch (Exception ex) {
             ex.printStackTrace();
-            if(isAnimal) {
-                Animal entity = (Animal) obj;
-                entity.setAnimalImage("null");
-            } else {
-                Institution entity = (Institution) obj;
-                entity.setInstitutionImage("null");
-            }
+            ent.setImage(null);
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
