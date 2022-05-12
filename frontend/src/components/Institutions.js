@@ -118,6 +118,7 @@ export default class Institutions extends Component {
 
 const styles = StyleSheet.create({
     body: {
+        paddingTop: 30,
         height: "100%",
         backgroundColor: "white"
     },

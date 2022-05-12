@@ -6,8 +6,11 @@ import {
     View,
     Image,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    Linking
 } from 'react-native';
+
+import Clipboard from '@react-native-clipboard/clipboard';
 
 import Footer from './Footer';
 
@@ -52,6 +55,20 @@ export default class Institution extends Component {
         this.setState({needs});
     }
 
+    openWhatsapp = () => {
+        Linking.openURL('whatsapp://send?text=' + "Olá, vim do aplicativo central animal, tenho interesse em saber mais sobre" + '&phone=' + this.state.institution?.whatsapp);
+    }
+
+    openMaps = () => {
+        Linking.openURL("geo:?q=" + 
+            `${this.state.institution?.address?.city}, ${this.state.institution?.address?.district} ${this.state.institution?.address?.publicPlace} ${this.state.institution?.address?.publicPlaceName} ${this.state.institution?.address?.number}`
+        );
+    }
+
+    openPix = () => {
+        Clipboard.setString(this.state.institution?.pix);
+    }
+
     renderItem = ({ item }) => (
         <Text style={styles.cardTxt}>
             {'\u2022' + " " + item.txt }
@@ -75,39 +92,54 @@ export default class Institution extends Component {
                         </Text>
                     </View>
                 </View>
-                <View style={styles.cardBox}>
-                    <View style={styles.cardImageLine}>
-                        <Image
-                            style={styles.cardImage}
-                            source={map}
-                        />
-                        <Text style={styles.cardSupTxt}>
-                            {`${this.state.institution?.address?.city}, ${this.state.institution?.address?.district} ${this.state.institution?.address?.publicPlace} ${this.state.institution?.address?.publicPlaceName} ${this.state.institution?.address?.number}`}
-                        </Text>
+
+                <TouchableOpacity 
+                    onPress={() => this.openMaps()}
+                >
+                    <View style={styles.cardBox}>
+                        <View style={styles.cardImageLine}>
+                            <Image
+                                style={styles.cardImage}
+                                source={map}
+                            />
+                            <Text style={styles.cardSupTxt}>
+                                {`${this.state.institution?.address?.city}, ${this.state.institution?.address?.district} ${this.state.institution?.address?.publicPlace} ${this.state.institution?.address?.publicPlaceName} ${this.state.institution?.address?.number}`}
+                            </Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.cardBox}>
-                    <View style={styles.cardImageLine}>
-                        <Image
-                            style={styles.cardImage}
-                            source={whats}
-                        />
-                        <Text style={styles.cardSupTxt}>
-                            {this.state.institution?.whatsapp}
-                        </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                    onPress={() => this.openWhatsapp()}
+                >
+                    <View style={styles.cardBox}>
+                        <View style={styles.cardImageLine}>
+                            <Image
+                                style={styles.cardImage}
+                                source={whats}
+                            />
+                            <Text style={styles.cardSupTxt}>
+                                {this.state.institution?.whatsapp}
+                            </Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.cardBox}>
-                    <View style={styles.cardImageLine}>
-                        <Image
-                            style={styles.cardImage}
-                            source={pix}
-                        />
-                        <Text style={styles.cardSupTxt}>
-                            {this.state.institution?.pix}
-                        </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                    onPress={() => this.openPix()}
+                >
+                    <View style={styles.cardBox}>
+                        <View style={styles.cardImageLine}>
+                            <Image
+                                style={styles.cardImage}
+                                source={pix}
+                            />
+                            <Text style={styles.cardSupTxt}>
+                                {this.state.institution?.pix}
+                            </Text>
+                        </View>
                     </View>
-                </View>
+                </TouchableOpacity>
 
                 <TouchableOpacity 
                     style={styles.animalBox}
@@ -145,6 +177,7 @@ export default class Institution extends Component {
 
 const styles = StyleSheet.create({
     body: {
+        paddingTop: 30,
         height: "100%",
         backgroundColor: "white"
     },
