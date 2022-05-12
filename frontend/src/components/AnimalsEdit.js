@@ -112,7 +112,11 @@ export default class AnimalsEdit extends Component {
         let filtered = this.state.animals.filter((item) => {
             return item.sex == this.state.sex && item.type == (this.state.type+1)
         })
-        this.setState({animalsFilter: filtered})
+        this.setState({animalsFilter: filtered});
+    }
+
+    clearFilter = () => {
+        this.setState({animalsFilter: this.state.animals});
     }
 
     showFilter = () => {
@@ -180,11 +184,23 @@ export default class AnimalsEdit extends Component {
                                         ))
                                     }  
                                 </RadioForm>
-                                <TouchableOpacity
-                                    onPress={() => this.filter()}
-                                >
-                                    <Text style={styles.descriptionBolderTxtFilter}>Aplicar Filtro</Text>
-                                </TouchableOpacity>
+                                <View style={styles.inputBoxRow}>
+                                    <View style={styles.cardBoxFilter}>
+                                        <TouchableOpacity
+                                            onPress={() => this.filter()}
+                                        >
+                                            <Text style={styles.descriptionBolderTxtFilterWhite}>Aplicar Filtro</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    
+                                    <View style={styles.cardBoxFilter}>
+                                        <TouchableOpacity
+                                            onPress={() => this.clearFilter()}
+                                        >
+                                            <Text style={styles.descriptionBolderTxtFilterWhite}>Limpar Filtro</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
                             </View>
                         ) : null
                     }                    
@@ -242,6 +258,24 @@ const styles = StyleSheet.create({
         elevation: 7,
         width: "47%"
     },
+    cardBoxFilter: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        color: "white",
+        marginHorizontal: 6,
+        marginVertical: 6,
+        padding: 12,
+        borderRadius: 12,
+        backgroundColor: "#00C2CB",
+    },
+    inputBoxRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     nameTxt: {
         marginRight: 'auto',
         fontSize: 16,
@@ -271,6 +305,13 @@ const styles = StyleSheet.create({
         textAlign: "left",
         fontWeight: "bold",
         color: "black"
+    },
+    descriptionBolderTxtFilterWhite: {
+        marginRight: 'auto',
+        fontSize: 16,
+        textAlign: "left",
+        fontWeight: "bold",
+        color: "white"
     },
     roundCardImage: {
         marginRight: 'auto',

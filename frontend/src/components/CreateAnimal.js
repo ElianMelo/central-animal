@@ -105,7 +105,7 @@ export default class CreateAnimal extends Component {
                         Criar Animal
                     </Text>
                     <Text style={styles.sessionDescriptionLowerTxt}>
-                        Insira os dados do animal nos campos a baixo.
+                        Insira os dados do animal nos campos abaixo.
                     </Text>
                     <TextInput
                         style={styles.input}

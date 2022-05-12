@@ -80,7 +80,7 @@ export default class ChangeAnimal extends Component {
         this.setState({description: animal.description});
         this.setState({type: (animal.type - 1).toString()});
         setTimeout(() => {
-            this.setState({sex: animal.sex == 1 ? 'M' : 'F'});
+            this.setState({sex: animal.sex == 1 ? "M" : "F"});
         }, 100);
         this.setState({base64Image: animal.animalImage});
     }
@@ -112,123 +112,105 @@ export default class ChangeAnimal extends Component {
     render() {
         return (
             <ScrollView style={styles.body}>
-                <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Nome
+                <View style={[styles.inputBox, { marginTop: 30 }]}>
+                    <Text style={styles.sessionDescriptionTxt}>
+                        Alterar Animal
+                    </Text>
+                    <Text style={styles.sessionDescriptionLowerTxt}>
+                        Altere os dados do animal nos campos abaixo.
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Ex: Meg"
-                        placeholderTextColor="#808080" 
-                        onChangeText={(name) => this.setState({name})}
+                        placeholder="Nome do animal"
+                        placeholderTextColor="#808080"
+                        onChangeText={(name) => this.setState({ name })}
                         value={this.state.name}
                     />
                 </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Descrição
-                    </Text>
                     <TextInput
                         style={styles.inputTextBox}
                         multiline={true}
                         numberOfLines={4}
-                        placeholder="Ex: O animal está doente"
+                        placeholder="Descrição"
                         placeholderTextColor="#808080" 
                         onChangeText={(description) => this.setState({description})}
                         value={this.state.description}
                     />
                 </View>
                 <View style={styles.inputBox}>
-                    <Text style={styles.descriptionTxt}>
-                        Tipo
-                    </Text>
-                    <RadioForm
-                        formHorizontal={true}
-                        animation={true}
-                        initial={0}
-                        >
-                        {/* To create radio buttons, loop through your array of options */}
-                        {
-                            radio_props.map((obj, i) => (
-                            <RadioButton labelHorizontal={true} key={i} >
-                                {/*  You can set RadioButtonLabel before RadioButtonInput */}
-                                <RadioButtonInput
-                                    obj={obj}
-                                    index={i}
-                                    isSelected={this.state.type == i}
-                                    onPress={(type) => {this.setState({type})}}
-                                    buttonInnerColor={'#000'}
-                                    buttonOuterColor={'#000'}
-                                    buttonWrapStyle={{marginLeft: 10}}
-                                />
-                                <RadioButtonLabel
-                                    obj={obj}
-                                    index={i}
-                                    labelHorizontal={true}
-                                    labelStyle={{fontSize: 20, color: '#000'}}
-                                    labelWrapStyle={{}}
-                                />
-                            </RadioButton>
-                            ))
-                        }  
-                        </RadioForm>
-                </View>
-                <View style={styles.inputBoxInline}>
-                    <Text style={styles.descriptionTxtInline}>
-                        Idade
-                    </Text>
                     <TextInput
-                        style={styles.inputWide}
-                        placeholder="Ex: 0"
-                        placeholderTextColor="#808080" 
-                        onChangeText={(age) => this.setState({age})}
+                        style={styles.input}
+                        placeholder="Idade"
+                        placeholderTextColor="#808080"
+                        onChangeText={(age) => this.setState({ age })}
                         value={this.state.age}
                     />
-                    <Text style={styles.descriptionTxtInline}>
-                        Sexo
-                    </Text>
+                </View>
+                <View style={styles.inputBoxInline}>
                     <View style={styles.inputPicker}>
                         <Picker
-                            style={{ height: 10, width: 150, color: 'black'}}
-                            onValueChange={(sex) => this.setState({sex})}
+                            style={styles.pickerStyle}
+                            onValueChange={(sex) => this.setState({ sex })}
                             selectedValue={this.state.sex}
+                            mode="dropdown"
                             color="#000"
                             dropdownIconColor="#000"
                             dropdownIconRippleColor="#000"
                         >
+                            <Picker.Item label="Sexo" enabled={false} />
                             <Picker.Item label="Macho" value="M" />
                             <Picker.Item label="Fêmea" value="F" />
                         </Picker>
                     </View>
+                    <View style={styles.inputPicker}>
+                        <Picker
+                            style={styles.pickerStyle}
+                            onValueChange={(type) => this.setState({ type })}
+                            selectedValue={this.state.type}
+                            mode="dropdown"
+                            color="#000"
+                            dropdownIconColor="#000"
+                            dropdownIconRippleColor="#000"
+                        >
+                            <Picker.Item label="Tipo" enabled={false} />
+                            <Picker.Item label="Cachorro" value="0" />
+                            <Picker.Item label="Gato" value="1" />
+                        </Picker>
+                    </View>
                 </View>
-                <View style={styles.cardBox}>
-                    <TouchableOpacity
-                        onPress={() => this.launchLibrary()}
-                    >  
-                        <View style={styles.cardImageLine}>
-                            <Text style={styles.cardSupTxt}>
-                                Carregar Imagem
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
+                <View style={styles.inputBox}>
+                    <View style={styles.cardBox}>
+                        <TouchableOpacity
+                            style={{ height: 215}}
+                            onPress={() => this.launchLibrary()}
+                        >  
+                            {
+                                this.state?.base64Image ? 
+                                (
+                                    <View style={styles.inputBoxRow}>
+                                        <Image
+                                            style={styles.roundImage}
+                                            source={{uri: this.state?.base64Image}}
+                                        />
+                                    </View> 
+                                ) : 
+                                null
+                            }
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.cardBox}>
+                <View style={[styles.cardBox, {marginBottom: 60, marginTop: 20}]}>
                     <TouchableOpacity
                         onPress={() => this.updateAnimal()}
-                    >  
+                    >
                         <View style={styles.cardImageLine}>
                             <Text style={styles.cardSupTxt}>
-                                Salvar
+                            Salvar
                             </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
-                    {
-                        this.state.base64Image != '' ? (<Image
-                            style={styles.roundImage}
-                            source={{uri: this.state?.base64Image}}
-                        />) : null
-                    }
             </ScrollView>
         );
     }
@@ -245,15 +227,33 @@ const styles = StyleSheet.create({
         marginVertical: 6,
         padding: 12,
         borderRadius: 14,
-        backgroundColor: "white",        
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 7,
+        backgroundColor: "#00C2CB",
+    },
+    inputBoxRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        padding: 5,
+        marginRight: 16,
+        marginLeft: 16,
+        marginTop: 1
+    },
+    sessionDescriptionTxt: {
+        marginBottom: 6,
+        marginLeft: 6,
+        textAlign: "left",
+        color: "black",
+        fontSize: 26,
+        fontWeight: "500"
+    },
+    sessionDescriptionLowerTxt: {
+        marginBottom: 20,
+        marginLeft: 6,
+        textAlign: "left",
+        color: "black",
+        fontSize: 14,
+        fontWeight: "300"
     },
     cardImageLine: {
         display: 'flex',
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         fontSize: 24,
         textAlign: "center",
-        color: "black"
+        color: "white"
     },
     inputBox: {
         padding: 5,
@@ -275,25 +275,37 @@ const styles = StyleSheet.create({
         marginTop: 6
     },
     roundImage: {
-        marginRight: 'auto',
+        width: 285,
+        height: 200,
+        borderRadius: 10,
         marginLeft: 'auto',
-        width: 300,
-        height: 300,
+        marginRight: 'auto'
     },
     inputBoxInline: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        padding: 5,
         marginRight: 16,
         marginLeft: 16,
         marginTop: 6
     },
     input: {
-        height: 40,
-        borderWidth: 1,
+        height: 50,
+        borderWidth: 3,
+        borderRadius: 10,
         padding: 10,
+        paddingLeft: 22,
+        color: "black",
+        fontSize: 16
+    },
+    inputTextBox: {
+        height: 120,
+        textAlignVertical: 'top',
+        borderWidth: 3,
+        borderRadius: 10,
+        padding: 10,
+        paddingLeft: 22,
         color: "black",
         fontSize: 16
     },
@@ -307,20 +319,23 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     inputPicker: {
-        height: 60,
-        width: 150,
-        marginRight: 8,
-        borderWidth: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 50,
+        width: 166,
+        margin: 8,
+        borderWidth: 3,
+        borderRadius: 10,
         color: "black",
         fontSize: 16
     },
-    inputTextBox: {
-        height: 95,
-        textAlignVertical: 'top',
-        borderWidth: 1,
-        padding: 10,
-        color: "black",
-        fontSize: 16
+    pickerStyle: {
+        marginLeft: 16,
+        height: 5,
+        width: 166,
+        color: 'black',
+        borderWidth: 1
     },
     descriptionTxt: {
         marginRight: 'auto',
