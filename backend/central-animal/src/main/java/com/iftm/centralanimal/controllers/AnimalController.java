@@ -22,6 +22,11 @@ public class AnimalController {
         return service.allAnimals();
     }
 
+    @GetMapping("/ten-random-animals")
+    public List<Object> tenRandomAnimals() {
+        return service.tenRandomAnimals();
+    }
+
     @PostMapping
     public Animal newAnimal(@Valid @RequestBody Animal entity) {
         return service.newAnimal(entity);

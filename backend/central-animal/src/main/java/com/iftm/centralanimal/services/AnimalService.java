@@ -7,7 +7,8 @@ import com.iftm.centralanimal.repositories.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AnimalService {
@@ -20,6 +21,14 @@ public class AnimalService {
 
     public List<Animal> allAnimals() {
         return repository.findAll();
+    }
+
+    public List<Object> tenRandomAnimals() {
+        List<Object> allAnimals = Arrays.asList(allAnimals().toArray());
+        Collections.shuffle(allAnimals, new Random(System.nanoTime()));
+
+        allAnimals = allAnimals.stream().limit(10).collect(Collectors.toList());
+        return allAnimals;
     }
 
     public Animal newAnimal(Animal entity) {
