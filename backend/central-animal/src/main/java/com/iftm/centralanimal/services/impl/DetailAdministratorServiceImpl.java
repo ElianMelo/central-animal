@@ -1,4 +1,4 @@
-package com.iftm.centralanimal.services;
+package com.iftm.centralanimal.services.impl;
 
 import com.iftm.centralanimal.data.DetailAdministratorData;
 import com.iftm.centralanimal.models.Administrator;

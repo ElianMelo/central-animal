@@ -1,6 +1,6 @@
 package com.iftm.centralanimal.security;
 
-import com.iftm.centralanimal.services.DetailAdministratorServiceImpl;
+import com.iftm.centralanimal.services.impl.DetailAdministratorServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
