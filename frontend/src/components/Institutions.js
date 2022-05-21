@@ -23,7 +23,7 @@ const DATA = [
         "publicPlace": "Rua",
         "publicPlaceName": "Alvira",
         "institutionNumber": "225",
-        "institutionImage": "imagem.png"
+        "image": "imagem.png"
     }
 ];
 
@@ -51,15 +51,16 @@ export default class Institutions extends Component {
     }
 
     loadInstitutions = async() => {
-        this.setState({institutions: await RequestService.getInstitutions()})
+        let institutions = await RequestService.getInstitutions();
+        this.setState({institutions})
     }
 
     modalCallback = () => {
         this.setState({modalVisible: !this.state.modalVisible});
-        console.log("callback");
+        // console.log("callback");
     }
 
-    // institutionImage
+    // image
     renderItem = ({ item }) => (
         <TouchableOpacity 
             style={styles.cardBox}
@@ -72,7 +73,7 @@ export default class Institutions extends Component {
             <View style={styles.cardImageLine}>
                 <Image
                     style={styles.roundCardImage}
-                    source={{uri: item.institutionImage}}
+                    source={{uri: item.image}}
                 />
                 <Text style={styles.titleTxt}>
                     {item.name}

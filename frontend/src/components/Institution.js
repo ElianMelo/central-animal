@@ -52,7 +52,7 @@ export default class Institution extends Component {
         if(this.state.institution?.cleaningMaterial) {
             needs.push({ id: '3', txt: 'Material Limpeza' });
         }
-        this.setState({needs});
+        this.setState({needs}); 
     }
 
     openWhatsapp = () => {
@@ -81,7 +81,7 @@ export default class Institution extends Component {
                 <View style={styles.headerLine}>
                     <Image
                         style={styles.roundImage}
-                        source={{uri: this.state.institution?.institutionImage}}
+                        source={{uri: this.state.institution?.image}}
                     />
                     <View style={styles.headerColumn}>
                         <Text style={styles.titleTxt}>

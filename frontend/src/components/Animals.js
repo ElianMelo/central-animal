@@ -48,7 +48,7 @@ export default class Animals extends Component {
         <TouchableOpacity style={styles.cardBox}>
             <Image
                 style={styles.roundCardImage}
-                source={{uri: item.animalImage}}
+                source={{uri: item.image}}
             />
             <View style={styles.cardColumn}>
                 <Text style={styles.nameTxt}>

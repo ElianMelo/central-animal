@@ -73,7 +73,7 @@ export default class CreateAnimal extends Component {
     createAnimal = async () => {
         let animal = {
             age: Number(this.state.age),
-            animalImage: this.state.base64Image,
+            image: this.state.base64Image,
             description: this.state.description,
             name: this.state.name,
             sex: this.state.sex == "M" ? 1 : 2,

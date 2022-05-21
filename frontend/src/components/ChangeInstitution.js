@@ -39,7 +39,7 @@ export default class ChangeInstitution extends Component {
             medicines: true,
             cleaningMaterial: true,
             base64Image: '',
-            institutionImage: ''
+            image: ''
         };
     }
 
@@ -59,7 +59,7 @@ export default class ChangeInstitution extends Component {
         this.setState({portion: institution.portion});
         this.setState({medicines: institution.medicines});
         this.setState({cleaningMaterial: institution.cleaningMaterial});
-        this.setState({institutionImage: institution.institutionImage});
+        this.setState({image: institution.image});
     }
 
     updateInstitution = async() => {
@@ -77,7 +77,7 @@ export default class ChangeInstitution extends Component {
         institution.portion = this.state.portion;
         institution.medicines = this.state.medicines;
         institution.cleaningMaterial = this.state.cleaningMaterial;
-        institution.institutionImage = this.state.institutionImage;
+        institution.image = this.state.image;
 
         await RequestService.putInstitution(this.props.route.params.institutionId, institution);
     }
@@ -115,7 +115,7 @@ export default class ChangeInstitution extends Component {
         const result = await launchImageLibrary(options);
         if(result?.assets[0]?.base64) {
             this.setState({base64Image: 'data:image/jpeg;base64,' + result?.assets[0]?.base64});
-            this.setState({institutionImage: this.state.base64Image});
+            this.setState({image: this.state.base64Image});
         }
     }
 
@@ -224,12 +224,12 @@ export default class ChangeInstitution extends Component {
                             onPress={() => this.launchLibrary()}
                         >  
                             {
-                                this.state?.institutionImage ? 
+                                this.state?.image ? 
                                 (
                                     <View style={styles.inputBoxRow}>
                                         <Image
                                             style={styles.roundImage}
-                                            source={{uri: this.state?.institutionImage}}
+                                            source={{uri: this.state?.image}}
                                         />
                                     </View> 
                                 ) : 
