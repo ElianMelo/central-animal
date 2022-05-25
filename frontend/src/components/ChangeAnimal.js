@@ -82,13 +82,13 @@ export default class ChangeAnimal extends Component {
         setTimeout(() => {
             this.setState({sex: animal.sex == 1 ? "M" : "F"});
         }, 100);
-        this.setState({base64Image: animal.animalImage});
+        this.setState({base64Image: animal.image});
     }
 
     updateAnimal = async() => {
         let animal = {
             age: Number(this.state.age),
-            animalImage: this.state.base64Image,
+            image: this.state.base64Image,
             description: this.state.description,
             name: this.state.name,
             sex: this.state.sex == "M" ? 1 : 2,

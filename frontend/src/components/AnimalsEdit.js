@@ -75,7 +75,7 @@ export default class AnimalsEdit extends Component {
         <View style={styles.cardBox}>
             <Image
                 style={styles.roundCardImage}
-                source={{uri: item.animalImage}}
+                source={{uri: item.image}}
             />
             <TouchableOpacity style={styles.boxImageActionLeft}
                 onPress={() => this.update(item.id)}
