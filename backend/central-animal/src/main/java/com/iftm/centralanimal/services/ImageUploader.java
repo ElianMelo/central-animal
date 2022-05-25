@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -26,18 +27,21 @@ public class ImageUploader {
 
     public static String uploadFile(String photo, String fileName, String folderName) throws IOException {
         if(photo != null) {
-            BlobId blobId = BlobId.of("central-animal.appspot.com", folderName +"/" + fileName);
-            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream is = classloader.getResourceAsStream("central-animal-private-key.json");
+            if(!IsUrl(photo)) {
+                BlobId blobId = BlobId.of("central-animal.appspot.com", folderName +"/" + fileName);
+                BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
+                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+                InputStream is = classloader.getResourceAsStream("central-animal-private-key.json");
 
-            String base64Image = photo.split(",")[1];
-            byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+                String base64Image = photo.split(",")[1];
+                byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
 
-            Credentials credentials = GoogleCredentials.fromStream(is);
-            Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-            storage.create(blobInfo, imageBytes);
-            return String.format(DOWNLOAD_URL, URLEncoder.encode(folderName + "/" + fileName, StandardCharsets.UTF_8));
+                Credentials credentials = GoogleCredentials.fromStream(is);
+                Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+                storage.create(blobInfo, imageBytes);
+                return String.format(DOWNLOAD_URL, URLEncoder.encode(folderName + "/" + fileName, StandardCharsets.UTF_8));
+            }
+            return photo;
         }
         return null;
     }
@@ -92,4 +96,13 @@ public class ImageUploader {
         }
     }
 
+    public static boolean IsUrl(String urlString) {
+        try {
+            URL url = new URL(urlString);
+            url.toURI();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
