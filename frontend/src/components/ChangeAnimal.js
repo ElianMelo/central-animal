@@ -19,6 +19,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {Picker} from '@react-native-picker/picker';
 
 import RequestService from '../services/RequestService';
+import MessageUtils from '../utils/MessageUtils';
 
 const radio_props = [
     {label: 'Cachorro', value: 0 },
@@ -36,7 +37,10 @@ export default class ChangeAnimal extends Component {
             description: '',
             type: 0,
             sex: '',
-            base64Image: ''
+            image: '',
+            modalVisible: false,
+            modalText: "Animal alterado com sucesso",
+            modalColor: "#00C2CB"
         };
     }
 
@@ -67,7 +71,7 @@ export default class ChangeAnimal extends Component {
         };
         const result = await launchImageLibrary(options);
         if(result?.assets[0]?.base64) {
-            this.setState({base64Image: 'data:image/jpeg;base64,' + result?.assets[0]?.base64})
+            this.setState({image: 'data:image/jpeg;base64,' + result?.assets[0]?.base64})
         }
     }
 
@@ -82,13 +86,13 @@ export default class ChangeAnimal extends Component {
         setTimeout(() => {
             this.setState({sex: animal.sex == 1 ? "M" : "F"});
         }, 100);
-        this.setState({base64Image: animal.image});
+        this.setState({image: animal.image});
     }
 
     updateAnimal = async() => {
         let animal = {
             age: Number(this.state.age),
-            image: this.state.base64Image,
+            image: this.state.image,
             description: this.state.description,
             name: this.state.name,
             sex: this.state.sex == "M" ? 1 : 2,
@@ -105,8 +109,19 @@ export default class ChangeAnimal extends Component {
             rhLOMnm3JuWvIZ9bEpTXvkiUoOe6MBzwiivREtNerx-IbOZknD1bV6AUvcYGZF8uQgYgNxGEIqnKbIOU01Yg6g
         */
 
-        await RequestService.putAnimal(this.props.route.params.id, animal);
-        await this.props.navigation.navigate("AnimalsEdit", {institutionId: this.props.route.params.institutionId});
+        try {
+            await RequestService.putAnimal(this.props.route.params.id, animal);
+        } catch {
+            this.setState({modalText: "Falha ao alterar animal"});
+            this.setState({modalColor: "#DC3545"});
+        }
+        
+        this.setState({modalVisible: !this.state.modalVisible});
+    }
+
+    modalCallback = () => {
+        this.setState({modalVisible: !this.state.modalVisible});
+        this.props.navigation.navigate("AnimalsEdit", {institutionId: this.props.route.params.institutionId});
     }
 
     render() {
@@ -186,12 +201,12 @@ export default class ChangeAnimal extends Component {
                             onPress={() => this.launchLibrary()}
                         >  
                             {
-                                this.state?.base64Image ? 
+                                this.state?.image ? 
                                 (
                                     <View style={styles.inputBoxRow}>
                                         <Image
                                             style={styles.roundImage}
-                                            source={{uri: this.state?.base64Image}}
+                                            source={{uri: this.state?.image}}
                                         />
                                     </View> 
                                 ) : 
@@ -211,6 +226,12 @@ export default class ChangeAnimal extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
+                <MessageUtils
+                    topColor={this.state.modalColor}
+                    message={this.state.modalText}
+                    callback={this.modalCallback}
+                    modalVisible={this.state.modalVisible}
+                />
             </ScrollView>
         );
     }

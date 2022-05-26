@@ -10,13 +10,6 @@ import {
     TouchableOpacity,
 } from 'react-native';
 
-const OK = "200 - OK"
-const CREATED = "201 - Criado"
-const UNAUTHORIZED = "401 - Não Autorizado"
-const FORBIDDEN = "403 - Proibido"
-const NOTFOUND = "404 - Não Encontrado";
-const INTERNALSERVER = "500 - Erro Interno do Servidor"
-
 export default class MessageUtils extends Component {
 
     constructor(props) {
@@ -33,35 +26,8 @@ export default class MessageUtils extends Component {
     }
 
     setValues() {
-        switch (this.props.topMessage) {
-            case '200':
-                this.setState({topMessage: OK});
-                this.setState({color: 'green'});
-                break;
-            case '201':
-                this.setState({topMessage: CREATED});
-                this.setState({color: 'green'});
-                break;
-            case '401':
-                this.setState({topMessage: UNAUTHORIZED});
-                this.setState({color: 'red'});
-                break;
-            case '403':
-                this.setState({topMessage: FORBIDDEN});
-                this.setState({color: 'red'});
-                break;
-            case '404':
-                this.setState({topMessage: NOTFOUND});
-                this.setState({color: 'red'});
-                break;
-            case '500':
-                this.setState({topMessage: INTERNALSERVER});
-                this.setState({color: 'red'});
-                break;
-            default:
-                this.setState({topMessage: "Mensagem"});
-                this.setState({color: 'green'});
-                break;
+        if (this.props.topColor) {
+            this.setState({color: this.props.topColor});
         }
     }
 
@@ -72,7 +38,7 @@ export default class MessageUtils extends Component {
     changeColor(cor) {
         return {
             backgroundColor: cor,
-            paddingTop: 10,
+            paddingTop: 24,
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
             width: "100%",
@@ -94,14 +60,13 @@ export default class MessageUtils extends Component {
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <View style={this.changeColor(this.state.color)}>
-                                <Text style={styles.modalText}>{this.state.topMessage}</Text>
                             </View>
                             <Text style={styles.modalTextMessage}>{this.props.message}</Text>
                             <Pressable
                                 style={styles.button}
                                 onPress={() => this.onClose()}
                             >
-                                <Text style={styles.textStyle}>Ok</Text>
+                                <Text style={styles.textStyle}>OK</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -121,7 +86,7 @@ const styles = StyleSheet.create({
     modalView: {
         display: 'flex',
         flexDirection: 'column',
-        width: "90%",
+        width: "70%",
         backgroundColor: "white",
         borderRadius: 10,
         alignItems: "center",
@@ -142,7 +107,7 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     button: {
-        backgroundColor: "gray",
+        backgroundColor: "black",
         borderRadius: 10,
         padding: 10,
         elevation: 2,
@@ -163,6 +128,7 @@ const styles = StyleSheet.create({
     },
     modalTextMessage: {
         color: "black",
+        fontSize: 18,
         padding: 16,
         textAlign: "center"
     },

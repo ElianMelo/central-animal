@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 
 import RequestService from '../services/RequestService';
+import MessageUtils from '../utils/MessageUtils';
 
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 export default class ChangeInstitution extends Component {
@@ -26,7 +27,6 @@ export default class ChangeInstitution extends Component {
             props: props,
             willFocusSubscription: null,
             institution: {},
-            modalVisible: false,
             name: '',
             description: '',
             city: '',
@@ -38,8 +38,10 @@ export default class ChangeInstitution extends Component {
             portion: true,
             medicines: true,
             cleaningMaterial: true,
-            base64Image: '',
-            image: ''
+            image: '',
+            modalVisible: false,
+            modalText: "Instituição alterada com sucesso",
+            modalColor: "#00C2CB"
         };
     }
 
@@ -79,7 +81,12 @@ export default class ChangeInstitution extends Component {
         institution.cleaningMaterial = this.state.cleaningMaterial;
         institution.image = this.state.image;
 
-        await RequestService.putInstitution(this.props.route.params.institutionId, institution);
+        try {
+            await RequestService.putInstitution(this.props.route.params.institutionId, institution);
+        } catch {
+            this.setState({modalText: "Falha ao alterar instituição"});
+            this.setState({modalColor: "#DC3545"});
+        }
     }
 
     componentDidMount() {
@@ -101,7 +108,7 @@ export default class ChangeInstitution extends Component {
 
     saveInstitution = async() => {
         await this.updateInstitution();
-        this.setState({modalVisible: true});
+        this.setState({modalVisible: !this.state.modalVisible});
     }
 
     launchLibrary = async() => {
@@ -114,9 +121,13 @@ export default class ChangeInstitution extends Component {
         };
         const result = await launchImageLibrary(options);
         if(result?.assets[0]?.base64) {
-            this.setState({base64Image: 'data:image/jpeg;base64,' + result?.assets[0]?.base64});
-            this.setState({image: this.state.base64Image});
+            this.setState({image: 'data:image/jpeg;base64,' + result?.assets[0]?.base64});
         }
+    }
+
+    modalCallback = () => {
+        this.setState({modalVisible: !this.state.modalVisible});
+        this.props.navigation.navigate("InstitutionManagement");
     }
 
     render() {
@@ -221,6 +232,7 @@ export default class ChangeInstitution extends Component {
                 <View style={styles.inputBox}>
                     <View style={styles.cardBox}>
                         <TouchableOpacity
+                            style={{ height: 215}}
                             onPress={() => this.launchLibrary()}
                         >  
                             {
@@ -305,26 +317,12 @@ export default class ChangeInstitution extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        this.setState({modalVisible: false});
-                    }}
-                >
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Instituição salva com sucesso!</Text>
-                        <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => this.setState({modalVisible: false})}
-                        >
-                            <Text style={styles.textStyle}>Fechar</Text>
-                        </Pressable>
-                        </View>
-                    </View>
-                </Modal>
+                <MessageUtils
+                    topColor={this.state.modalColor}
+                    message={this.state.modalText}
+                    callback={this.modalCallback}
+                    modalVisible={this.state.modalVisible}
+                />
             </ScrollView>
         );
     }
@@ -341,27 +339,6 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto'
     },
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
-    },
     button: {
         borderRadius: 10,
         padding: 10,
@@ -372,16 +349,6 @@ const styles = StyleSheet.create({
     },
     buttonClose: {
         backgroundColor: "#2196F3",
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        color: "black",
-        marginBottom: 15,
-        textAlign: "center"
     },
     cardBox: {
         textAlign: "center",
