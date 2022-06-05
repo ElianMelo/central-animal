@@ -36,6 +36,11 @@ export default class RequestService {
         return res.data;
     }
 
+    static getTenRandomAnimals = async() => {
+        let res = await axios.get(`${BASEURL}/animal/ten-random-animals`);
+        return res.data;
+    }
+
     static postLogin = async(login) => {
         let res = await axios.post(`${BASEURL}/login`, login);
         if(res.data) {

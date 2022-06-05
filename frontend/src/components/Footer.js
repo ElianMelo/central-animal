@@ -29,6 +29,9 @@ export default class Footer extends Component {
                 <View style={styles.menuImageLine}>
                     <TouchableOpacity
                         style={styles.itemCol}
+                        onPress={() =>
+                            this.props.navigation.navigate('Home')
+                        }
                     >
                         <Image
                             style={styles.menuImage}
@@ -42,6 +45,9 @@ export default class Footer extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.itemCol}
+                        onPress={() =>
+                            this.props.navigation.navigate('Map')
+                        }
                     >
                         <Image
                             style={styles.menuImage}

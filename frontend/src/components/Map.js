@@ -6,13 +6,14 @@ import {
     View,
     FlatList,
     TouchableOpacity,
-    Image
+    Image,
 } from 'react-native';
 
 import Footer from './Footer';
 
 import RequestService from '../services/RequestService';
-export default class Home extends Component {
+
+export default class Map extends Component {
 
     constructor(props) {
         super(props);
@@ -51,10 +52,10 @@ export default class Home extends Component {
             <View style={styles.body}>
                 <View style={styles.inputBox}>
                     <Text style={styles.sessionDescriptionTxt}>
-                        Adoções para você
+                        Mapa
                     </Text>
                     <Text style={styles.sessionDescriptionLowerTxt}>
-                        Esta são umas das sugestões de adoções para você.
+                        Animais na sua região.
                     </Text>
                 </View>
                 <FlatList

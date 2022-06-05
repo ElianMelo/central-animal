@@ -95,7 +95,7 @@ export default class Animals extends Component {
                             <View>
                                 <View style={styles.inputPicker}>
                                     <Picker
-                                        style={{ height: 5, width: 130, color: 'black', borderWidth: 1}}
+                                        style={{ height: 5, width: 150, color: 'black', borderWidth: 1}}
                                         onValueChange={(sex) => this.setState({sex})}
                                         selectedValue={this.state.sex}
                                         mode="dropdown"
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 40,
-        width: 120,
+        width: 150,
         margin: 8,
         borderWidth: 1,
         color: "black",
