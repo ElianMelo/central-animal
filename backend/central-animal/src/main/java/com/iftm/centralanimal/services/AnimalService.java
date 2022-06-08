@@ -24,7 +24,7 @@ public class AnimalService {
     }
 
     public List<Object> tenRandomAnimals() {
-        List<Object> allAnimals = Arrays.asList(allAnimals().toArray());
+        List<Object> allAnimals = Arrays.asList(allAnimalsFromInstitutions().toArray());
         Collections.shuffle(allAnimals, new Random(System.nanoTime()));
 
         allAnimals = allAnimals.stream().limit(10).collect(Collectors.toList());
@@ -62,6 +62,10 @@ public class AnimalService {
             e.printStackTrace();
         }
         repository.deleteById(id);
+    }
+
+    private List<Animal> allAnimalsFromInstitutions() {
+        return repository.findByInstitutionIdNotNull();
     }
 }
 

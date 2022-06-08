@@ -10,4 +10,6 @@ import java.util.List;
 public interface AnimalRepository extends JpaRepository<Animal, Integer> {
 
     public List<Animal> findByInstitutionId(Integer id);
+
+    public List<Animal> findByInstitutionIdNotNull();
 }
