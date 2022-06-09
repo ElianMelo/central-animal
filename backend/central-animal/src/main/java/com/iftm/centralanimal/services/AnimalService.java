@@ -2,6 +2,10 @@ package com.iftm.centralanimal.services;
 
 import com.iftm.centralanimal.exceptionhandler.exceptions.AnimalNotFoundException;
 import com.iftm.centralanimal.models.Animal;
+import com.iftm.centralanimal.models.Institution;
+import com.iftm.centralanimal.models.dto.AnimalDTO;
+import com.iftm.centralanimal.models.dto.InstitutionDTO;
+import com.iftm.centralanimal.models.dto.InstitutionListDTO;
 import com.iftm.centralanimal.repositories.AnimalRepository;
 import com.iftm.centralanimal.repositories.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +28,7 @@ public class AnimalService {
     }
 
     public List<Object> tenRandomAnimals() {
-        List<Object> allAnimals = Arrays.asList(allAnimals().toArray());
+        List<Object> allAnimals = Arrays.asList(allAnimalsFromInstitutions().toArray());
         Collections.shuffle(allAnimals, new Random(System.nanoTime()));
 
         allAnimals = allAnimals.stream().limit(10).collect(Collectors.toList());
@@ -62,6 +66,24 @@ public class AnimalService {
             e.printStackTrace();
         }
         repository.deleteById(id);
+    }
+
+    private List<AnimalDTO> allAnimalsFromInstitutions() {
+        List<Animal> animals = repository.findByInstitutionIdNotNull();
+        List<Institution> institutions = institutionRepository.findAll();
+        List<AnimalDTO> listAnimalsDTO = new ArrayList<>();
+
+        if(!animals.isEmpty()) {
+            for (int i = 0; i < animals.size(); i++) {
+                AnimalDTO dto = new AnimalDTO(animals.get(i));
+                InstitutionDTO institutionDTO = new InstitutionDTO(animals.get(i).getInstitution());
+
+                dto.setInstitutionDTO(institutionDTO);
+                listAnimalsDTO.add(dto);
+            }
+        }
+
+        return listAnimalsDTO;
     }
 }
 
