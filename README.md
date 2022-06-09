@@ -26,4 +26,4 @@ Aplicativo Central Animal que tem objetivo facilitar o resgate, adoção de anim
 
 ## Licença
 
-[MIT](LICENSE)
+[MIT](https://github.com/ElianMelo/central-animal/blob/main/LICENSE.md)
