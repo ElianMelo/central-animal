@@ -2,6 +2,7 @@ package com.iftm.centralanimal.services;
 
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -11,6 +12,7 @@ import com.iftm.centralanimal.models.Animal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -20,24 +22,22 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public class ImageUploader {
 
     public static String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/central-animal.appspot.com/o/%s?alt=media";
 
-    public static String uploadFile(String photo, String fileName, String folderName) throws IOException {
+    public static String uploadFile(String photo, String fileName, String folderName, String credentials) throws IOException {
         if(photo != null) {
             if(!IsUrl(photo)) {
+                InputStream streamCredentials = new ByteArrayInputStream(credentials.getBytes());
                 BlobId blobId = BlobId.of("central-animal.appspot.com", folderName +"/" + fileName);
                 BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-                InputStream is = classloader.getResourceAsStream("central-animal-private-key.json");
 
                 String base64Image = photo.split(",")[1];
                 byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+                Credentials googleCredentials = ServiceAccountCredentials.fromStream(streamCredentials);
 
-                Credentials credentials = GoogleCredentials.fromStream(is);
-                Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+                Storage storage = StorageOptions.newBuilder().setCredentials(googleCredentials).build().getService();
                 storage.create(blobInfo, imageBytes);
                 return String.format(DOWNLOAD_URL, URLEncoder.encode(folderName + "/" + fileName, StandardCharsets.UTF_8));
             }
@@ -46,7 +46,7 @@ public class ImageUploader {
         return null;
     }
 
-    public static void setImage(EntityWithImage ent, boolean isUpdate, String currentFileName) {
+    public static void setImage(EntityWithImage ent, boolean isUpdate, String currentFileName, String credentials) {
         boolean isAnimal = ent instanceof Animal;
 
         String folderName = isAnimal ? "animal" : "institution";
@@ -54,9 +54,9 @@ public class ImageUploader {
 
         try{
             if(isUpdate) {
-                DeleteImage(currentFileName, folderName);
+                DeleteImage(currentFileName, folderName, credentials);
             }
-            String url = uploadFile(ent.getImage(), fileName, folderName);
+            String url = uploadFile(ent.getImage(), fileName, folderName, credentials);
             ent.setImage(url);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -84,14 +84,13 @@ public class ImageUploader {
         return fileName;
     }
 
-    public static void DeleteImage(String fileName, String folderName) throws IOException {
+    public static void DeleteImage(String fileName, String folderName, String credentials) throws IOException {
+        InputStream credentialsStream = new ByteArrayInputStream(credentials.getBytes());
         if(fileName != null) {
             String extractedFileName = ExtractImageNameFromUrl(fileName, false);
             BlobId blobId = BlobId.of("central-animal.appspot.com", folderName + "/" + extractedFileName);
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream is = classloader.getResourceAsStream("central-animal-private-key.json");
-            Credentials credentials = GoogleCredentials.fromStream(is);
-            Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+            Credentials googleCredentials = GoogleCredentials.fromStream(credentialsStream);
+            Storage storage = StorageOptions.newBuilder().setCredentials(googleCredentials).build().getService();
             storage.delete(blobId);
         }
     }
