@@ -10,10 +10,13 @@ import com.iftm.centralanimal.models.dto.InstitutionListDTO;
 import com.iftm.centralanimal.repositories.AdministratorRepository;
 import com.iftm.centralanimal.repositories.AnimalRepository;
 import com.iftm.centralanimal.repositories.InstitutionRepository;
+import com.iftm.centralanimal.utils.ConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +32,9 @@ public class InstitutionService {
     @Autowired
     private AdministratorService administratorService;
 
+    @Autowired
+    private ConfigProperties config;
+
     public List<InstitutionListDTO> allInstitutions() {
         List<Institution> list = repository.findAll();
         List<InstitutionListDTO> institutions = new ArrayList<>();
@@ -43,7 +49,8 @@ public class InstitutionService {
     }
 
     public Institution newInstitution(Institution entity) {
-        ImageUploader.setImage(entity, false, "");
+        String credentials = config.getProperty("spring.firebase.credentials");
+        ImageUploader.setImage(entity, false, "", credentials);
         return repository.save(entity);
     }
 
@@ -54,7 +61,8 @@ public class InstitutionService {
         }
         entity.setId(id);
         if(entity.getImage() != null || entity.getImage() != "")  {
-            ImageUploader.setImage(entity, true, findInstitutionById(id).getImage());
+            String credentials = config.getProperty("spring.firebase.credentials");
+            ImageUploader.setImage(entity, true, findInstitutionById(id).getImage(), credentials);
         }
         return repository.save(entity);
     }
@@ -80,7 +88,8 @@ public class InstitutionService {
     public void deleteInstitutionById(Integer id) {
         findInstitutionById(id);
         try {
-            ImageUploader.DeleteImage(findInstitutionById(id).getImage(), "institution");
+            String credentials = config.getProperty("spring.firebase.credentials");
+            ImageUploader.DeleteImage(findInstitutionById(id).getImage(), "institution", credentials);
         } catch (Exception e) {
             e.printStackTrace();
         }

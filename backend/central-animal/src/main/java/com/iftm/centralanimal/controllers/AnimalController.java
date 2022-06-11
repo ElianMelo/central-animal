@@ -2,6 +2,7 @@ package com.iftm.centralanimal.controllers;
 
 import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.services.AnimalService;
+import com.iftm.centralanimal.utils.ConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

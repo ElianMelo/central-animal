@@ -1,5 +1,6 @@
 package com.iftm.centralanimal.services;
 
+import com.google.api.client.util.IOUtils;
 import com.iftm.centralanimal.exceptionhandler.exceptions.AnimalNotFoundException;
 import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.models.Institution;
@@ -8,10 +9,13 @@ import com.iftm.centralanimal.models.dto.InstitutionDTO;
 import com.iftm.centralanimal.models.dto.InstitutionListDTO;
 import com.iftm.centralanimal.repositories.AnimalRepository;
 import com.iftm.centralanimal.repositories.InstitutionRepository;
+import com.iftm.centralanimal.utils.ConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,6 +24,9 @@ public class AnimalService {
 
     @Autowired
     private AnimalRepository repository;
+
+    @Autowired
+    private ConfigProperties config;
 
     @Autowired
     private InstitutionRepository institutionRepository;
@@ -37,8 +44,9 @@ public class AnimalService {
     }
 
     public Animal newAnimal(Animal entity) {
-        ImageUploader.setImage(entity, false, "");
         entity.setInclusionDate(LocalDate.now());
+        String credentials = config.getProperty("spring.firebase.credentials");
+        ImageUploader.setImage(entity, false, "", credentials);
         return repository.save(entity);
     }
 
@@ -53,7 +61,8 @@ public class AnimalService {
         }
         entity.setId(id);
         if(entity.getImage() != null || entity.getImage() != "")  {
-            ImageUploader.setImage(entity, true, findByIdAnimal(id).getImage());
+            String credentials = config.getProperty("spring.firebase.credentials");
+            ImageUploader.setImage(entity, true, findByIdAnimal(id).getImage(), credentials);
         }
         return repository.save(entity);
     }
@@ -66,7 +75,8 @@ public class AnimalService {
     public void deleteAnimalById(Integer id) {
         findByIdAnimal(id);
         try {
-            ImageUploader.DeleteImage(findByIdAnimal(id).getImage(), "animal");
+            String credentials = config.getProperty("spring.firebase.credentials");
+            ImageUploader.DeleteImage(findByIdAnimal(id).getImage(), "animal", credentials);
         } catch (Exception e) {
             e.printStackTrace();
         }
