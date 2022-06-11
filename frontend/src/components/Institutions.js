@@ -10,22 +10,7 @@ import {
 } from 'react-native';
 
 import RequestService from '../services/RequestService';
-import MessageUtils from '../utils/MessageUtils';
-
 import Footer from './Footer';
-
-const DATA = [
-    {
-        "id": 1,
-        "name": "SOS Vida e Resgate",
-        "city": "Uberlândia",
-        "district": "Santa Mônica",
-        "publicPlace": "Rua",
-        "publicPlaceName": "Alvira",
-        "institutionNumber": "225",
-        "image": "imagem.png"
-    }
-];
 
 export default class Institutions extends Component {
 
@@ -55,12 +40,6 @@ export default class Institutions extends Component {
         this.setState({institutions})
     }
 
-    modalCallback = () => {
-        this.setState({modalVisible: !this.state.modalVisible});
-        // console.log("callback");
-    }
-
-    // image
     renderItem = ({ item }) => (
         <TouchableOpacity 
             style={styles.cardBox}
@@ -75,36 +54,20 @@ export default class Institutions extends Component {
                     style={styles.roundCardImage}
                     source={{uri: item.image}}
                 />
-                <Text style={styles.titleTxt}>
-                    {item.name}
-                    {this.state.valor}
-                </Text>
+                <View style={styles.cardImageCol}>
+                    <Text style={styles.titleTxt}>
+                        {item.name}
+                        {this.state.valor}
+                    </Text>
+                    <Text style={styles.addressTxt}>{`${item.city}, ${item.district} ${item.publicPlace} ${item.publicPlaceName} ${item.institutionNumber}`}</Text>
+                </View>
             </View>
-            <Text style={styles.adressTxt}>{`${item.city}, ${item.district} ${item.publicPlace} ${item.publicPlaceName} ${item.institutionNumber}`}</Text>
         </TouchableOpacity>
     );
 
     render() {
         return (
             <View style={styles.body}>
-                {/* <MessageUtils
-                    topMessage={'500'}
-                    message={'Animal não encontrado'}
-                    callback={this.modalCallback}
-                    modalVisible={this.state.modalVisible}
-                />
-                <TouchableOpacity 
-                    style={styles.cardBox}
-                    onPress={() =>
-                        this.setState({modalVisible: !this.state.modalVisible})
-                    }
-                >
-                    <View style={styles.cardImageLine}>
-                        <Text style={styles.titleTxt}>
-                            Modal
-                        </Text>
-                    </View>
-                </TouchableOpacity> */}
                 <FlatList
                     data={this.state.institutions}
                     style={styles.bottomMargin}
@@ -130,7 +93,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginHorizontal: 16,
         marginVertical: 10,
-        padding: 16,
         borderRadius: 16,
         backgroundColor: "white",        
         shadowColor: "#000",
@@ -148,23 +110,30 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    cardImageCol: {
+        width: "70%",
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start'
+    },
     titleTxt: {
         marginRight: 'auto',
-        fontSize: 24,
-        margin: 16,
+        fontSize: 20,
+        marginBottom: 8,
         fontWeight: "bold",
         textAlign: "center",
         color: "black"
     },
-    adressTxt: {
-        fontWeight: 'bold',
+    addressTxt: {
         fontSize: 16,
         color: "black"
     },
     roundCardImage: {
         marginRight: 'auto',
-        width: 60,
-        height: 60,
-        borderRadius: 30
+        width: 100,
+        height: 130,
+        borderTopLeftRadius: 16,
+        borderBottomLeftRadius: 16,
     },
 });

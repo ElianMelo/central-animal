@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 const home = require('../../assets/home.png');
-const map = require('../../assets/map.png');
+const maps = require('../../assets/maps.png');
 const animals = require('../../assets/animals.png');
 const institutions = require('../../assets/institutions.png');
 const login = require('../../assets/login.png');
@@ -51,7 +51,7 @@ export default class Footer extends Component {
                     >
                         <Image
                             style={styles.menuImage}
-                            source={map}
+                            source={maps}
                         />
                         <Text
                             style={styles.textFooter}

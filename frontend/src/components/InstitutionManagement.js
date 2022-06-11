@@ -18,6 +18,11 @@ import InstitutionService from '../services/InstitutionService';
 
 import central_animal from '../../assets/central-animal.png';
 
+const atualizarInstituicao = require('../../assets/atualizar-instituicao.png');
+const cadastrarAnimal = require('../../assets/cadastrar-animal.png');
+const alteraAnimal = require('../../assets/alterar-animal.png');
+const deslogar = require('../../assets/deslogar.png');
+
 export default class InstitutionManagement extends Component {
 
     constructor(props) {
@@ -95,9 +100,13 @@ export default class InstitutionManagement extends Component {
                             })
                         }
                     >
+                        <Image
+                            style={styles.manageImage}
+                            source={atualizarInstituicao}
+                        />
                         <View style={styles.cardImageLine}>
-                            <Text style={styles.cardSupTxt}>
-                                Atualizar Instituição
+                            <Text style={styles.cardSupTxtManage}>
+                                Alterar Instituição
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -111,8 +120,12 @@ export default class InstitutionManagement extends Component {
                             })
                         }
                     >
+                        <Image
+                            style={styles.manageImage}
+                            source={cadastrarAnimal}
+                        />
                         <View style={styles.cardImageLine}>
-                            <Text style={styles.cardSupTxt}>
+                            <Text style={styles.cardSupTxtManage}>
                                 Criar Animal
                             </Text>
                         </View>
@@ -127,8 +140,12 @@ export default class InstitutionManagement extends Component {
                             })
                         }
                     >
+                        <Image
+                            style={styles.manageImage}
+                            source={alteraAnimal}
+                        />
                         <View style={styles.cardImageLine}>
-                            <Text style={styles.cardSupTxt}>
+                            <Text style={styles.cardSupTxtManage}>
                                 Alterar animal
                             </Text>
                         </View>
@@ -139,8 +156,12 @@ export default class InstitutionManagement extends Component {
                         style={styles.instBox}
                         onPress={() => this.logout()}
                     >  
+                        <Image
+                            style={styles.manageImage}
+                            source={deslogar}
+                        />
                         <View style={styles.cardImageLine}>
-                            <Text style={styles.cardSupTxt}>
+                            <Text style={styles.cardSupTxtManage}>
                                 Deslogar
                             </Text>
                         </View>
@@ -216,6 +237,14 @@ const styles = StyleSheet.create({
         width: 300,
         height: 300,
     },
+    manageImage: {
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+        width: 80,
+        height: 80,
+    },
     inputBox: {
         padding: 5,
         borderRadius: 10,
@@ -258,7 +287,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 14,
         borderWidth: 4,
-        borderColor: '#00C2CB'
+        borderColor: 'black'
     },
     animalBox: {
         textAlign: "center",
@@ -355,6 +384,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontWeight: "500",
         color: "#00C2CB"
+    },
+    cardSupTxtManage: {
+        width: "100%",
+        height: "100%",
+        fontSize: 18,
+        textAlign: "center",
+        fontWeight: "500",
+        color: "black"
     },
     cardTxt: {
         marginRight: 'auto',
