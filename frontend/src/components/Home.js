@@ -40,7 +40,7 @@ export default class Home extends Component {
             />
             <View style={styles.cardColumn}>
                 <Text style={styles.nameTxt}>
-                    Central Animal
+                    {item.institutionDTO.name}
                 </Text>
             </View>
         </TouchableOpacity>
@@ -102,6 +102,9 @@ const styles = StyleSheet.create({
         fontWeight: "300"
     },
     cardBox: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
         textAlign: "center",
         marginHorizontal: 6,
         marginVertical: 8,
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
         width: "47%"
     },
     roundCardImage: {
-        marginRight: 'auto',
+        alignSelf: 'flex-start',
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
         width: "100%",
@@ -127,6 +130,7 @@ const styles = StyleSheet.create({
     cardColumn: {
         paddingVertical: 14,
         paddingHorizontal: 16,
+        margin: 'auto',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -134,8 +138,9 @@ const styles = StyleSheet.create({
     },
     nameTxt: {
         fontSize: 16,
+        height: "100%",
+        margin: 'auto',
         fontWeight: "bold",
-        textAlign: "left",
         color: "black",
         textAlign: 'center'
     },
