@@ -16,6 +16,7 @@ public class InstitutionDTO {
     private InstitutionAddress address;
     private String whatsapp;
     private String pix;
+    private String instagram;
     private Boolean portion;
     private Boolean medicines;
     private Boolean cleaningMaterial;
@@ -29,6 +30,7 @@ public class InstitutionDTO {
         this.address = institution.getAddress();
         this.whatsapp = institution.getWhatsapp();
         this.pix = institution.getPix();
+        this.instagram = institution.getInstagram();
         this.portion = institution.getPortion();
         this.medicines = institution.getMedicines();
         this.cleaningMaterial = institution.getCleaningMaterial();
