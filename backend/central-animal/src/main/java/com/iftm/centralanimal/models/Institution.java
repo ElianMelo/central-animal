@@ -20,6 +20,7 @@ public class Institution implements Serializable, EntityWithImage {
 	private String name;
 	private String whatsapp;
 	private String pix;
+	private String instagram;
 	private Boolean portion;
 	private Boolean medicines;
 	private Boolean cleaningMaterial;
