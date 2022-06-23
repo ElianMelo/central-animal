@@ -11,7 +11,7 @@ Aplicativo Central Animal que tem objetivo facilitar o resgate, adoção de anim
 <img src="https://img.shields.io/badge/Firebase-F29D0C?style=for-the-badge&logo=firebase&logoColor=white"></img>
 <img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white"></img>
 
-## 📌 Links importantes
+<!-- ## 📌 Links importantes -->
 
 ## 📱 Imagens do aplicativo
 <table>
