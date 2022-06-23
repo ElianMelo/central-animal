@@ -21,6 +21,7 @@ import central_animal from '../../assets/central-animal.png';
 const atualizarInstituicao = require('../../assets/atualizar-instituicao.png');
 const cadastrarAnimal = require('../../assets/cadastrar-animal.png');
 const alteraAnimal = require('../../assets/alterar-animal.png');
+const criaInstituicao = require('../../assets/criar-instituicao.png');
 const deslogar = require('../../assets/deslogar.png');
 
 export default class InstitutionManagement extends Component {
@@ -146,7 +147,25 @@ export default class InstitutionManagement extends Component {
                         />
                         <View style={styles.cardImageLine}>
                             <Text style={styles.cardSupTxtManage}>
-                                Alterar animal
+                                Alterar Animal
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity
+                        style={styles.instBox}
+                        onPress={() =>
+                            this.props.navigation.navigate('CreateUser')
+                        }
+                    >
+                        <Image
+                            style={styles.manageImage}
+                            source={criaInstituicao}
+                        />
+                        <View style={styles.cardImageLine}>
+                            <Text style={styles.cardSupTxtManage}>
+                                Criar Instituição
                             </Text>
                         </View>
                     </TouchableOpacity>

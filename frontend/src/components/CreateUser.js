@@ -19,14 +19,13 @@ import RequestService from '../services/RequestService';
 import MessageUtils from '../utils/MessageUtils';
 
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-export default class ChangeInstitution extends Component {
+export default class CreateUser extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             props: props,
             willFocusSubscription: null,
-            institution: {},
             name: '',
             description: '',
             city: '',
@@ -40,32 +39,17 @@ export default class ChangeInstitution extends Component {
             cleaningMaterial: true,
             image: '',
             modalVisible: false,
-            modalText: "Instituição alterada com sucesso",
+            modalText: "Instituição e gestor criados com sucesso",
             isSuccess: true
         };
     }
 
-    loadInstitution = async() => {
-        let institution = await RequestService.getInstitution(this.props.route.params.institutionId);
-        this.setState({institution});
+    createInstitution = async() => {
+        let institution = {};
+        let administrator = {};
 
-        this.setState({name: institution.name});
-        this.setState({description: institution.description});
-        this.setState({city: institution.address.city});
-        this.setState({district: institution.address.district});
-        this.setState({publicPlace: institution.address.publicPlace});
-        this.setState({publicPlaceName: institution.address.publicPlaceName});
-        this.setState({number: institution.address.number});
-        this.setState({whatsapp: institution.whatsapp});
-        this.setState({pix: institution.pix});
-        this.setState({portion: institution.portion});
-        this.setState({medicines: institution.medicines});
-        this.setState({cleaningMaterial: institution.cleaningMaterial});
-        this.setState({image: institution.image});
-    }
-
-    updateInstitution = async() => {
-        let institution = this.state.institution;
+        administrator.email = this.state.email;
+        administrator.pass = this.state.pass;
 
         institution.name = this.state.name;
         institution.description = this.state.description;
@@ -81,12 +65,12 @@ export default class ChangeInstitution extends Component {
         institution.cleaningMaterial = this.state.cleaningMaterial;
         institution.image = this.state.image;
 
-        try {
-            await RequestService.putInstitution(this.props.route.params.institutionId, institution);
-        } catch {
-            this.setState({modalText: "Falha ao alterar instituição"});
-            this.setState({isSuccess: false});
-        }
+        // try {
+        //     await RequestService.createInstitution(this.props.route.params.institutionId, institution);
+        // } catch {
+        //     this.setState({modalText: "Falha ao alterar instituição"});
+        //     this.setState({isSuccess: false});
+        // }
     }
 
     componentDidMount() {
@@ -99,15 +83,14 @@ export default class ChangeInstitution extends Component {
                 }
             )
         })
-        this.loadInstitution();
     }
 
     componentWillUnmount() {
         this.state.willFocusSubscription();
     }
 
-    saveInstitution = async() => {
-        await this.updateInstitution();
+    createAdminInstitution = async() => {
+        await this.createInstitution();
         this.setState({modalVisible: !this.state.modalVisible});
     }
 
@@ -135,10 +118,34 @@ export default class ChangeInstitution extends Component {
             <ScrollView style={styles.body}>
                 <View style={[styles.inputBox, {marginTop: 30}]}>
                     <Text style={styles.sessionDescriptionTxt}>
-                        Atualizar instituição
+                        Criar gestor
                     </Text>
                     <Text style={styles.sessionDescriptionLowerTxt}>
-                        Insira as especificações da instituição nos campos a baixo.
+                        Insira as informações do gestor nos campos abaixo.
+                    </Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        placeholderTextColor="#000000" 
+                        onChangeText={(email) => this.setState({email})}
+                        value={this.state.email}
+                    />
+                </View>
+                <View style={styles.inputBox}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Senha"
+                        placeholderTextColor="#000000" 
+                        onChangeText={(pass) => this.setState({pass})}
+                        value={this.state.pass}
+                    />
+                </View>
+                <View style={[styles.inputBox, {marginTop: 15}]}>
+                    <Text style={styles.sessionDescriptionTxt}>
+                        Criar instituição
+                    </Text>
+                    <Text style={styles.sessionDescriptionLowerTxt}>
+                        Insira as especificações da instituição nos campos abaixo.
                     </Text>
                     <TextInput
                         style={styles.input}
@@ -226,7 +233,7 @@ export default class ChangeInstitution extends Component {
                         Foto da Instituição
                     </Text>
                     <Text style={styles.sessionDescriptionLowerTxt}>
-                        Insira a foto da instituição na região a baixo.
+                        Insira a foto da instituição na região abaixo.
                     </Text>
                 </View>
                 <View style={styles.inputBox}>
@@ -307,11 +314,11 @@ export default class ChangeInstitution extends Component {
                 <View style={[styles.inputBox, {marginBottom: 50}]}>
                     <View style={styles.cardBox}>
                         <TouchableOpacity
-                            onPress={() => this.saveInstitution()}
+                            onPress={() => this.createAdminInstitution()}
                         >  
                             <View style={styles.cardImageLine}>
                                 <Text style={styles.cardSupTxt}>
-                                    Salvar Instituição
+                                    Criar Gestor/Instituição
                                 </Text>
                             </View>
                         </TouchableOpacity>

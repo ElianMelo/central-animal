@@ -40,7 +40,7 @@ export default class ChangeAnimal extends Component {
             image: '',
             modalVisible: false,
             modalText: "Animal alterado com sucesso",
-            modalColor: "#00C2CB"
+            isSuccess: true
         };
     }
 
@@ -113,7 +113,7 @@ export default class ChangeAnimal extends Component {
             await RequestService.putAnimal(this.props.route.params.id, animal);
         } catch {
             this.setState({modalText: "Falha ao alterar animal"});
-            this.setState({modalColor: "#DC3545"});
+            this.setState({isSuccess: false});
         }
         
         this.setState({modalVisible: !this.state.modalVisible});
@@ -227,7 +227,7 @@ export default class ChangeAnimal extends Component {
                     </TouchableOpacity>
                 </View>
                 <MessageUtils
-                    topColor={this.state.modalColor}
+                    isSuccess={this.state.isSuccess}
                     message={this.state.modalText}
                     callback={this.modalCallback}
                     modalVisible={this.state.modalVisible}

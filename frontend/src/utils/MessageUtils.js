@@ -10,6 +10,9 @@ import {
     TouchableOpacity,
 } from 'react-native';
 
+import sucesso from '../../assets/sucesso.png';
+import falha from '../../assets/falha.png';
+
 export default class MessageUtils extends Component {
 
     constructor(props) {
@@ -17,18 +20,10 @@ export default class MessageUtils extends Component {
         this.state = {
             props: props,
             modalVisible: this.props.modalVisible,
-            color: 'green',
+            isSuccess: this.props.isSuccess,
+            successColor: '#00C2CB',
+            failColor: '#DC3545',
         };
-    }
-
-    componentDidMount() {
-        this.setValues();
-    }
-
-    setValues() {
-        if (this.props.topColor) {
-            this.setState({color: this.props.topColor});
-        }
     }
 
     onClose() {
@@ -59,11 +54,14 @@ export default class MessageUtils extends Component {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <View style={this.changeColor(this.state.color)}>
-                            </View>
+                            <Image
+                                style={styles.logoImage}
+                                source={this.state.isSuccess ? sucesso : falha}
+                            >
+                            </Image>
                             <Text style={styles.modalTextMessage}>{this.props.message}</Text>
                             <Pressable
-                                style={styles.button}
+                                style={[styles.button, {backgroundColor: this.state.isSuccess ? this.state.successColor : this.state.failColor}]}
                                 onPress={() => this.onClose()}
                             >
                                 <Text style={styles.textStyle}>OK</Text>
@@ -82,6 +80,13 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    logoImage: {
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        marginTop: 26,
+        width: 100,
+        height: 100,
     },
     modalView: {
         display: 'flex',
@@ -107,14 +112,13 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     button: {
-        backgroundColor: "black",
         borderRadius: 10,
         padding: 10,
         elevation: 2,
-        width: "20%",
+        width: "80%",
         marginLeft: 'auto',
-        marginRight: 10,
-        marginBottom: 10
+        marginRight: 'auto',
+        marginBottom: 18
     },
     textStyle: {
         color: "white",
