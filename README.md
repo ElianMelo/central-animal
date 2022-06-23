@@ -14,6 +14,22 @@ Aplicativo Central Animal que tem objetivo facilitar o resgate, adoção de anim
 ## 📌 Links importantes
 
 ## 📱 Imagens do aplicativo
+<table>
+        <tr>
+            <td align="center"><img src="img/pagina-home.png" alt="imagem da página home" /><br />
+                <sub><h2>Home</h2></sub></td>
+                <td align="center"><img src="img/detalhamento-de-instituicao.png" alt="imagem de detalhamento de instituição" /><br />
+                <sub><h2>Detalhamento de instituição</h2></sub></td>
+            </td>
+        </tr>
+        <tr>
+            <td align="center"><img src="img/listagem-instituicoes.png" alt="imagem de listagens de instituições" /><br />
+                <sub><h2>Listagem de instituições</h2></sub></td>
+                <td align="center"><img src="img/listagem-animais.png" alt="imagem de listagens de animais" /><br />
+                <sub><h2>Listagem de animais</h2></sub></td>
+            </td>
+        </tr>
+</table>
 
 ## ✒️ Autores
 <table>
