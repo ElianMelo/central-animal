@@ -80,6 +80,7 @@ export default class ChangeInstitution extends Component {
         institution.medicines = this.state.medicines;
         institution.cleaningMaterial = this.state.cleaningMaterial;
         institution.image = this.state.image;
+        institution.administrator = null;
 
         try {
             await RequestService.putInstitution(this.props.route.params.institutionId, institution);
