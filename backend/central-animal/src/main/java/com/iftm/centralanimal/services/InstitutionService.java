@@ -1,13 +1,17 @@
 package com.iftm.centralanimal.services;
 
 import com.iftm.centralanimal.exceptionhandler.exceptions.InstitutionNotFoundException;
+import com.iftm.centralanimal.models.Administrator;
 import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.models.Institution;
+import com.iftm.centralanimal.models.dto.InstitutionAndAdminstratorDTO;
 import com.iftm.centralanimal.models.dto.InstitutionDTO;
 import com.iftm.centralanimal.models.dto.InstitutionListDTO;
+import com.iftm.centralanimal.repositories.AdministratorRepository;
 import com.iftm.centralanimal.repositories.AnimalRepository;
 import com.iftm.centralanimal.repositories.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,6 +25,9 @@ public class InstitutionService {
 
     @Autowired
     private AnimalRepository animalRepository;
+
+    @Autowired
+    private AdministratorService administratorService;
 
     public List<InstitutionListDTO> allInstitutions() {
         List<Institution> list = repository.findAll();
@@ -84,5 +91,14 @@ public class InstitutionService {
         Institution institution = repository.findByAdministratorEmail(email).
                 orElseThrow(() -> new InstitutionNotFoundException());
         return new InstitutionDTO(institution);
+    }
+
+    public Institution saveInstitutionAndAdministrator(InstitutionAndAdminstratorDTO entity) {
+            Administrator administrator = new Administrator(entity);
+            Administrator newAdministrator = administratorService.newAdministrator(administrator);
+
+            Institution institution = new Institution(entity);
+            institution.setAdministrator(newAdministrator);
+            return newInstitution(institution);
     }
 }

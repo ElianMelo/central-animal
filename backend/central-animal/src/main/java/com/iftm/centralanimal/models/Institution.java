@@ -1,7 +1,10 @@
 package com.iftm.centralanimal.models;
 
+import com.iftm.centralanimal.models.dto.InstitutionAndAdminstratorDTO;
 import com.iftm.centralanimal.models.interfaces.EntityWithImage;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +14,8 @@ import java.util.List;
 @Entity
 @Table(name="institution")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Institution implements Serializable, EntityWithImage {
 	private static final long serialVersionUID = 1L;
 
@@ -46,5 +51,19 @@ public class Institution implements Serializable, EntityWithImage {
 	@Override
 	public String getImage() {
 		return this.image;
+	}
+
+	public Institution(InstitutionAndAdminstratorDTO institution) {
+		this.id = 0;
+		this.name = institution.getName();
+		this.description = institution.getDescription();
+		this.address = institution.getAddress();
+		this.whatsapp = institution.getWhatsapp();
+		this.pix = institution.getPix();
+		this.instagram = institution.getInstagram();
+		this.portion = institution.getPortion();
+		this.medicines = institution.getMedicines();
+		this.cleaningMaterial = institution.getCleaningMaterial();
+		this.image = institution.getImage();
 	}
 }
