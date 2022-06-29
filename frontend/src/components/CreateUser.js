@@ -46,10 +46,7 @@ export default class CreateUser extends Component {
 
     createInstitution = async() => {
         let institution = {};
-        let administrator = {};
-
-        administrator.email = this.state.email;
-        administrator.pass = this.state.pass;
+        institution.address = {};
 
         institution.name = this.state.name;
         institution.description = this.state.description;
@@ -64,13 +61,15 @@ export default class CreateUser extends Component {
         institution.medicines = this.state.medicines;
         institution.cleaningMaterial = this.state.cleaningMaterial;
         institution.image = this.state.image;
+        institution.administratorEmail = this.state.email;
+        institution.administratorPassword = this.state.pass;
 
-        // try {
-        //     await RequestService.createInstitution(this.props.route.params.institutionId, institution);
-        // } catch {
-        //     this.setState({modalText: "Falha ao alterar instituição"});
-        //     this.setState({isSuccess: false});
-        // }
+        try {
+            await RequestService.createInstitution(institution);
+        } catch {
+            this.setState({modalText: "Falha ao criar instituição"});
+            this.setState({isSuccess: false});
+        }
     }
 
     componentDidMount() {

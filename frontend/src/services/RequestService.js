@@ -2,7 +2,7 @@ import axios from "react-native-axios";
 import TokenService from "./TokenService";
 import InstitutionService from "./InstitutionService";
 
-const BASEURL = 'http://192.168.0.5:8080';
+const BASEURL = 'https://central-animal.herokuapp.com';
 export default class RequestService {
     static getInstitutions = async() => {
         let res = await axios.get(`${BASEURL}/institution`);
@@ -46,8 +46,10 @@ export default class RequestService {
         if(res.data) {
             let token = res.data;
             await TokenService.setToken(token);
-            let resInst = await axios.get(`${BASEURL}/institution/administrator-email/${login.email}`);
-            await InstitutionService.setInstitution(resInst.data.id.toString());
+            try {
+                let resInst = await axios.get(`${BASEURL}/institution/administrator-email/${login.email}`);
+                await InstitutionService.setInstitution(resInst.data.id.toString());
+            } catch { }
         }
         return true;
     }
@@ -78,6 +80,18 @@ export default class RequestService {
             createAnimal = false;
         }
         return createAnimal;
+    }
+
+    static createInstitution = async(institution) => {
+        let config = await this.getConfig();
+        let createInstitution = false;
+        try {
+            await axios.post(`${BASEURL}/institution/institution-and-administrator`, institution, config);       
+            createInstitution = true;
+        } catch(e) {
+            createInstitution = false;
+        }
+        return createInstitution;
     }
 
     static deleteAnimal = async(id) => {

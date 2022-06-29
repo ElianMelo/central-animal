@@ -34,8 +34,8 @@ export default class InstitutionManagement extends Component {
             logged: false,
             borderColorEmail: 'gray',
             borderColorPass: 'gray',
-            email: 'casimiro2011@gmail.com',
-            password: 'farofaehbao',
+            email: '',
+            password: '',
             institutionId: ''
         };
     }
