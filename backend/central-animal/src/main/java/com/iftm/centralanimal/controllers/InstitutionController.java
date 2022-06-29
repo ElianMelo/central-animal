@@ -36,7 +36,7 @@ public class InstitutionController {
 
     @GetMapping("/{id}")
     public InstitutionDTO findInstitutionById(@PathVariable Integer id) {
-        return service.findInstitutionById(id);
+        return service.findInstitutionDTOById(id);
     }
 
     @GetMapping("/animals/{id}")

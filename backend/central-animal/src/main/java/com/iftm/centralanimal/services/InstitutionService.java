@@ -41,7 +41,10 @@ public class InstitutionService {
     }
 
     public Institution updateInstitutionById(Integer id, Institution entity) {
-        findInstitutionById(id);
+        Institution institution = findInstitutionById(id);
+        if(entity.getAdministrator() == null) {
+            entity.setAdministrator(institution.getAdministrator());
+        }
         entity.setId(id);
         if(entity.getImage() != null || entity.getImage() != "")  {
             ImageUploader.setImage(entity, true, findInstitutionById(id).getImage());
@@ -55,10 +58,16 @@ public class InstitutionService {
         return animalRepository.findByInstitutionId(id);
     }
 
-    public InstitutionDTO findInstitutionById(Integer id) {
+    public InstitutionDTO findInstitutionDTOById(Integer id) {
         Institution institution = repository.findById(id).
                 orElseThrow(() -> new InstitutionNotFoundException());
         return new InstitutionDTO(institution);
+    }
+
+    public Institution findInstitutionById(Integer id) {
+        Institution institution = repository.findById(id).
+                orElseThrow(() -> new InstitutionNotFoundException());
+        return institution;
     }
     
     public void deleteInstitutionById(Integer id) {
