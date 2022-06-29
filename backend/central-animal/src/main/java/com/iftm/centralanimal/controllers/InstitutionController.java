@@ -3,10 +3,12 @@ package com.iftm.centralanimal.controllers;
 import com.iftm.centralanimal.models.Administrator;
 import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.models.Institution;
+import com.iftm.centralanimal.models.dto.InstitutionAndAdminstratorDTO;
 import com.iftm.centralanimal.models.dto.InstitutionDTO;
 import com.iftm.centralanimal.models.dto.InstitutionListDTO;
 import com.iftm.centralanimal.services.InstitutionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,6 +29,11 @@ public class InstitutionController {
     @PostMapping
     public Institution newInstitution(@Valid @RequestBody Institution entity) {
         return service.newInstitution(entity);
+    }
+
+    @PostMapping("/institution-and-administrator")
+    public Institution newInstitutionAndAdministrator(@Valid @RequestBody InstitutionAndAdminstratorDTO entity) {
+        return service.saveInstitutionAndAdministrator(entity);
     }
 
     @PutMapping("/{id}")
