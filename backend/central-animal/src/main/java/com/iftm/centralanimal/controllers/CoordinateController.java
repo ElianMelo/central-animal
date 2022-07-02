@@ -1,6 +1,7 @@
 package com.iftm.centralanimal.controllers;
 
 import com.iftm.centralanimal.models.Animal;
+import com.iftm.centralanimal.models.Coordinate;
 import com.iftm.centralanimal.services.CoordinateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,4 +19,10 @@ public class CoordinateController {
     public List<Animal> animalsWithin10Km(@PathVariable Double lati, @PathVariable Double longi) {
         return service.animalsWithin10Km(lati, longi);
     }
+
+    @GetMapping
+    public List<Coordinate> coordinates() {
+        return service.coordinates();
+    }
+
 }
