@@ -288,7 +288,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        width: "100%"
+        width: "100%",
+        marginBottom: 10
     },
     headerColumn: {
         display: 'flex',
