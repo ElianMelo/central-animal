@@ -1,7 +1,9 @@
 package com.iftm.centralanimal.services;
 
 import com.iftm.centralanimal.models.Animal;
+import com.iftm.centralanimal.models.Coordinate;
 import com.iftm.centralanimal.repositories.AnimalRepository;
+import com.iftm.centralanimal.repositories.CoordinateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ public class CoordinateService {
 
     @Autowired
     private AnimalRepository animalRepository;
+
+    @Autowired
+    private CoordinateRepository coordinateRepository;
 
     /**
      * Método que retorna uma lista de animais no raio de 10km.
@@ -26,6 +31,9 @@ public class CoordinateService {
         List<Animal> animalsWithin10Km = new ArrayList<Animal>();
 
         for (Animal animal: allAnimals) {
+            if(animal.getAnimalCoordinate() != null && animal.getAnimalCoordinate().getLatitude() != null && animal.getAnimalCoordinate().getLongitude() != null) {
+
+
         lati = animal.getAnimalCoordinate().getLatitude();
         longi = animal.getAnimalCoordinate().getLongitude();
 
@@ -36,7 +44,7 @@ public class CoordinateService {
             }
 
         }
-
+        }
         return animalsWithin10Km;
     }
 
@@ -56,5 +64,9 @@ public class CoordinateService {
         distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
         return Math.sqrt(distance);
+    }
+
+    public List<Coordinate> coordinates() {
+        return coordinateRepository.findAll();
     }
 }
