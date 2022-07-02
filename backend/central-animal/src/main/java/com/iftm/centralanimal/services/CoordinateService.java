@@ -32,18 +32,15 @@ public class CoordinateService {
 
         for (Animal animal: allAnimals) {
             if(animal.getAnimalCoordinate() != null && animal.getAnimalCoordinate().getLatitude() != null && animal.getAnimalCoordinate().getLongitude() != null) {
+                lati = animal.getAnimalCoordinate().getLatitude();
+                longi = animal.getAnimalCoordinate().getLongitude();
+                distance = calcDistance(latitudeRef, lati, longitudeRef, longi, 0.0, 0.0);
 
+                if(distance <= 10) {
+                    animalsWithin10Km.add(animal);
+                }
 
-        lati = animal.getAnimalCoordinate().getLatitude();
-        longi = animal.getAnimalCoordinate().getLongitude();
-
-        distance = calcDistance(latitudeRef, lati, longitudeRef, longi, 0.0, 0.0);
-
-        if(distance <= 10) {
-            animalsWithin10Km.add(animal);
             }
-
-        }
         }
         return animalsWithin10Km;
     }
