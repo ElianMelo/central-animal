@@ -45,7 +45,10 @@ public class AnimalService {
     }
 
     public Animal updateAnimalById(Integer id, Animal entity) {
-        findByIdAnimal(id);
+        Animal animal = findByIdAnimal(id);
+        if(entity.getAnimalCoordinate() == null || entity.getAnimalCoordinate().getLatitude() == null && entity.getAnimalCoordinate().getLongitude() == null) {
+            entity.setAnimalCoordinate(animal.getAnimalCoordinate());
+        }
         entity.setId(id);
         if(entity.getImage() != null || entity.getImage() != "")  {
             ImageUploader.setImage(entity, true, findByIdAnimal(id).getImage());
