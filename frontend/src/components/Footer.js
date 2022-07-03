@@ -29,7 +29,7 @@ export default class Footer extends Component {
                 <View style={styles.menuImageLine}>
                     <TouchableOpacity
                         style={styles.itemCol}
-                        onPress={() =>
+                        onPress={() => 
                             this.props.navigation.navigate('Home')
                         }
                     >
@@ -45,9 +45,10 @@ export default class Footer extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.itemCol}
-                        onPress={() =>
-                            this.props.navigation.navigate('Map')
-                        }
+                        onPress={() => {
+                            this.props.navigation.navigate('Home'); 
+                            this.props.navigation.navigate('Map');
+                        }}
                     >
                         <Image
                             style={styles.menuImage}
@@ -61,6 +62,10 @@ export default class Footer extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.itemCol}
+                        onPress={() => {
+                            this.props.navigation.navigate('Home');
+                            this.props.navigation.navigate('CreateAnimalCoord');
+                        }}
                     >
                         <Image
                             style={styles.menuImage}
@@ -74,9 +79,10 @@ export default class Footer extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.itemCol}
-                        onPress={() =>
-                            this.props.navigation.navigate('Institutions')
-                        }
+                        onPress={() => {
+                            this.props.navigation.navigate('Home');
+                            this.props.navigation.navigate('Institutions');
+                        }}
                     >
                         <Image
                             style={styles.menuImage}
@@ -90,9 +96,10 @@ export default class Footer extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.itemCol}
-                        onPress={() =>
-                            this.props.navigation.navigate('InstitutionManagement')
-                        }
+                        onPress={() => {
+                            this.props.navigation.navigate('Home');
+                            this.props.navigation.navigate('InstitutionManagement');
+                        }}
                     >
                         <Image
                             style={styles.menuImage}

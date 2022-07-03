@@ -4,76 +4,164 @@ import {
     StyleSheet,
     Text,
     View,
-    FlatList,
     TouchableOpacity,
     Image,
 } from 'react-native';
 
 import Footer from './Footer';
-
+import PermissionService from '../services/PermissionService';
 import RequestService from '../services/RequestService';
+import MapboxGL from '@rnmapbox/maps';
 
+PermissionService.getGeoPermission();
+MapboxGL.setAccessToken('INSERT_MAPKEY_HERE');
+
+const countControl = {
+    count: 0,
+    canSearch: true
+}
 export default class Map extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             props: props,
-            titleText: "Central Animal",
-            descriptionText: "Aplicativo pra animais em adoção",
+            initialCoords: null,
+            currentCoords: null,
+            willFocusSubscription: null,
+            animals: []
         };
     }
 
     componentDidMount() {
-        this.loadAnimals();
+        this.setState({
+            willFocusSubscription: this.state.props.navigation.addListener(
+                'focus',
+                () => {
+                    setTimeout(() => {
+                        this.getAnimalsCoord();
+                    }, 1000); 
+                }
+            )
+        })
     }
 
-    loadAnimals = async() => {
-        let animals = await RequestService.getTenRandomAnimals();
-        this.setState({animals})
+    componentWillUnmount() {
+        this.state.willFocusSubscription();
     }
 
-    renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.cardBox}>
-            <Image
-                style={styles.roundCardImage}
-                source={{uri: item.image}}
-            />
-            <View style={styles.cardColumn}>
-                <Text style={styles.nameTxt}>
-                    Central Animal
-                </Text>
-            </View>
-        </TouchableOpacity>
-    );
+    async getAnimalsCoord() {
+        if (this.state.currentCoords && this.state.currentCoords[0] && this.state.currentCoords[1]) {
+            let animals = await RequestService.getCloserAnimals(this.state.currentCoords[1], this.state.currentCoords[0]);
+            this.setState({ animals });
+        }
+    }
 
     render() {
         return (
             <View style={styles.body}>
-                <View style={styles.inputBox}>
-                    <Text style={styles.sessionDescriptionTxt}>
-                        Mapa
-                    </Text>
-                    <Text style={styles.sessionDescriptionLowerTxt}>
-                        Animais na sua região.
-                    </Text>
+                <View style={styles.page}>
+                    <View style={styles.container}>
+                        <MapboxGL.MapView
+                            key='mainmap'
+                            style={styles.map}>
+                            <MapboxGL.UserLocation
+                                renderMode="normal"
+                                visible={false}
+                                onUpdate={location => {
+                                    let currentCoords = [
+                                        location.coords.longitude,
+                                        location.coords.latitude,
+                                    ];
+                                    if(!this.state.initialCoords) {
+                                        this.setState({
+                                            initialCoords: currentCoords,
+                                        });
+                                    }
+                                    this.setState({
+                                        currentCoords,
+                                    });
+                                    if(countControl.canSearch == true) {
+                                        this.setState({
+                                            initialCoords: currentCoords,
+                                        });
+                                        this.getAnimalsCoord();
+                                        countControl.canSearch = false;
+                                        countControl.count = 0;
+                                    } else {
+                                        countControl.count += 1;
+                                        if(countControl.count == 50) {
+                                            countControl.canSearch = true;
+                                        }
+                                    }
+                                }}
+                            />
+                            <MapboxGL.Camera
+                                zoomLevel={14}
+                                centerCoordinate={this.state.initialCoords}
+                            />
+                            {
+                                this.state.animals.map((item) => {
+                                    return (
+                                        <MapboxGL.PointAnnotation
+                                            key={"key" + item.id}
+                                            id={"id" + item.id}
+                                            coordinate={[item.animalCoordinate.latitude, item.animalCoordinate.longitude]}>
+                                            <MapboxGL.Callout>
+                                                <TouchableOpacity style={styles.cardBoxPoint}>
+                                                    <View style={styles.cardColumn}>
+                                                        <Text
+                                                            style={styles.textImage}
+                                                        >
+                                                            <Image
+                                                                style={styles.roundCardImage}
+                                                                source={{ uri: item.image }}
+                                                            />
+                                                        </Text>
+                                                        <Text style={styles.nameTxt}>
+                                                            {item.description}
+                                                        </Text>
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </MapboxGL.Callout>
+                                        </MapboxGL.PointAnnotation>
+                                    )
+                                })
+                            }
+                        </MapboxGL.MapView>
+                    </View>
                 </View>
-                <FlatList
-                    data={this.state.animals}
-                    style={styles.bottomMargin}
-                    renderItem={this.renderItem}
-                    keyExtractor={item => item.id}
-                    numColumns={2}
-                />
-                <Footer navigation={this.state.props.navigation}/>
+                <Footer navigation={this.state.props.navigation} />
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    page: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF'
+    },
+    container: {
+        height: "100%",
+        width: "100%",
+    },
+    map: {
+        flex: 1
+    },
+    textImage: {
+        height: 250,
+        width: 220,
+        marginTop: -70,
+        marginLeft: 50,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     body: {
-        paddingTop: 30,
         height: "100%",
         backgroundColor: "white"
     },
@@ -102,39 +190,28 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "300"
     },
-    cardBox: {
+    cardBoxPoint: {
         textAlign: "center",
-        marginHorizontal: 6,
-        marginVertical: 8,
         borderRadius: 16,
-        backgroundColor: "white",        
+        backgroundColor: "white",
         shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
         elevation: 7,
-        width: "47%"
+        width: 220,
+        height: 250
     },
     roundCardImage: {
-        marginRight: 'auto',
-        borderTopLeftRadius: 16,
-        borderTopRightRadius: 16,
-        width: "100%",
+        width: 170,
         height: 200,
-    },                
+    },
     cardColumn: {
-        paddingVertical: 14,
-        paddingHorizontal: 16,
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
     },
     nameTxt: {
         fontSize: 16,
+        marginTop: 8,
         fontWeight: "bold",
         textAlign: "left",
         color: "black",
