@@ -30,6 +30,7 @@ export default class AnimalsEdit extends Component {
         super(props);
         this.state = {
             props: props,
+            willFocusSubscription: null,
             animals: {},
             animalsFilter: {},
             enableFilter: false,

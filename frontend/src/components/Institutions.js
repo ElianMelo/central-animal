@@ -10,14 +10,15 @@ import {
 } from 'react-native';
 
 import RequestService from '../services/RequestService';
-import Footer from './Footer';
 
+import Footer from './Footer';
 export default class Institutions extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             props: props,
+            willFocusSubscription: null,
             modalVisible: false,
             institutions: []
         };
@@ -32,7 +33,11 @@ export default class Institutions extends Component {
                 }
             )
         })
-        this.loadInstitutions();
+        this.loadInstitutions(); 
+    }
+
+    componentWillUnmount() {
+        this.state.willFocusSubscription();
     }
 
     loadInstitutions = async() => {

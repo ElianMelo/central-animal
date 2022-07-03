@@ -12,6 +12,7 @@ import CreateAnimal from './src/components/CreateAnimal';
 import CreateUser from './src/components/CreateUser';
 import ChangeAnimal from './src/components/ChangeAnimal';
 import ChangeInstitution from './src/components/ChangeInstitution';
+import CreateAnimalCoord from './src/components/CreateAnimalCoord'
 import Map from './src/components/Map';
 
 const Stack = createNativeStackNavigator();
@@ -33,6 +34,7 @@ export default class App extends Component {
           <Stack.Screen name="AnimalsEdit" component={AnimalsEdit} options={{ title: 'Edição de Animal', headerShown: false }} />
           <Stack.Screen name="InstitutionManagement" component={InstitutionManagement} options={{ title: 'Login/Gerência de Instituição' , headerShown: false}} />
           <Stack.Screen name="CreateAnimal" component={CreateAnimal} options={{ title: 'Cadastrar Animal', headerShown: false }} />
+          <Stack.Screen name="CreateAnimalCoord" component={CreateAnimalCoord} options={{ title: 'Cadastrar Animal Coordenada', headerShown: false }} />
           <Stack.Screen name="CreateUser" component={CreateUser} options={{ title: 'Criar Usuário' , headerShown: false}} />
           <Stack.Screen name="ChangeAnimal" component={ChangeAnimal} options={{ title: 'Alterar Animal', headerShown: false }} />
           <Stack.Screen name="ChangeInstitution" component={ChangeInstitution} options={{ title: 'Alterar Instituição' , headerShown: false}} />

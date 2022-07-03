@@ -36,6 +36,11 @@ export default class RequestService {
         return res.data;
     }
 
+    static getCloserAnimals = async(latitude, longitude) => {
+        let res = await axios.get(`${BASEURL}/coordinate/closer-animals/-48.27620221557295&&-18.9108120590637`);
+        return res.data;
+    }
+
     static getTenRandomAnimals = async() => {
         let res = await axios.get(`${BASEURL}/animal/ten-random-animals`);
         return res.data;

@@ -12,6 +12,8 @@ import {
 import Footer from './Footer';
 
 import RequestService from '../services/RequestService';
+
+const refresh = require('../../assets/refresh.png');
 export default class Home extends Component {
 
     constructor(props) {
@@ -50,12 +52,24 @@ export default class Home extends Component {
         return (
             <View style={styles.body}>
                 <View style={styles.inputBox}>
-                    <Text style={styles.sessionDescriptionTxt}>
-                        Adoções para você
-                    </Text>
-                    <Text style={styles.sessionDescriptionLowerTxt}>
-                        Esta são umas das sugestões de adoções para você.
-                    </Text>
+                    <View style={{width: "70%"}}>
+                        <Text style={styles.sessionDescriptionTxt}>
+                            Adoções para você
+                        </Text>
+                        <Text style={styles.sessionDescriptionLowerTxt}>
+                            Esta são umas das sugestões de adoções para você.
+                        </Text>
+                    </View>
+                    <View style={{width: "30%", marginBottom: 24}}>
+                        <TouchableOpacity
+                            onPress={() => this.loadAnimals()}
+                        >
+                            <Image
+                                style={styles.iconImage}
+                                source={refresh}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <FlatList
                     data={this.state.animals}
@@ -84,6 +98,11 @@ const styles = StyleSheet.create({
         padding: 5,
         marginRight: 16,
         marginLeft: 16,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: "100%"
     },
     sessionDescriptionTxt: {
         marginBottom: 6,
@@ -126,7 +145,12 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 16,
         width: "100%",
         height: 200,
-    },                
+    },    
+    iconImage: {
+        margin: 'auto',
+        width: 50,
+        height: 50,
+    },             
     cardColumn: {
         paddingVertical: 14,
         paddingHorizontal: 16,
