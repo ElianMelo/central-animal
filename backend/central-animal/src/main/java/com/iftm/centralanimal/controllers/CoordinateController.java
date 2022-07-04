@@ -17,7 +17,7 @@ public class CoordinateController {
 
     @GetMapping("/closer-animals/{lati}&&{longi}")
     public List<Animal> animalsWithin10Km(@PathVariable Double lati, @PathVariable Double longi) {
-        return service.animalsWithin10Km(lati, longi);
+        return service.animalsWithin5Km(lati, longi);
     }
 
     @GetMapping
