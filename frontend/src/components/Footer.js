@@ -91,7 +91,7 @@ export default class Footer extends Component {
                         <Text
                             style={styles.textFooter}
                         >
-                            Instituicoes
+                            Instituições
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity

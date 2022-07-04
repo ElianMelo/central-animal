@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
+    ActivityIndicator
 } from 'react-native';
 
 import Footer from './Footer';
@@ -29,6 +30,7 @@ export default class InstitutionManagement extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading: false,
             props: props,
             willFocusSubscription: null,
             logged: false,
@@ -72,6 +74,7 @@ export default class InstitutionManagement extends Component {
 
     doLogin() {
         if(this.state.email != '' && this.state.password != '') {
+            this.setState({isLoading: true})
             let login = {
                 email: this.state.email,  
                 password: this.state.password
@@ -79,6 +82,11 @@ export default class InstitutionManagement extends Component {
             RequestService.postLogin(login).then(() => {
                 RequestService.validateToken().then((isValid) => { if (isValid) this.setState({logged: true}) });
                 this.getInstitution();
+            }).finally(() => {
+                const timer= setTimeout(() => {
+                    this.setState({isLoading: false});
+                    clearTimeout(timer);
+                }, 1500);
             });
         }
     }
@@ -224,9 +232,17 @@ export default class InstitutionManagement extends Component {
                         onPress={() => this.doLogin()}
                     >
                         <View style={styles.cardImageLine}>
-                            <Text style={styles.cardSupTxt}>
-                                Entrar
-                            </Text>
+                            {!this.state.isLoading ? (
+                                <Text style={styles.cardSupTxt}>
+                                    Entrar
+                                </Text>
+                            ):(
+                                <ActivityIndicator 
+                                    color="#00C2CB"
+                                    animating={this.state.isLoading}
+                                    size={32} 
+                                />
+                            )}
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -432,5 +448,5 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         color: "#000"
-    },
+    }
 });

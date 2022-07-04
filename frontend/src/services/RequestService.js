@@ -76,10 +76,9 @@ export default class RequestService {
     }
 
     static postAnimal = async(animal) => {
-        let config = await this.getConfig();
         let createAnimal = false;
         try {
-            await axios.post(`${BASEURL}/animal`, animal, config);       
+            await axios.post(`${BASEURL}/animal`, animal);       
             createAnimal = true;
         } catch(e) {
             createAnimal = false;
