@@ -25,10 +25,10 @@ public class CoordinateService {
      * @param longitudeRef longitude de referência.
      * @return Lista de animais no raio de 10km.
      */
-    public List<Animal> animalsWithin10Km(Double latitudeRef, Double longitudeRef) {
+    public List<Animal> animalsWithin5Km(Double latitudeRef, Double longitudeRef) {
         Double lati, longi, distance;
         List<Animal> allAnimals = animalRepository.findAll();
-        List<Animal> animalsWithin10Km = new ArrayList<Animal>();
+        List<Animal> animalsWithin5Km = new ArrayList<Animal>();
 
         for (Animal animal: allAnimals) {
             if(animal.getAnimalCoordinate() != null && animal.getAnimalCoordinate().getLatitude() != null && animal.getAnimalCoordinate().getLongitude() != null) {
@@ -36,13 +36,13 @@ public class CoordinateService {
                 longi = animal.getAnimalCoordinate().getLongitude();
                 distance = calcDistance(latitudeRef, lati, longitudeRef, longi, 0.0, 0.0);
 
-                if(distance <= 10) {
-                    animalsWithin10Km.add(animal);
+                if(distance <= 5) {
+                    animalsWithin5Km.add(animal);
                 }
 
             }
         }
-        return animalsWithin10Km;
+        return animalsWithin5Km;
     }
 
     public Double calcDistance(Double lat1, Double lat2, Double lon1, Double lon2, Double el1, Double el2) {
