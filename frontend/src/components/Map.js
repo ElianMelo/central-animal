@@ -54,6 +54,10 @@ export default class Map extends Component {
         if (this.state.currentCoords && this.state.currentCoords[0] && this.state.currentCoords[1]) {
             let animals = await RequestService.getCloserAnimals(this.state.currentCoords[1], this.state.currentCoords[0]);
             this.setState({ animals });
+            setTimeout(() => {
+                this.setState({animals: []})
+                this.setState({ animals });
+            }, 2000)
         }
     }
 
