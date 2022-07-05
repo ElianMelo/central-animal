@@ -34,6 +34,7 @@ export default class ChangeInstitution extends Component {
             publicPlace: '',
             number: '',
             whatsapp: '',
+            instagram: '',
             pix: '',
             portion: true,
             medicines: true,
@@ -57,6 +58,7 @@ export default class ChangeInstitution extends Component {
         this.setState({publicPlaceName: institution.address.publicPlaceName});
         this.setState({number: institution.address.number});
         this.setState({whatsapp: institution.whatsapp});
+        this.setState({instagram: institution.instagram});
         this.setState({pix: institution.pix});
         this.setState({portion: institution.portion});
         this.setState({medicines: institution.medicines});
@@ -75,6 +77,7 @@ export default class ChangeInstitution extends Component {
         institution.address.publicPlaceName = this.state.publicPlaceName;
         institution.address.number = this.state.number;
         institution.whatsapp = this.state.whatsapp;
+        institution.instagram = this.state.instagram;
         institution.pix = this.state.pix;
         institution.portion = this.state.portion;
         institution.medicines = this.state.medicines;
@@ -167,6 +170,15 @@ export default class ChangeInstitution extends Component {
                         placeholderTextColor="#000000" 
                         onChangeText={(whatsapp) => this.setState({whatsapp})}
                         value={this.state.whatsapp}
+                    />
+                </View>
+                <View style={styles.inputBox}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Instagram"
+                        placeholderTextColor="#000000" 
+                        onChangeText={(instagram) => this.setState({instagram})}
+                        value={this.state.instagram}
                     />
                 </View>
                 <View style={styles.inputBox}>

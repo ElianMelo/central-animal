@@ -16,9 +16,10 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import Footer from './Footer';
 import SnackBar from '../utils/Snackbar';
 
-const doggie = require('../../assets/doggie.png');
+const pata = require('../../assets/pata.png');
 const map = require('../../assets/map.png');
 const whats = require('../../assets/whats.png');
+const instagram = require('../../assets/insta.png');
 const pix = require('../../assets/pix.png');
 
 import RequestService from '../services/RequestService';
@@ -67,6 +68,12 @@ export default class Institution extends Component {
         Linking.openURL('whatsapp://send?text=' + "Olá, vim do aplicativo central animal, tenho interesse em saber mais sobre" + '&phone=' + this.state.institution?.whatsapp);
     }
 
+    openInstagram = () => {
+        if(this.state.institution?.instagram) {
+            Linking.openURL('instagram://user?username=' + this.state.institution?.instagram);
+        }
+    }
+
     openMaps = () => {
         Linking.openURL("geo:?q=" + 
             `${this.state.institution?.address?.city}, ${this.state.institution?.address?.district} ${this.state.institution?.address?.publicPlace} ${this.state.institution?.address?.publicPlaceName} ${this.state.institution?.address?.number}`
@@ -108,13 +115,13 @@ export default class Institution extends Component {
                         <View style={[styles.animalBox, styles.cardImageLine]}>
                             <View style={styles.lineItemText}>
                                 <Text style={styles.cardAnimalSupTxt}>
-                                Pets em adoção
+                                Animais em adoção
                                 </Text>
                             </View>
                             <View style={styles.cardColor}>
                             <Image
                                     style={styles.cardImage}
-                                    source={doggie}
+                                    source={pata}
                                 />
                             </View>
                         </View>
@@ -153,6 +160,25 @@ export default class Institution extends Component {
                                 <Image
                                     style={styles.cardImage}
                                     source={whats}
+                                />
+                            </View>
+                        </View>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight 
+                        onPress={() => this.openInstagram()}
+                        underlayColor={'#fff'}
+                    >
+                        <View style={[styles.cardBox, styles.cardImageLine]}>
+                            <View style={styles.lineItemText}>
+                            <Text style={styles.cardSupTxt}>
+                                    {this.state.institution?.instagram}
+                                </Text>
+                            </View>
+                            <View style={styles.cardColor}>
+                                <Image
+                                    style={styles.cardImage}
+                                    source={instagram}
                                 />
                             </View>
                         </View>

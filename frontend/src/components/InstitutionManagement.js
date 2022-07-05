@@ -38,23 +38,24 @@ export default class InstitutionManagement extends Component {
             borderColorPass: 'gray',
             email: '',
             password: '',
-            institutionId: ''
+            institutionId: '',
+            showCreateInstitution: false,
         };
     }
 
     componentDidMount() {
         this.getInstitution();
-        RequestService.validateToken().then((isValid) => { if (isValid) this.setState({logged: true}) });
+        RequestService.validateToken().then((isValid) => { if (isValid) this.setState({ logged: true }) });
         this.setState({
             willFocusSubscription: this.state.props.navigation.addListener(
                 'focus',
                 () => {
-                    RequestService.validateToken().then((isValid) => { 
-                        if(isValid) {
-                            this.setState({logged: true});
+                    RequestService.validateToken().then((isValid) => {
+                        if (isValid) {
+                            this.setState({ logged: true });
                             this.getInstitution();
                         } else {
-                            this.setState({logged: false});
+                            this.setState({ logged: false });
                             this.getInstitution();
                         }
                     });
@@ -65,7 +66,12 @@ export default class InstitutionManagement extends Component {
 
     getInstitution = async () => {
         let institutionId = await InstitutionService.getInstitution();
-        this.setState({institutionId});
+        if (!institutionId || Number(institutionId) == NaN) {
+            this.setState({ showCreateInstitution: true })
+        } else {
+            this.setState({ showCreateInstitution: false })
+        }
+        this.setState({ institutionId });
     }
 
     componentWillUnmount() {
@@ -73,116 +79,127 @@ export default class InstitutionManagement extends Component {
     }
 
     doLogin() {
-        if(this.state.email != '' && this.state.password != '') {
-            this.setState({isLoading: true})
+        if (this.state.email != '' && this.state.password != '') {
+            this.setState({ isLoading: true })
             let login = {
-                email: this.state.email,  
+                email: this.state.email,
                 password: this.state.password
             }
             RequestService.postLogin(login).then(() => {
-                RequestService.validateToken().then((isValid) => { if (isValid) this.setState({logged: true}) });
+                RequestService.validateToken().then((isValid) => { if (isValid) this.setState({ logged: true }) });
                 this.getInstitution();
             }).finally(() => {
-                const timer= setTimeout(() => {
-                    this.setState({isLoading: false});
+                const timer = setTimeout(() => {
+                    this.setState({ isLoading: false });
                     clearTimeout(timer);
                 }, 1500);
             });
         }
     }
 
-    logout = async() => {
+    logout = async () => {
         await TokenService.setToken('null');
+        await InstitutionService.setInstitution('null');
         let isValid = await RequestService.validateToken();
-        if (!isValid) this.setState({logged: false}) 
+        if (!isValid) this.setState({ logged: false })
+        this.setState({ institutionId: null });
     }
 
     login() {
         return (
             <View style={[styles.marginBottomFooter, styles.buttonsInline]}>
-                <View>
-                    <TouchableOpacity
-                        style={styles.instBox}
-                        onPress={() =>
-                            this.props.navigation.navigate('ChangeInstitution', {
-                                institutionId: this.state.institutionId
-                            })
-                        }
-                    >
-                        <Image
-                            style={styles.manageImage}
-                            source={atualizarInstituicao}
-                        />
-                        <View style={styles.cardImageLine}>
-                            <Text style={styles.cardSupTxtManage}>
-                                Alterar Instituição
-                            </Text>
+
+                {
+                    !this.state.showCreateInstitution &&
+                    <>
+                        <View>
+                            <TouchableOpacity
+                                style={styles.instBox}
+                                onPress={() =>
+                                    this.props.navigation.navigate('ChangeInstitution', {
+                                        institutionId: this.state.institutionId
+                                    })
+                                }
+                            >
+                                <Image
+                                    style={styles.manageImage}
+                                    source={atualizarInstituicao}
+                                />
+                                <View style={styles.cardImageLine}>
+                                    <Text style={styles.cardSupTxtManage}>
+                                        Alterar Instituição
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
-                    </TouchableOpacity>
-                </View>
-                <View>
-                    <TouchableOpacity
-                        style={styles.instBox}
-                        onPress={() =>
-                            this.props.navigation.navigate('CreateAnimal', {
-                                institutionId: this.state.institutionId
-                            })
-                        }
-                    >
-                        <Image
-                            style={styles.manageImage}
-                            source={cadastrarAnimal}
-                        />
-                        <View style={styles.cardImageLine}>
-                            <Text style={styles.cardSupTxtManage}>
-                                Criar Animal
-                            </Text>
+                        <View>
+                            <TouchableOpacity
+                                style={styles.instBox}
+                                onPress={() =>
+                                    this.props.navigation.navigate('CreateAnimal', {
+                                        institutionId: this.state.institutionId
+                                    })
+                                }
+                            >
+                                <Image
+                                    style={styles.manageImage}
+                                    source={cadastrarAnimal}
+                                />
+                                <View style={styles.cardImageLine}>
+                                    <Text style={styles.cardSupTxtManage}>
+                                        Criar Animal
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
-                    </TouchableOpacity>
-                </View>
-                <View>
-                    <TouchableOpacity
-                        style={styles.instBox}
-                        onPress={() =>
-                            this.props.navigation.navigate('AnimalsEdit', {
-                                institutionId: this.state.institutionId
-                            })
-                        }
-                    >
-                        <Image
-                            style={styles.manageImage}
-                            source={alteraAnimal}
-                        />
-                        <View style={styles.cardImageLine}>
-                            <Text style={styles.cardSupTxtManage}>
-                                Alterar Animal
-                            </Text>
+                        <View>
+                            <TouchableOpacity
+                                style={styles.instBox}
+                                onPress={() =>
+                                    this.props.navigation.navigate('AnimalsEdit', {
+                                        institutionId: this.state.institutionId
+                                    })
+                                }
+                            >
+                                <Image
+                                    style={styles.manageImage}
+                                    source={alteraAnimal}
+                                />
+                                <View style={styles.cardImageLine}>
+                                    <Text style={styles.cardSupTxtManage}>
+                                        Alterar Animal
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
-                    </TouchableOpacity>
-                </View>
-                <View>
-                    <TouchableOpacity
-                        style={styles.instBox}
-                        onPress={() =>
-                            this.props.navigation.navigate('CreateUser')
-                        }
-                    >
-                        <Image
-                            style={styles.manageImage}
-                            source={criaInstituicao}
-                        />
-                        <View style={styles.cardImageLine}>
-                            <Text style={styles.cardSupTxtManage}>
-                                Criar Instituição
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                    </>
+                }
+                {
+                    this.state.showCreateInstitution &&
+                    <View>
+                        <TouchableOpacity
+                            style={styles.instBox}
+                            onPress={() =>
+                                this.props.navigation.navigate('CreateUser')
+                            }
+                        >
+                            <Image
+                                style={styles.manageImage}
+                                source={criaInstituicao}
+                            />
+                            <View style={styles.cardImageLine}>
+                                <Text style={styles.cardSupTxtManage}>
+                                    Criar Instituição
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                }
                 <View>
                     <TouchableOpacity
                         style={styles.instBox}
                         onPress={() => this.logout()}
-                    >  
+                    >
                         <Image
                             style={styles.manageImage}
                             source={deslogar}
@@ -210,19 +227,19 @@ export default class InstitutionManagement extends Component {
                 </View>
                 <View style={styles.inputBox}>
                     <TextInput
-                        style={[styles.input, {borderColor: this.state.borderColorEmail}]}
+                        style={[styles.input, { borderColor: this.state.borderColorEmail }]}
                         placeholderTextColor="#808080"
                         placeholder="E-mail"
-                        onChangeText={(email) => this.setState({email})}
+                        onChangeText={(email) => this.setState({ email })}
                         value={this.state.email}
                     />
                 </View>
                 <View style={styles.inputBox}>
                     <TextInput
-                        style={[styles.input, {borderColor: this.state.borderColorPass}]}
-                        placeholderTextColor="#808080" 
+                        style={[styles.input, { borderColor: this.state.borderColorPass }]}
+                        placeholderTextColor="#808080"
                         placeholder="Senha"
-                        onChangeText={(password) => this.setState({password})}
+                        onChangeText={(password) => this.setState({ password })}
                         value={this.state.password}
                         secureTextEntry={true}
                     />
@@ -236,11 +253,11 @@ export default class InstitutionManagement extends Component {
                                 <Text style={styles.cardSupTxt}>
                                     Entrar
                                 </Text>
-                            ):(
-                                <ActivityIndicator 
+                            ) : (
+                                <ActivityIndicator
                                     color="#00C2CB"
                                     animating={this.state.isLoading}
-                                    size={32} 
+                                    size={32}
                                 />
                             )}
                         </View>
@@ -253,8 +270,8 @@ export default class InstitutionManagement extends Component {
     render() {
         return (
             <View style={styles.body} layout>
-                <ScrollView style={{height: "100%", marginTop: 'auto', marginBottom: 'auto'}}>
-                    { this.state.logged ? this.login() : this.management() }
+                <ScrollView style={{ height: "100%", marginTop: 'auto', marginBottom: 'auto' }}>
+                    {this.state.logged ? this.login() : this.management()}
                 </ScrollView>
             </View>
         );
@@ -330,7 +347,7 @@ const styles = StyleSheet.create({
         marginVertical: 6,
         padding: 20,
         borderRadius: 14,
-        backgroundColor: "orange",        
+        backgroundColor: "orange",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -346,7 +363,7 @@ const styles = StyleSheet.create({
         marginVertical: 6,
         padding: 20,
         borderRadius: 14,
-        backgroundColor: "yellow",        
+        backgroundColor: "yellow",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
