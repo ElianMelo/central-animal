@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
         width: "100%",
-        height: 100,
+        height: 150,
     },
     inputPicker: {
         display: 'flex',

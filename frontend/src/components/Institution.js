@@ -6,6 +6,7 @@ import {
     View,
     Image,
     TouchableOpacity,
+    TouchableHighlight, 
     Linking,
     ScrollView,
 } from 'react-native';
@@ -13,6 +14,7 @@ import {
 import Clipboard from '@react-native-clipboard/clipboard';
 
 import Footer from './Footer';
+import SnackBar from '../utils/Snackbar';
 
 const doggie = require('../../assets/doggie.png');
 const map = require('../../assets/map.png');
@@ -28,12 +30,17 @@ export default class Institution extends Component {
             props: props,
             titleText: "Instituição",
             institution: {},
-            needs: []
+            needs: [],
+            snackBarVisible: false,
         };
     }
 
     componentDidMount() {
         this.loadInstitution();
+    }
+
+    toggleVisibility = () => {
+        this.setState({snackBarVisible: false});
     }
 
     loadInstitution = async() => {
@@ -68,6 +75,7 @@ export default class Institution extends Component {
 
     openPix = () => {
         Clipboard.setString(this.state.institution?.pix);
+        this.setState({snackBarVisible: true});
     }
 
     render() {
@@ -89,12 +97,13 @@ export default class Institution extends Component {
                         </View>
                     </View>
 
-                    <TouchableOpacity 
+                    <TouchableHighlight 
                         onPress={() =>
                             this.props.navigation.navigate('Animals', {
                                 institutionId: this.props.route.params.institutionId
                             })
                         }
+                        underlayColor={'#fff'}
                     >
                         <View style={[styles.animalBox, styles.cardImageLine]}>
                             <View style={styles.lineItemText}>
@@ -109,10 +118,11 @@ export default class Institution extends Component {
                                 />
                             </View>
                         </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity 
+                    </TouchableHighlight>
+                    
+                    <TouchableHighlight 
                         onPress={() => this.openMaps()}
+                        underlayColor={'#fff'}
                     >
                         <View style={[styles.cardBox, styles.cardImageLine]}>
                             <View style={styles.lineItemText}>
@@ -127,10 +137,11 @@ export default class Institution extends Component {
                                 />
                             </View>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableHighlight>
 
-                    <TouchableOpacity 
+                    <TouchableHighlight 
                         onPress={() => this.openWhatsapp()}
+                        underlayColor={'#fff'}
                     >
                         <View style={[styles.cardBox, styles.cardImageLine]}>
                             <View style={styles.lineItemText}>
@@ -145,10 +156,13 @@ export default class Institution extends Component {
                                 />
                             </View>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableHighlight>
 
-                    <TouchableOpacity 
-                        onPress={() => this.openPix()}
+                    <TouchableHighlight 
+                        onPress={() => {
+                            this.openPix()
+                        }}
+                        underlayColor={'#fff'}
                     >
                         <View style={[styles.cardBox, styles.cardImageLine]}>
                             <View style={styles.lineItemText}>
@@ -163,7 +177,7 @@ export default class Institution extends Component {
                                 />
                             </View>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableHighlight>
 
                     <View style={styles.needBox}>
                         <View style={styles.needRow}>
@@ -186,6 +200,10 @@ export default class Institution extends Component {
                         </View>
                     </View>
                 </ScrollView>
+                <SnackBar
+                    snackBarVisible={this.state.snackBarVisible}
+                    callback={this.toggleVisibility}
+                />
                 <Footer navigation={this.state.props.navigation}/>
             </>
         );
@@ -245,7 +263,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.29,
         shadowRadius: 4.65,
-        elevation: 7,
+        elevation: 7
     },
     cardBoxAnimal: {
         borderColor: '#00C2CB', 
@@ -393,4 +411,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#000"
     },
+    button: {
+        elevation: 2
+    }
 });

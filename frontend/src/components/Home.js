@@ -34,8 +34,17 @@ export default class Home extends Component {
         this.setState({animals})
     }
 
+    redirectToInstitution = (institutionId) => {
+        this.props.navigation.navigate('Institution', {
+            institutionId
+        })
+    }
+
     renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.cardBox}>
+        <TouchableOpacity 
+            style={styles.cardBox}
+            onPress={() => this.redirectToInstitution(item.institutionDTO.id)}
+        >
             <Image
                 style={styles.roundCardImage}
                 source={{uri: item.image}}

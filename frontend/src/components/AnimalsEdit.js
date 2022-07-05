@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
         width: "100%",
-        height: 100,
+        height: 150,
     },
     imageAction: {
         borderRadius: 15,
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     },
     boxImageActionLeft: {
         position: 'absolute',
-        top: 76,
+        top: 120,
         backgroundColor: '#00BB99',
         borderRadius: 20,
         width: 40,
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     },
     boxImageActionRight: {
         position: 'absolute',
-        top: 76,
+        top: 120,
         right: 0,
         backgroundColor: '#FF0000',
         borderRadius: 20,
