@@ -61,8 +61,10 @@ public class AnimalService {
         }
         entity.setId(id);
         if(entity.getImage() != null || entity.getImage() != "")  {
-            String credentials = config.getProperty("spring.firebase.credentials");
-            ImageUploader.setImage(entity, true, findByIdAnimal(id).getImage(), credentials);
+            if(!ImageUploader.IsUrl(entity.getImage())) {
+                String credentials = config.getProperty("spring.firebase.credentials");
+                ImageUploader.setImage(entity, true, findByIdAnimal(id).getImage(), credentials);
+            }
         }
         return repository.save(entity);
     }
