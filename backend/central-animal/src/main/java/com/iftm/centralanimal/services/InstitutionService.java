@@ -60,9 +60,11 @@ public class InstitutionService {
             entity.setAdministrator(institution.getAdministrator());
         }
         entity.setId(id);
-        if(entity.getImage() != null || entity.getImage() != "")  {
-            String credentials = config.getProperty("spring.firebase.credentials");
-            ImageUploader.setImage(entity, true, findInstitutionById(id).getImage(), credentials);
+        if(entity.getImage() != null || entity.getImage() != "") {
+            if(!ImageUploader.IsUrl(entity.getImage())){
+                String credentials = config.getProperty("spring.firebase.credentials");
+                ImageUploader.setImage(entity, true, findInstitutionById(id).getImage(), credentials);
+            }
         }
         return repository.save(entity);
     }
