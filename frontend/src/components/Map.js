@@ -14,7 +14,7 @@ import RequestService from '../services/RequestService';
 import MapboxGL from '@rnmapbox/maps';
 
 PermissionService.getGeoPermission();
-MapboxGL.setAccessToken('sk.eyJ1IjoiY2VudHJhbC1hbmltYWwiLCJhIjoiY2w1MXgzMWc4MDlzajNlcGZuaGN5eDZmcSJ9.S734dGnM0j97AartKeE-PQ');
+MapboxGL.setAccessToken('INSERT_TOKEN_HERE');
 
 const countControl = {
     count: 0,

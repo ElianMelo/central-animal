@@ -40,16 +40,28 @@ export default class InstitutionManagement extends Component {
             password: '',
             institutionId: '',
             showCreateInstitution: false,
+            loaded: false
         };
     }
 
     componentDidMount() {
         this.getInstitution();
-        RequestService.validateToken().then((isValid) => { if (isValid) this.setState({ logged: true }) });
+        this.setState({ loaded: false })
+        RequestService.validateToken().then((isValid) => {
+            if (isValid) {
+                this.setState({ logged: true });
+                this.getInstitution();
+            } else {
+                this.setState({ logged: false });
+                this.getInstitution();
+            }
+            this.setState({ loaded: true })
+        });
         this.setState({
             willFocusSubscription: this.state.props.navigation.addListener(
                 'focus',
                 () => {
+                    this.setState({ loaded: false })
                     RequestService.validateToken().then((isValid) => {
                         if (isValid) {
                             this.setState({ logged: true });
@@ -58,6 +70,7 @@ export default class InstitutionManagement extends Component {
                             this.setState({ logged: false });
                             this.getInstitution();
                         }
+                        this.setState({ loaded: true })
                     });
                 }
             )
@@ -270,9 +283,24 @@ export default class InstitutionManagement extends Component {
     render() {
         return (
             <View style={styles.body} layout>
-                <ScrollView style={{ height: "100%", marginTop: 'auto', marginBottom: 'auto' }}>
-                    {this.state.logged ? this.login() : this.management()}
-                </ScrollView>
+                {this.state.loaded ?
+                    (
+                        <ScrollView style={{ height: "100%", marginTop: 'auto', marginBottom: 'auto' }}>
+                            {this.state.logged ? this.login() : this.management()}
+                        </ScrollView>
+                    ) :
+                    (<View
+                        style={styles.loadingLoginView}
+                    >
+                        <ActivityIndicator
+                            color="#00C2CB"
+                            animating={!this.state.loaded}
+                            size={64}
+                        />
+                    </View>
+                    )
+                }
+
             </View>
         );
     }
@@ -465,5 +493,12 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         color: "#000"
+    },
+    loadingLoginView: {
+        display: 'flex',
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center'
     }
 });
