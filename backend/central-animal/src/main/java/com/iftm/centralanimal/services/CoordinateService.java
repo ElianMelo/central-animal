@@ -7,8 +7,11 @@ import com.iftm.centralanimal.repositories.CoordinateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CoordinateService {
@@ -19,6 +22,9 @@ public class CoordinateService {
     @Autowired
     private CoordinateRepository coordinateRepository;
 
+    @Autowired
+    private AnimalService animalService;
+
     /**
      * Método que retorna uma lista de animais no raio de 10km.
      * @param latitudeRef latitude de referência.
@@ -27,19 +33,23 @@ public class CoordinateService {
      */
     public List<Animal> animalsWithin5Km(Double latitudeRef, Double longitudeRef) {
         Double lati, longi, distance;
+        LocalDate currentDate = LocalDate.now();
         List<Animal> allAnimals = animalRepository.findAll();
         List<Animal> animalsWithin5Km = new ArrayList<Animal>();
 
         for (Animal animal: allAnimals) {
             if(animal.getAnimalCoordinate() != null && animal.getAnimalCoordinate().getLatitude() != null && animal.getAnimalCoordinate().getLongitude() != null) {
-                lati = animal.getAnimalCoordinate().getLatitude();
-                longi = animal.getAnimalCoordinate().getLongitude();
-                distance = calcDistance(latitudeRef, lati, longitudeRef, longi, 0.0, 0.0);
+                if(Objects.nonNull(animal.getInclusionDate()) && animal.getInclusionDate().plusWeeks(1L).isBefore(currentDate)) {
+                    animalService.deleteAnimalById(animal.getId());
+                } else {
+                    lati = animal.getAnimalCoordinate().getLatitude();
+                    longi = animal.getAnimalCoordinate().getLongitude();
+                    distance = calcDistance(latitudeRef, lati, longitudeRef, longi, 0.0, 0.0);
 
-                if(distance <= 5) {
-                    animalsWithin5Km.add(animal);
+                    if(distance <= 5) {
+                        animalsWithin5Km.add(animal);
+                    }
                 }
-
             }
         }
         return animalsWithin5Km;

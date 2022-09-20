@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="animal")
@@ -24,6 +25,8 @@ public class Animal implements Serializable, EntityWithImage {
 	private String image;
 
 	private String description;
+
+	private LocalDate inclusionDate;
 
 	@ManyToOne
 	@JsonBackReference

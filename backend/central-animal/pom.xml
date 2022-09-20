@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.iftm.central-animal</groupId>
 	<artifactId>central-animal</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>central-animal</name>
 	<description>Projeto app Central Animal</description>
 	<properties>

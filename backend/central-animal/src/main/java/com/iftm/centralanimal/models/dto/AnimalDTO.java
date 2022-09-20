@@ -2,8 +2,9 @@ package com.iftm.centralanimal.models.dto;
 
 import com.iftm.centralanimal.models.Animal;
 import com.iftm.centralanimal.models.Coordinate;
-import com.iftm.centralanimal.models.Institution;
 import lombok.Data;
+
+import java.time.LocalDate;
 
 @Data
 public class AnimalDTO {
@@ -22,6 +23,8 @@ public class AnimalDTO {
 
     private Coordinate animalCoordinate = new Coordinate();
 
+    private LocalDate inclusionDate;
+
     public AnimalDTO(Animal animal) {
         this.id = animal.getId();
         this.name = animal.getName();
@@ -30,5 +33,6 @@ public class AnimalDTO {
         this.image = animal.getImage();
         this.description = animal.getDescription();
         this.animalCoordinate = animal.getAnimalCoordinate();
+        this.inclusionDate = animal.getInclusionDate();
     }
 }

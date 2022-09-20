@@ -11,6 +11,7 @@ import com.iftm.centralanimal.repositories.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,7 @@ public class AnimalService {
 
     public Animal newAnimal(Animal entity) {
         ImageUploader.setImage(entity, false, "");
+        entity.setInclusionDate(LocalDate.now());
         return repository.save(entity);
     }
 
